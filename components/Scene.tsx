@@ -1,6 +1,6 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -9,28 +9,53 @@ import * as THREE from 'three';
 import { Environment, Float } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import LossLandscape from './LossLandscape';
-import DiffusionField from './DiffusionField';
+import DiffusionField, { SHAPE_RADIUS } from './DiffusionField';
+import { CRYSTAL_CENTER } from '@/lib/terrain';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const CAM_Z = 6;
+const FOV_DEG = 50;
+
 function MLSceneContent() {
-  const terrainGroupRef = useRef<THREE.Group>(null);
-  const diffusionGroupRef = useRef<THREE.Group>(null);
+  const sharedGroupRef = useRef<THREE.Group>(null);
+  const { size } = useThree();
 
   // Mutable state objects for GSAP to tween.
   const descentState = useRef({ value: 0 });
   const diffusionState = useRef({ value: 0 });
+  const terrainFade = useRef({ value: 1 });
+  const exitState = useRef({ value: 0 });
+
+  const aspect = size.width / size.height;
+  const layoutKey = size.width < 768 ? 'sm' : 'lg';
 
   useGSAP(() => {
-    if (!terrainGroupRef.current || !diffusionGroupRef.current) return;
+    const g = sharedGroupRef.current;
+    if (!g) return;
 
-    // Initially hide the diffusion field
-    gsap.set(diffusionGroupRef.current.scale, { x: 0, y: 0, z: 0 });
+    // The crystal should fill roughly the same fraction of the frame on any
+    // aspect ratio — narrower/taller viewports need it pulled closer to camera.
+    const halfTan = Math.tan((FOV_DEG * Math.PI) / 180 / 2);
+    const hNeed = (SHAPE_RADIUS * 1.15) / Math.min(1, aspect);
+    const targetZ = THREE.MathUtils.clamp(CAM_Z - hNeed / halfTan, -4.5, 1.6);
+
+    gsap.set(g.position, { x: 0, y: 0, z: 0 });
+    gsap.set(g.scale, { x: 1, y: 1, z: 1 });
+    descentState.current.value = 0;
+    diffusionState.current.value = 0;
+    terrainFade.current.value = 1;
+    exitState.current.value = 0;
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: 'body',
         start: 'top top',
+        // Tied to the Experience section's bottom (not the page bottom) so the
+        // whole crystal timeline — including its exit/disappear stage — always
+        // resolves by the time Experience ends, instead of smearing the exit
+        // across whatever sections follow (Social, Footer).
+        endTrigger: '#experience',
         end: 'bottom bottom',
         scrub: 1,
       },
@@ -43,7 +68,7 @@ function MLSceneContent() {
       ease: 'power1.inOut',
     }, 0);
 
-    tl.to(terrainGroupRef.current.position, {
+    tl.to(g.position, {
       x: 3.5,
       y: -0.5,
       z: 0,
@@ -51,62 +76,58 @@ function MLSceneContent() {
       ease: 'power1.inOut',
     }, 0);
 
-    // --- STAGE 2: About to Projects (Diffusion Field takes over) ---
-    // Hide terrain smoothly
-    tl.to(terrainGroupRef.current.scale, {
-      x: 0, y: 0, z: 0,
-      duration: 1,
-      ease: 'power2.inOut',
-    }, 2);
-
-    // Scale container to a modest size (1.5x)
-    tl.to(diffusionGroupRef.current.scale, {
-      x: 1.5, y: 1.5, z: 1.5,
-      duration: 1,
-      ease: 'power2.inOut',
-    }, 2);
-
-    tl.to(diffusionGroupRef.current.position, {
-      x: 0,
-      y: 0,
-      z: -5,
-      duration: 3,
-      ease: 'power2.inOut',
-    }, 2);
-
+    // --- STAGE 2: About to Projects (terrain disintegrates into the diffusion field) ---
+    // Linear: this is a scrubbed physical process, not an eased UI transition —
+    // an eased curve here is what previously hid the entire noise phase.
     tl.to(diffusionState.current, {
       value: 1,
-      duration: 3,
-      ease: 'power2.out', // Fast while scattered, decelerating as particles settle into form
-    }, 2);
+      duration: 2.6,
+      ease: 'none',
+    }, 2.0);
+
+    // The mesh dissolves partway through the noising phase, once dots have
+    // already crackled alight across its surface.
+    tl.to(terrainFade.current, {
+      value: 0,
+      duration: 0.85,
+      ease: 'power1.in',
+    }, 2.25);
+
+    // Recenter onto the crystal's nucleation point (the terrain's minimum)
+    // before the fade completes, so the dissolve plays out on-screen.
+    tl.to(g.position, {
+      x: -CRYSTAL_CENTER.x,
+      y: -CRYSTAL_CENTER.y,
+      duration: 1.2,
+      ease: 'power2.inOut',
+    }, 2.0);
+
+    // Held back until convergence is well underway: terrain-seeded particles
+    // that haven't converged yet carry the terrain's full depth range, and
+    // pulling the camera in while that spread is still wide puts stray
+    // particles almost on top of the camera (huge perspective blow-up).
+    tl.to(g.position, {
+      z: targetZ - CRYSTAL_CENTER.z,
+      duration: 0.7,
+      ease: 'power1.inOut',
+    }, 4.0);
 
     // --- STAGE 3: End of Projects Carousel (Disappear) ---
-    tl.to(diffusionGroupRef.current.scale, {
-      x: 0,
-      y: 0,
-      z: 0,
-      duration: 1,
-      ease: 'power2.inOut',
-    }, 4.5);
+    tl.to(exitState.current, {
+      value: 1,
+      duration: 0.5,
+      ease: 'power2.in',
+    }, 5.0);
 
-    tl.to(diffusionGroupRef.current.position, {
-      z: 0,
-      duration: 1,
-      ease: 'power2.inOut',
-    }, 4.5);
-
-  }, []);
+  }, [layoutKey]);
 
   return (
-    <>
-      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
-        <LossLandscape ref={terrainGroupRef} progress={descentState.current} />
-      </Float>
-
-      <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.1}>
-        <DiffusionField ref={diffusionGroupRef} progress={diffusionState.current} />
-      </Float>
-    </>
+    <Float speed={1.2} rotationIntensity={0.12} floatIntensity={0.25}>
+      <group ref={sharedGroupRef}>
+        <LossLandscape progress={descentState.current} fade={terrainFade.current} />
+        <DiffusionField progress={diffusionState.current} exit={exitState.current} />
+      </group>
+    </Float>
   );
 }
 
@@ -116,7 +137,7 @@ export default function Scene() {
       <Canvas
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true, toneMapping: THREE.ReinhardToneMapping, toneMappingExposure: 1.5, powerPreference: 'high-performance' }}
-        camera={{ position: [0, 0, 6], fov: 50 }}
+        camera={{ position: [0, 0, CAM_Z], fov: FOV_DEG }}
         performance={{ min: 0.5 }}
       >
         <ambientLight intensity={0.5} />
