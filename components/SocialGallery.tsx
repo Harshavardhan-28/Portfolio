@@ -108,8 +108,13 @@ export default function SocialGallery() {
       <div className="text-center mt-10 relative z-10">
          <p className="text-gray-500 font-serif italic text-xl mb-6">Follow me on social media</p>
          <div className="flex justify-center gap-8 text-white font-bold uppercase text-sm tracking-widest">
-            {['X', 'Instagram', 'YouTube', 'LinkedIn'].map((social) => (
-                <a key={social} href="#" className="hover:text-[#00ff41] transition-colors">{social}</a>
+            {[
+              { name: 'X', url: 'https://x.com/hrshvrdhxn' },
+              { name: 'Instagram', url: '' },
+              { name: 'GitHub', url: 'https://github.com/Harshavardhan-28' },
+              { name: 'LinkedIn', url: 'https://www.linkedin.com/in/harshavardhan-khamkar/' }
+            ].map((social) => (
+                <a key={social.name} href={social.url || '#'} target={social.url ? '_blank' : ''} rel={social.url ? 'noopener noreferrer' : ''} className="hover:text-[#00ff41] transition-colors">{social.name}</a>
             ))}
          </div>
       </div>

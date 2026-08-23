@@ -147,9 +147,9 @@ export default function Header() {
               <div className="flex flex-col space-y-2">
                  <p className="text-sm text-gray-500 uppercase tracking-widest">Follow Me</p>
                  <div className="flex gap-6 text-lg font-bold">
-                    <a href="https://www.linkedin.com/in/harshavardhan-khamkar/" className="hover:text-[#00ff41] transition-colors">Linkedin</a>
-                    <a href="#" className="hover:text-[#00ff41] transition-colors">Instagram</a>
-                    <a href="#" className="hover:text-[#00ff41] transition-colors">YouTube</a>
+                    <a href="https://www.linkedin.com/in/harshavardhan-khamkar/"  target="_blank" rel='noopener noreferrer' className="hover:text-[#00ff41] transition-colors">Linkedin</a>
+                    <a href="#"  target="_blank" rel='noopener noreferrer' className="hover:text-[#00ff41] transition-colors">Instagram</a>
+                    <a href="https://github.com/Harshavardhan-28"  target="_blank" rel='noopener noreferrer' className="hover:text-[#00ff41] transition-colors">GitHub</a>
                  </div>
               </div>
 

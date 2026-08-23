@@ -39,15 +39,17 @@ export default function Footer() {
         {/* Right Socials */}
         <div className="flex flex-col space-y-4 text-center md:text-right order-3">
           <p className="text-gray-400 text-sm uppercase tracking-widest mb-4 font-bold">Socials</p>
-          <a href="https://www.linkedin.com/in/harshavardhan-khamkar/" className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">LinkedIn</a>
-          <a href="#" className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Twitter</a>
-          <a href="#" className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Instagram</a>
+          <a href="https://www.linkedin.com/in/harshavardhan-khamkar/" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">LinkedIn</a>
+          <a href="https://github.com/Harshavardhan-28" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">GitHub</a>
+          <a href="https://leetcode.com/u/harshkhamkar/" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Leetcode</a>
+          <a href="https://x.com/hrshvrdhxn" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Twitter</a>
+          <a href="#" className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white" rel='noopener noreferrer'>Instagram</a>
         </div>
       </div>
 
       {/* 3. Bottom Bar */}
       <div className="container mx-auto px-6 mt-20 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-widest">
-        <p>&copy; 2026 Creative Developer.</p>
+        <p>&copy; 2026 Harshavardhan Khamkar.</p>
         <div className="flex space-x-6 mt-4 md:mt-0">
             <span>Privacy Policy</span>
             <span>Terms & Conditions</span>
