@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "ethglobal-new-delhi",
+    "title": "ETHGlobal New Delhi",
+    "tag": "Hackathon",
+    "date": "October 2025",
+    "image": "/images/EthGlobal-polaroid.jpg",
+    "gallery": ["/images/EthGlobal-polaroid.jpg", "/images/20251014_133407.jpg"],
+    "summary": "Building on-chain with the team at ETHGlobal's New Delhi hackathon.",
+    "body": [
+      "Add your write-up here — what you and the team built, the stack you used, and anything you'd do differently next time."
+    ],
+    "externalUrl": null
+  },
+  {
+    "slug": "google-cloud-agentic-ai-day",
+    "title": "Google Cloud Agentic AI Day",
+    "tag": "Hackathon",
+    "date": "July 2025",
+    "image": "/images/AgenticAIDaySolo.jpg",
+    "gallery": null,
+    "summary": "A day deep in agentic AI workflows at Google Cloud's Agentic AI Day.",
+    "body": ["Add your write-up here."],
+    "externalUrl": null
+  },
+  {
+    "slug": "eth-mumbai",
+    "title": "ETH Mumbai",
+    "tag": "Hackathon",
+    "date": "2025",
+    "image": "/images/EthMumbai.jpg",
+    "gallery": null,
+    "summary": "Shipping in the trenches at ETH Mumbai.",
+    "body": ["Add your write-up here."],
+    "externalUrl": null
+  }
+]

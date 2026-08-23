@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { Download } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -64,9 +65,7 @@ export default function AboutSection() {
               className="inline-flex items-center gap-3 px-8 py-4 border-2 border-[#00ff41] text-[#00ff41] font-bold tracking-widest uppercase hover:bg-[#00ff41] hover:text-black transition-all duration-300 rounded-full w-fit hover:shadow-[0_0_20px_rgba(0,255,65,0.5)]"
             >
               <span>Download Resume</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-              </svg>
+              <Download className="w-5 h-5" />
             </a>
           </div>
         </div>

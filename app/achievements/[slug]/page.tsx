@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { achievements } from "@/lib/achievements";
+import BackButton from "@/components/BackButton";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,15 +25,7 @@ export default async function AchievementPage({ params }: Props) {
 
   return (
     <main className="bg-black text-white min-h-screen px-6 md:px-20 py-32">
-      <Link
-        href="/#achievements"
-        className="group flex items-center gap-3 mb-12 px-5 py-2.5 rounded-full border border-white/20 text-xs font-bold uppercase tracking-widest text-neutral-300 hover:border-[#00ff41] hover:text-[#00ff41] hover:shadow-[0_0_20px_rgba(0,255,65,0.5)] transition-all duration-300 w-fit"
-      >
-        <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-        </svg>
-        Back
-      </Link>
+      <BackButton href="/#achievements" />
 
       <span className="text-[#00ff41] text-sm font-bold uppercase tracking-widest">
         {achievement.tag} · {achievement.date}

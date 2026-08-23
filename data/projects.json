@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "priceflow",
+    "title": "PriceFlow",
+    "tagline": "Production-Grade Dynamic Pricing Platform",
+    "category": "Data Engineering",
+    "tags": ["Java", "Python", "Apache Spark", "BigQuery", "Kafka", "Redis", "Docker", "MySQL"],
+    "image": null,
+    "summary": "Real-time pricing service with Python ETL pipelines feeding analytics into BigQuery.",
+    "description": [
+      "Built Python ETL pipelines using Pandas, PyArrow and Apache Spark to process transactional data, store it as columnar Parquet, and load analytical datasets into Google BigQuery.",
+      "Developed the real-time pricing service in Java Spring Boot, automating price optimisation based on inventory, demand and competitor pricing, using Apache Kafka and Redis.",
+      "Implemented price-prediction models with Scikit-learn and XGBoost, with the stack containerised using Docker over MySQL."
+    ],
+    "githubUrl": null,
+    "liveUrl": null
+  },
+  {
+    "slug": "prism",
+    "title": "PRISM",
+    "tagline": "AI Fraud Detection for Privileged-User Risk Monitoring",
+    "category": "Fraud Detection",
+    "tags": ["Python", "PyTorch", "FastAPI", "Neo4j", "MongoDB", "Next.js"],
+    "image": null,
+    "summary": "Real-time insider-threat detection combining a graph neural network with a stacking ensemble.",
+    "description": [
+      "Engineered a real-time insider-threat detection platform combining a HeteroSAGE Graph Neural Network with a stacking ensemble (XGBoost, LightGBM, Isolation Forest) to score privileged-user risk while suppressing false positives.",
+      "Added SHAP-based explainability for interpretable, auditable risk scoring, and designed a Dempster–Shafer evidence fusion engine to reconcile independent model predictions and route conflicting evidence to human review.",
+      "Served the models through FastAPI on Google Cloud Run over MongoDB and Neo4j, with a Next.js/TypeScript monitoring interface."
+    ],
+    "githubUrl": null,
+    "liveUrl": null
+  },
+  {
+    "slug": "raseed",
+    "title": "Raseed",
+    "tagline": "Agentic Receipt Management for Google Wallet",
+    "category": "Agentic AI",
+    "tags": ["Vertex AI", "Google ADK", "GCP", "Firestore", "Cloud Functions"],
+    "image": null,
+    "summary": "Multi-agent system turning voice, image and video receipts into structured, queryable records.",
+    "description": [
+      "Built a multi-agent system on Google ADK and Vertex AI that processes voice, image and video receipts into structured records for natural-language querying, and generated dynamic Google Wallet passes with receipt metadata and aggregated spending summaries on Firestore and Cloud Functions."
+    ],
+    "githubUrl": null,
+    "liveUrl": null
+  },
+  {
+    "slug": "monte-carlo",
+    "title": "Monte Carlo",
+    "tagline": "",
+    "category": "DeFi",
+    "tags": ["DeFi"],
+    "image": null,
+    "summary": "Add a one-line summary here.",
+    "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
+    "githubUrl": null,
+    "liveUrl": null
+  },
+  {
+    "slug": "nayak",
+    "title": "Nayak",
+    "tagline": "",
+    "category": "Agentic AI",
+    "tags": ["Agentic AI"],
+    "image": null,
+    "summary": "Add a one-line summary here.",
+    "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
+    "githubUrl": null,
+    "liveUrl": null
+  }
+]

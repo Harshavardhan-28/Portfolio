@@ -6,9 +6,9 @@ import gsap from "gsap";
 
 const menuLinks = [
   { label: "Home", href: "/" },
-  { label: "Projects", href: "#projects" },
-  { label: "Hackathons", href: "#hackathons" },
-  { label: "Achievements", href: "#achievements" },
+  { label: "Projects", href: "/projects" },
+  { label: "Hackathons", href: "/achievements" },
+  { label: "Experience", href: "/#experience" },
 ];
 
 export default function Header() {
@@ -134,7 +134,7 @@ export default function Header() {
                    ref={el => {
                      linksRef.current[i] = el;
                    }}
-                   className="block text-6xl md:text-8xl font-black uppercase text-transparent stroke-white hover:text-[#00ff41] transition-all duration-300 transform hover:translate-x-4"
+                   className="block text-[clamp(2rem,5vw,4.5rem)] font-black uppercase text-transparent stroke-white hover:text-[#00ff41] transition-all duration-300 transform hover:translate-x-4"
                    style={{ WebkitTextStroke: "1px white" }}
                  >
                    {link.label}

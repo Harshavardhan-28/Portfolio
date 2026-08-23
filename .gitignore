@@ -39,3 +39,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editor / OS
+.vscode/
+.idea/
+
+# secrets & credentials
+*.pem
+*.key
+*.cert
+*.p12
+*credentials*.json
+*service-account*.json
+
+# local tool config (may contain server tokens/URLs)
+.mcp.json
+
+# personal / scratch files not meant for the repo
+Screenshot 2026-02-10 at 1.21.27 AM.png

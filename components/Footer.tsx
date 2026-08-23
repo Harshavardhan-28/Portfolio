@@ -23,7 +23,7 @@ export default function Footer() {
           <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Home</a>
           <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Work</a>
           <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">About</a>
-          <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Contact</a>
+          <a href="mailto:harshavardhan.khamkar@gmail.com" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Contact</a>
         </div>
 
         {/* Centerpiece (The Helmet/Object) */}

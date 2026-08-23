@@ -2,6 +2,7 @@ import Image from "next/image";
 import Scene from "@/components/Scene";
 import HeroOverlay from "@/components/HeroOverlay";
 import SmoothScroll from "@/components/SmoothScroll";
+import LoadingScreen from "@/components/LoadingScreen";
 import SocialGallery from "@/components/SocialGallery";
 import Footer from "@/components/Footer";
 import ProjectCarousel from "@/components/ProjectCarousel";
@@ -12,8 +13,10 @@ import Experience from "@/components/Experience";
 
 export default function Home() {
   return (
-    <SmoothScroll>
-      <main className="bg-black text-white min-h-[300vh]">
+    <>
+      <LoadingScreen />
+      <SmoothScroll>
+        <main className="bg-black text-white min-h-[300vh]">
 
         {/* Layer 0: The 3D World */}
         <Scene />
@@ -42,7 +45,8 @@ export default function Home() {
         {/* Layer 6: Footer */}
         <Footer />
 
-      </main>
-    </SmoothScroll>
+        </main>
+      </SmoothScroll>
+    </>
   );
 }
