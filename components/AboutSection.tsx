@@ -58,10 +58,9 @@ export default function AboutSection() {
             I build immersive digital experiences that blend high-performance engineering with cinematic aesthetics.
           </p>
           <div className="pt-4">
-            <a 
-              href="/resume.pdf" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <a
+              href="/Harshavardhan_Khamkar_Resume.pdf"
+              download
               className="inline-flex items-center gap-3 px-8 py-4 border-2 border-[#00ff41] text-[#00ff41] font-bold tracking-widest uppercase hover:bg-[#00ff41] hover:text-black transition-all duration-300 rounded-full w-fit hover:shadow-[0_0_20px_rgba(0,255,65,0.5)]"
             >
               <span>Download Resume</span>
