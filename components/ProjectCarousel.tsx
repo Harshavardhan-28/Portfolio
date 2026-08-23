@@ -21,17 +21,24 @@ export default function ProjectCarousel() {
   useGSAP(() => {
     if (!slider.current) return;
 
-    const totalScroll = slider.current.scrollWidth - window.innerWidth;
+    // Measured lazily via functions + invalidateOnRefresh so the travel
+    // distance and the matching pin length are recomputed on every
+    // ScrollTrigger.refresh() (rotation, breakpoint change, late-loading
+    // content) instead of being frozen at whatever the first layout was.
+    const totalScroll = () =>
+      slider.current ? slider.current.scrollWidth - window.innerWidth : 0;
 
     gsap.to(slider.current, {
-      x: -totalScroll,
+      x: () => -totalScroll(),
       ease: "none",
       scrollTrigger: {
         trigger: container.current,
         start: "top top",
-        end: `+=${totalScroll}`, // Scales automatically with however many projects exist
+        end: () => `+=${totalScroll()}`, // Scales with however many projects exist
         pin: true,     // Locks the screen in place
         scrub: 1,      // Links animation to scrollbar
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
       },
     });
   }, { scope: container });

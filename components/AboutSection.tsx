@@ -46,22 +46,24 @@ export default function AboutSection() {
   }, { scope: container });
 
   return (
-    <section ref={container} className="h-screen w-full flex items-center relative z-10 overflow-hidden pointer-events-none">
+    <section ref={container} className="min-h-screen md:h-screen w-full flex items-center relative z-10 overflow-hidden pointer-events-none py-28 md:py-0">
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full h-full relative z-20">
 
         {/* LEFT COLUMN: The Text */}
         <div ref={textRef} className="flex flex-col space-y-6 pointer-events-auto z-30">
-          <h2 className="text-6xl md:text-8xl font-black uppercase leading-none">
+          {/* Narrower cap than the full-width headings: from md up this sits
+              in a half-width grid column. */}
+          <h2 className="text-[clamp(2.25rem,7vw,6rem)] font-black uppercase leading-none">
             About <br /> <span className="text-[#00ff41]">Myself</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-md">
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-md">
             I build immersive digital experiences that blend high-performance engineering with cinematic aesthetics.
           </p>
           <div className="pt-4">
             <a
               href="/Harshavardhan_Khamkar_Resume.pdf"
               download
-              className="inline-flex items-center gap-3 px-8 py-4 border-2 border-[#00ff41] text-[#00ff41] font-bold tracking-widest uppercase hover:bg-[#00ff41] hover:text-black transition-all duration-300 rounded-full w-fit hover:shadow-[0_0_20px_rgba(0,255,65,0.5)]"
+              className="inline-flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 border-2 border-[#00ff41] text-[#00ff41] font-bold tracking-widest uppercase hover:bg-[#00ff41] hover:text-black transition-all duration-300 rounded-full w-fit hover:shadow-[0_0_20px_rgba(0,255,65,0.5)]"
             >
               <span>Download Resume</span>
               <Download className="w-5 h-5" />

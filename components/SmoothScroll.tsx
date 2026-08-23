@@ -7,6 +7,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile browsers fire resize events when the address bar shows/hides as the
+// page scrolls. ScrollTrigger's default behavior treats those as real
+// viewport resizes and re-measures pinned sections mid-scroll, which is what
+// made the pinned ProjectCarousel (and other pin:true sections) finish their
+// animation early and then hold on a "blank" frame for the rest of their
+// pinned scroll distance on phones. This tells ScrollTrigger to ignore
+// address-bar-driven resizes and only react to real ones (orientation
+// changes, actual window resizing).
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 interface SmoothScrollProps {
   children: ReactNode;
 }
@@ -30,6 +40,23 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    // Pinned sections (e.g. ProjectCarousel) reserve scroll distance via a
+    // spacer sized from the document's layout at the last ScrollTrigger
+    // refresh. ignoreMobileResize above stops that from re-running on every
+    // address-bar show/hide, but content that loads in after that first
+    // measurement — lazy images further down the page, webfonts swapping in
+    // and reflowing text — still genuinely changes the document's height.
+    // Without picking that up, the spacer/pin math goes stale and later
+    // sections (the Footer, most visibly) can end up unreachable. Watch the
+    // real content height directly instead of relying on resize events.
+    let refreshTimer: ReturnType<typeof setTimeout> | undefined;
+    const scheduleRefresh = () => {
+      clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+    };
+    const resizeObserver = new ResizeObserver(scheduleRefresh);
+    resizeObserver.observe(document.body);
+
     // If we arrived with a #hash (e.g. the nav menu's "Experience" link from
     // another page), the browser jumps there immediately — before the pinned
     // sections above it (ProjectCarousel, Achievements) have registered their
@@ -45,6 +72,8 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       : undefined;
 
     return () => {
+      clearTimeout(refreshTimer);
+      resizeObserver.disconnect();
       clearTimeout(hashTimer);
       gsap.ticker.remove(tick);
       // Reset native scroll before teardown — otherwise whatever deep scrollY

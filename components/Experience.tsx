@@ -35,13 +35,13 @@ export default function Experience() {
     <section
       id="experience"
       ref={container}
-      className="relative z-20 w-full py-32 px-6 md:px-20 scroll-mt-24"
+      className="relative z-20 w-full py-20 px-6 sm:py-24 md:py-32 md:px-20 scroll-mt-24"
     >
       {/* Solid backdrop: the 3D crystal can still be mid-scene behind this
           section, and its bright bloom particles wash out plain text —
           a dark glass panel keeps the content legible regardless. */}
-      <div className="relative rounded-3xl border border-white/10 bg-black/80 backdrop-blur-md px-6 py-10 md:px-12 md:py-16">
-        <h2 className="text-6xl md:text-8xl font-black uppercase leading-none mb-16">
+      <div className="relative rounded-3xl border border-white/10 bg-black/80 backdrop-blur-md px-5 py-8 sm:px-6 sm:py-10 md:px-12 md:py-16">
+        <h2 className="text-[clamp(2.25rem,8.5vw,6rem)] font-black uppercase leading-none mb-10 md:mb-16">
           Work <br />
           <span className="text-[#00ff41]">Experience</span>
         </h2>

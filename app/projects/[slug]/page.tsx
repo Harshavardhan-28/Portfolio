@@ -22,21 +22,21 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound();
 
   return (
-    <main className="min-h-screen bg-black px-6 py-32 text-white md:px-20">
+    <main className="min-h-screen bg-black px-6 py-24 text-white sm:py-32 md:px-20">
       <BackButton href="/projects" />
 
       <span className="text-sm font-bold uppercase tracking-widest text-[#00ff41]">
         {project.category}
       </span>
-      <h1 className="mb-2 mt-4 text-5xl font-black uppercase leading-none md:text-7xl">
+      <h1 className="mb-2 mt-4 text-4xl font-black uppercase leading-none sm:text-5xl md:text-7xl">
         {project.title}
       </h1>
       {project.tagline && (
-        <p className="mb-12 text-xl text-gray-400">{project.tagline}</p>
+        <p className="mb-12 text-lg text-gray-400 sm:text-xl">{project.tagline}</p>
       )}
       {!project.tagline && <div className="mb-12" />}
 
-      <div className="relative mb-12 h-[50vh] w-full overflow-hidden rounded-2xl border border-white/10 md:h-[70vh]">
+      <div className="relative mb-12 h-[35vh] w-full overflow-hidden rounded-2xl border border-white/10 sm:h-[50vh] md:h-[70vh]">
         {project.image ? (
           <Image src={project.image} alt={project.title} fill className="object-cover" priority />
         ) : (

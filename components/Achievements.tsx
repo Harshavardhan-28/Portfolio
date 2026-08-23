@@ -42,12 +42,15 @@ export default function Achievements() {
     <section
       id="achievements"
       ref={container}
-      className="relative z-20 w-full py-32 px-6 md:px-20 scroll-mt-24"
+      className="relative z-20 w-full py-20 px-6 sm:py-24 md:py-32 md:px-20 scroll-mt-24"
     >
       {/* Secondary scroll target so Header's "Hackathons" link also lands here */}
       <div id="hackathons" className="absolute -top-24" aria-hidden="true" />
 
-      <h2 className="text-6xl md:text-8xl font-black uppercase leading-none mb-16">
+      {/* Fluid rather than a jump to text-8xl at md: "ACHIEVEMENTS" is 12
+          characters, and 96px of it is wider than this section's content box
+          between 768px and ~1000px — which widened the whole document. */}
+      <h2 className="text-[clamp(2.25rem,8.5vw,6rem)] font-black uppercase leading-none mb-10 md:mb-16">
         Hackathons &amp; <br />
         <span className="text-[#00ff41]">Achievements</span>
       </h2>

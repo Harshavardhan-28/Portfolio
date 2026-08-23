@@ -16,39 +16,39 @@ export default function Footer() {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#050505]/60 via-transparent via-40% to-[#050505]"></div>
 
       {/* 2. The Content Layer (On top of text) */}
-      <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row justify-between items-center h-[60vh]">
+      <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row justify-between items-center gap-12 py-16 md:gap-0 md:py-0 md:h-[60vh]">
 
         {/* Left Links */}
-        <div className="flex flex-col space-y-4 text-center md:text-left order-2 md:order-1">
-          <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Home</a>
-          <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Work</a>
-          <a href="#" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">About</a>
-          <a href="mailto:harshavardhan.khamkar@gmail.com" className="text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Contact</a>
+        <div className="flex flex-col space-y-3 sm:space-y-4 text-center md:text-left order-2 md:order-1">
+          <a href="#" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Home</a>
+          <a href="#" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Work</a>
+          <a href="#" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">About</a>
+          <a href="mailto:harshavardhan.khamkar@gmail.com" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Contact</a>
         </div>
 
         {/* Centerpiece (The Helmet/Object) */}
         {/* You can put a static image of your 3D object here */}
-        <div className="order-1 md:order-2 mb-10 md:mb-0 relative group cursor-pointer">
-            <div className="w-[300px] h-[300px] rounded-full bg-gradient-to-b from-[#00ff41]/20 to-transparent blur-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:bg-[#00ff41]/40 transition-all duration-500"></div>
+        <div className="order-1 md:order-2 relative group cursor-pointer">
+            <div className="w-45 h-45 sm:w-60 sm:h-60 md:w-75 md:h-75 rounded-full bg-linear-to-b from-[#00ff41]/20 to-transparent blur-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:bg-[#00ff41]/40 transition-all duration-500"></div>
             {/* Replace this div with an <Image /> of your helmet/logo */}
-            <div className="w-[200px] h-[200px] bg-black border border-[#00ff41] rounded-full flex items-center justify-center relative z-10 shadow-[0_0_50px_rgba(0,255,65,0.2)]">
-                <span className="text-4xl">🚀</span>
+            <div className="w-32.5 h-32.5 sm:w-40 sm:h-40 md:w-50 md:h-50 bg-black border border-[#00ff41] rounded-full flex items-center justify-center relative z-10 shadow-[0_0_50px_rgba(0,255,65,0.2)]">
+                <span className="text-3xl sm:text-4xl">🚀</span>
             </div>
         </div>
 
         {/* Right Socials */}
-        <div className="flex flex-col space-y-4 text-center md:text-right order-3">
-          <p className="text-gray-400 text-sm uppercase tracking-widest mb-4 font-bold">Socials</p>
-          <a href="https://www.linkedin.com/in/harshavardhan-khamkar/" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">LinkedIn</a>
-          <a href="https://github.com/Harshavardhan-28" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">GitHub</a>
-          <a href="https://leetcode.com/u/harshkhamkar/" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Leetcode</a>
-          <a href="https://x.com/hrshvrdhxn" target="_blank" rel='noopener noreferrer' className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Twitter</a>
-          <a href="#" className="text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white" rel='noopener noreferrer'>Instagram</a>
+        <div className="flex flex-col space-y-3 sm:space-y-4 text-center md:text-right order-3">
+          <p className="text-gray-400 text-sm uppercase tracking-widest mb-2 sm:mb-4 font-bold">Socials</p>
+          <a href="https://www.linkedin.com/in/harshavardhan-khamkar/" target="_blank" rel='noopener noreferrer' className="text-lg sm:text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">LinkedIn</a>
+          <a href="https://github.com/Harshavardhan-28" target="_blank" rel='noopener noreferrer' className="text-lg sm:text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">GitHub</a>
+          <a href="https://leetcode.com/u/harshkhamkar/" target="_blank" rel='noopener noreferrer' className="text-lg sm:text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Leetcode</a>
+          <a href="https://x.com/hrshvrdhxn" target="_blank" rel='noopener noreferrer' className="text-lg sm:text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white">Twitter</a>
+          <a href="#" className="text-lg sm:text-xl font-black uppercase hover:text-[#00ff41] transition-colors text-white" rel='noopener noreferrer'>Instagram</a>
         </div>
       </div>
 
       {/* 3. Bottom Bar */}
-      <div className="container mx-auto px-6 mt-20 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-widest">
+      <div className="container mx-auto px-6 mt-12 md:mt-20 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-500 uppercase tracking-widest">
         <p>&copy; 2026 Harshavardhan Khamkar.</p>
         <div className="flex space-x-6 mt-4 md:mt-0">
             <span>Privacy Policy</span>

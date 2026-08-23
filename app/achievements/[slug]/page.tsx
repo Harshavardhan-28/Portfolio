@@ -24,17 +24,17 @@ export default async function AchievementPage({ params }: Props) {
   const galleryRest = (achievement.gallery ?? []).filter((src) => src !== achievement.image);
 
   return (
-    <main className="bg-black text-white min-h-screen px-6 md:px-20 py-32">
+    <main className="bg-black text-white min-h-screen px-6 md:px-20 py-24 sm:py-32">
       <BackButton href="/#achievements" />
 
       <span className="text-[#00ff41] text-sm font-bold uppercase tracking-widest">
         {achievement.tag} · {achievement.date}
       </span>
-      <h1 className="text-5xl md:text-7xl font-black uppercase leading-none mt-4 mb-12">
+      <h1 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase leading-none mt-4 mb-8 sm:mb-12">
         {achievement.title}
       </h1>
 
-      <div className="relative w-full h-[50vh] md:h-[70vh] rounded-2xl overflow-hidden border border-white/10 mb-12">
+      <div className="relative w-full h-[35vh] sm:h-[50vh] md:h-[70vh] rounded-2xl overflow-hidden border border-white/10 mb-12">
         <Image src={achievement.image} alt={achievement.title} fill className="object-cover" priority />
       </div>
 

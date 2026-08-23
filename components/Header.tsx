@@ -52,7 +52,7 @@ export default function Header() {
   return (
     <>
       {/* --- THE NAVBAR (Always Visible) --- */}
-      <header className="fixed top-0 left-0 w-full p-6 z-50 flex justify-between items-center text-white">
+      <header className="fixed top-0 left-0 w-full p-4 sm:p-6 z-50 flex justify-between items-center text-white">
 
         {/* Left: Brand */}
         <Link href="/" className="flex flex-col uppercase leading-[0.8] tracking-tight group cursor-pointer" onClick={() => setIsMenuOpen(false)}>
@@ -64,16 +64,16 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Center: Logo */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none md:pointer-events-auto">
-           <span className="font-black text-3xl italic tracking-tighter transform -skew-x-12 inline-block border-2 border-white px-2 py-0.5">
+        {/* Center: Logo (hidden on small phones to avoid crowding the brand/toggle) */}
+        <div className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none md:pointer-events-auto">
+           <span className="font-black text-2xl md:text-3xl italic tracking-tighter transform -skew-x-12 inline-block border-2 border-white px-2 py-0.5">
              HK
            </span>
         </div>
 
         {/* Right: Toggle Button */}
-        <button onClick={toggleMenu} className="group pointer-events-auto relative z-50">
-          <div className={`w-12 h-12 bg-white rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:scale-90 ${isMenuOpen ? 'bg-[#00ff41]' : 'hover:bg-[#00ff41]'}`}>
+        <button onClick={toggleMenu} className="group pointer-events-auto relative z-50" aria-label="Toggle menu">
+          <div className={`w-11 h-11 sm:w-12 sm:h-12 bg-white rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:scale-90 ${isMenuOpen ? 'bg-[#00ff41]' : 'hover:bg-[#00ff41]'}`}>
             {/* Animate lines to X when open */}
             <span className={`block w-5 h-0.5 bg-black transition-transform duration-300 ${isMenuOpen ? 'translate-y-2 rotate-45' : 'group-hover:translate-y-1'}`}></span>
             <span className={`block w-5 h-0.5 bg-black transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
@@ -91,8 +91,8 @@ export default function Header() {
         <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
 
         {/* LEFT COL: Image Gallery (Hidden on mobile) */}
-        <div className="hidden md:flex w-1/2 h-full items-center justify-center relative p-20">
-           <div ref={previewRef} className="relative w-full h-[600px] grid grid-cols-2 gap-4">
+        <div className="hidden md:flex w-1/2 h-full items-center justify-center relative p-8 lg:p-20">
+           <div ref={previewRef} className="relative w-full h-95 lg:h-150 grid grid-cols-2 gap-4">
               {/* Big Image Left */}
               <div className="row-span-2 relative rounded-2xl overflow-hidden border border-white/10 group">
                   <div className="absolute inset-0 bg-[#00ff41]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
@@ -119,7 +119,7 @@ export default function Header() {
         </div>
 
         {/* RIGHT COL: Navigation */}
-        <div className="w-full md:w-1/2 h-full flex flex-col justify-center px-10 md:px-20 relative z-10">
+        <div className="w-full md:w-1/2 h-full flex flex-col justify-center overflow-y-auto px-6 py-24 sm:px-10 md:px-12 md:py-0 lg:px-20 relative z-10">
            {/* Decorative Background Text */}
            <div className="absolute top-1/2 right-0 -translate-y-1/2 text-[40vh] font-black text-white/5 pointer-events-none overflow-hidden select-none">
               MENU
@@ -143,17 +143,17 @@ export default function Header() {
              ))}
            </nav>
 
-           <div className="mt-20 flex flex-col md:flex-row justify-between items-start md:items-end border-t border-white/20 pt-8 gap-6">
+           <div className="mt-12 md:mt-20 flex flex-col md:flex-row justify-between items-start md:items-end border-t border-white/20 pt-8 gap-6">
               <div className="flex flex-col space-y-2">
                  <p className="text-sm text-gray-500 uppercase tracking-widest">Follow Me</p>
-                 <div className="flex gap-6 text-lg font-bold">
+                 <div className="flex flex-wrap gap-6 text-lg font-bold">
                     <a href="https://www.linkedin.com/in/harshavardhan-khamkar/"  target="_blank" rel='noopener noreferrer' className="hover:text-[#00ff41] transition-colors">Linkedin</a>
                     <a href="#"  target="_blank" rel='noopener noreferrer' className="hover:text-[#00ff41] transition-colors">Instagram</a>
                     <a href="https://github.com/Harshavardhan-28"  target="_blank" rel='noopener noreferrer' className="hover:text-[#00ff41] transition-colors">GitHub</a>
                  </div>
               </div>
 
-              <a href="mailto:harshavardhan.khamkar@gmail.com" className="bg-[#00ff41] text-black font-bold uppercase px-8 py-4 rounded-full hover:scale-105 transition-transform">
+              <a href="mailto:harshavardhan.khamkar@gmail.com" className="bg-[#00ff41] text-black font-bold uppercase px-8 py-4 rounded-full hover:scale-105 transition-transform w-fit">
                  Business Enquiries
               </a>
            </div>

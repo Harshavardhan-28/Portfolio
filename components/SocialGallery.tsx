@@ -19,51 +19,91 @@ export default function SocialGallery() {
   useGSAP(() => {
     const centerIndex = Math.floor(images.length / 2);
 
-    const spreadX = 160;
-    const liftY = 18;
-    const rotZ = 10;
-    const rotY = 14;
-    const scaleStep = 0.06;
+    const mm = gsap.matchMedia();
 
-    // 1. Initial State: All cards bunched at bottom
-    gsap.set(cardsRef.current, {
-      x: 0,
-      y: 140,
-      opacity: 0,
-      rotateZ: 0,
-      rotateY: 0,
-      scale: 0.92,
-      transformOrigin: "50% 92%",
-    });
-
-    // 2. The "Fan Out" Animation
-    gsap.to(cardsRef.current, {
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top 60%",
-        toggleActions: "play none none reverse",
+    // Every viewport must match exactly one condition. Leaving the desktop
+    // range out entirely means the callback never runs there, so the cards
+    // keep their default styles — all seven absolutely positioned on top of
+    // each other, unfanned.
+    mm.add(
+      {
+        isMobile: "(max-width: 639px)",
+        isTablet: "(min-width: 640px) and (max-width: 1023px)",
+        isDesktop: "(min-width: 1024px)",
       },
-      opacity: 1,
-      duration: 1.2,
-      ease: "power3.out",
-      stagger: 0.05,
+      (context) => {
+        const { isMobile, isTablet } = context.conditions as {
+          isMobile: boolean;
+          isTablet: boolean;
+          isDesktop: boolean;
+        };
 
-      // --- THE TUNED MATH ---
-      x: (i) => (i - centerIndex) * spreadX,
-      y: (i) => Math.abs(i - centerIndex) * liftY,
-      rotateZ: (i) => (i - centerIndex) * rotZ,
-      rotateY: (i) => (i - centerIndex) * -rotY,
-      scale: (i) => 1 - Math.abs(i - centerIndex) * scaleStep,
-    });
+        // Derive the spread from the fan's real width and card size rather
+        // than hard-coding px per breakpoint: a fixed value that fits at
+        // 1440px pushes the outer cards past the edge at 1024px (and past the
+        // viewport on tablets, which widened the document). The outer cards
+        // are rotated, so their visual footprint is ~1.45x the base card
+        // width, and rotating about a low origin shifts them outward too —
+        // ROT_PAD covers that. Mobile keeps its hand-tuned spread: the fan is
+        // meant to run past the edges there, and the section clips it.
+        const ROT_PAD = 90;
+        const fanEl = cardsRef.current[centerIndex]?.parentElement;
+        const fanW = fanEl?.clientWidth ?? window.innerWidth;
+        const cardW = cardsRef.current[centerIndex]?.offsetWidth ?? 240;
 
+        const spreadX = isMobile
+          ? 58
+          : Math.max(
+              40,
+              Math.min(160, (fanW / 2 - cardW * 0.72 - ROT_PAD) / centerIndex)
+            );
+        const liftY = isMobile ? 8 : isTablet ? 13 : 18;
+        const rotZ = isMobile ? 6 : isTablet ? 8 : 10;
+        const rotY = isMobile ? 8 : isTablet ? 11 : 14;
+        const scaleStep = isMobile ? 0.1 : isTablet ? 0.08 : 0.06;
+
+        // 1. Initial State: All cards bunched at bottom
+        gsap.set(cardsRef.current, {
+          x: 0,
+          y: 140,
+          opacity: 0,
+          rotateZ: 0,
+          rotateY: 0,
+          scale: 0.92,
+          transformOrigin: "50% 92%",
+        });
+
+        // 2. The "Fan Out" Animation
+        gsap.to(cardsRef.current, {
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top 60%",
+            toggleActions: "play none none reverse",
+          },
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          stagger: 0.05,
+
+          // --- THE TUNED MATH ---
+          x: (i) => (i - centerIndex) * spreadX,
+          y: (i) => Math.abs(i - centerIndex) * liftY,
+          rotateZ: (i) => (i - centerIndex) * rotZ,
+          rotateY: (i) => (i - centerIndex) * -rotY,
+          scale: (i) => 1 - Math.abs(i - centerIndex) * scaleStep,
+        });
+      }
+    );
+
+    return () => mm.revert();
   }, { scope: container });
 
   return (
-    <section ref={container} className="py-32 bg-black overflow-hidden relative z-20 min-h-screen flex flex-col items-center">
+    <section ref={container} className="py-20 sm:py-24 md:py-32 bg-black overflow-hidden relative z-20 min-h-screen flex flex-col items-center">
 
       {/* Header */}
-      <div className="text-center mb-12 relative z-10">
-        <h2 className="text-5xl md:text-8xl font-black uppercase text-white leading-[0.8]">
+      <div className="text-center mb-12 relative z-10 px-6">
+        <h2 className="text-4xl sm:text-6xl md:text-8xl font-black uppercase text-white leading-[0.9] sm:leading-[0.8]">
           What's Up <br/>
           <span className="text-transparent stroke-white font-serif italic" style={{ WebkitTextStroke: "1px #fff" }}>On Socials</span>
         </h2>
@@ -71,7 +111,7 @@ export default function SocialGallery() {
 
       {/* The Fan Container */}
       <div
-        className="relative w-full max-w-350 h-150 flex justify-center items-center mt-10"
+        className="relative w-full max-w-350 h-102.5 sm:h-120 md:h-150 flex justify-center items-center mt-10"
         style={{ perspective: 1200 }}
       >
         {images.map((_, i) => {
@@ -85,7 +125,7 @@ export default function SocialGallery() {
               ref={(el) => {
                 cardsRef.current[i] = el;
               }}
-              className="absolute w-52.5 h-82.5 sm:w-60 sm:h-95 md:w-70 md:h-110 bg-neutral-950 rounded-[36px] border border-white/10 overflow-hidden shadow-2xl origin-bottom cursor-pointer group will-change-transform"
+              className="absolute w-52.5 h-82.5 sm:w-60 sm:h-95 lg:w-70 lg:h-110 bg-neutral-950 rounded-[36px] border border-white/10 overflow-hidden shadow-2xl origin-bottom cursor-pointer group will-change-transform"
               style={{ zIndex, transformStyle: "preserve-3d" }}
             >
               <div className="relative w-full h-full">
@@ -93,7 +133,7 @@ export default function SocialGallery() {
                   src={cardImageSrc}
                   alt="Social post"
                   fill
-                  sizes="(min-width: 768px) 280px, (min-width: 640px) 240px, 210px"
+                  sizes="(min-width: 1024px) 280px, (min-width: 640px) 240px, 210px"
                   className="object-cover"
                   priority={i === Math.floor(images.length / 2)}
                 />

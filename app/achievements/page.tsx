@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 export default function AchievementsPage() {
   return (
     <>
-      <main className="min-h-screen bg-black px-6 pb-32 pt-40 text-white md:px-20">
-        <h1 className="mb-16 text-6xl font-black uppercase leading-none md:text-8xl">
+      <main className="min-h-screen bg-black px-6 pb-24 pt-32 text-white sm:pb-32 sm:pt-40 md:px-20">
+        <h1 className="mb-10 text-[clamp(2.25rem,8.5vw,6rem)] font-black uppercase leading-none sm:mb-16">
           Hackathons &amp; <br />
           <span className="text-[#00ff41]">Achievements</span>
         </h1>

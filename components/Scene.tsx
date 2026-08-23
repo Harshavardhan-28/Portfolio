@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useThree } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -132,11 +132,24 @@ function MLSceneContent() {
 }
 
 export default function Scene() {
+  // Bloom/AA/high-DPR rendering is the most GPU-hungry part of the page —
+  // phones and tablets get a lighter render path so the scroll-tied
+  // animations stay smooth instead of dropping frames.
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1024px)');
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-0 h-screen w-full pointer-events-none">
       <Canvas
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true, toneMapping: THREE.ReinhardToneMapping, toneMappingExposure: 1.5, powerPreference: 'high-performance' }}
+        dpr={isMobile ? 1 : [1, 1.5]}
+        gl={{ antialias: !isMobile, alpha: true, toneMapping: THREE.ReinhardToneMapping, toneMappingExposure: 1.5, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, CAM_Z], fov: FOV_DEG }}
         performance={{ min: 0.5 }}
       >
@@ -164,10 +177,10 @@ export default function Scene() {
 
         <EffectComposer multisampling={0}>
           <Bloom
-            intensity={1.2}
+            intensity={isMobile ? 0.9 : 1.2}
             luminanceThreshold={0.4}
             luminanceSmoothing={0.9}
-            mipmapBlur
+            mipmapBlur={!isMobile}
           />
         </EffectComposer>
       </Canvas>
