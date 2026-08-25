@@ -34,14 +34,48 @@ export default async function AchievementPage({ params }: Props) {
         {achievement.title}
       </h1>
 
-      <div className="relative w-full h-[35vh] sm:h-[50vh] md:h-[70vh] rounded-2xl overflow-hidden border border-white/10 mb-12">
-        <Image src={achievement.image} alt={achievement.title} fill className="object-cover" priority />
+      <div className="w-full overflow-hidden rounded-2xl border border-white/10 mb-12">
+        <Image
+          src={achievement.image}
+          alt={achievement.title}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="h-auto w-full"
+          priority
+        />
       </div>
 
-      <div className="max-w-2xl space-y-6 text-lg text-gray-300">
-        {achievement.body.map((paragraph, i) => (
-          <p key={i}>{paragraph}</p>
-        ))}
+      <div className="max-w-2xl space-y-6">
+        {achievement.body.map((line, i) => {
+          if (line.startsWith("## ")) {
+            return (
+              <h2 key={i} className="pt-4 text-2xl font-black uppercase leading-tight tracking-tight text-white sm:text-3xl">
+                {line.slice(3)}
+              </h2>
+            );
+          }
+          if (line.startsWith("> ")) {
+            return (
+              <blockquote key={i} className="border-l-4 border-[#00ff41]/50 pl-6 font-serif text-2xl italic text-gray-300">
+                {line.slice(2)}
+              </blockquote>
+            );
+          }
+          const isLead = i === 0;
+          return (
+            <p
+              key={i}
+              className={
+                isLead
+                  ? "text-xl font-light leading-relaxed text-gray-200 sm:text-2xl"
+                  : "text-lg leading-relaxed text-gray-300"
+              }
+            >
+              {line}
+            </p>
+          );
+        })}
       </div>
 
       {galleryRest.length > 0 && (

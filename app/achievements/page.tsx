@@ -29,7 +29,7 @@ export default function AchievementsPage() {
               <Card className="h-full gap-0 overflow-hidden rounded-xl border-white/8 bg-[#111] p-0 shadow-none transition-colors duration-200 group-hover:border-[#3ce07b]/50">
                 <div className="relative aspect-video w-full overflow-hidden bg-[#1c1c1c]">
                   <Image
-                    src={achievement.image}
+                    src={achievement.previewImage ?? achievement.image}
                     alt={achievement.title}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

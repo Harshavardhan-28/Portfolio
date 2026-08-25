@@ -4,8 +4,11 @@
     "title": "ETHGlobal New Delhi",
     "tag": "Hackathon",
     "date": "October 2025",
-    "image": "/images/EthGlobal-polaroid.jpg",
-    "gallery": ["/images/EthGlobal-polaroid.jpg", "/images/20251014_133407.jpg"],
+    "image": "/images/hackathon/ethglobal-new-delhi/EthGlobal-polaroid.jpg",
+    "gallery": [
+      "/images/hackathon/ethglobal-new-delhi/EthGlobal-polaroid.jpg",
+      "/images/hackathon/ethglobal-new-delhi/20251014_133407.jpg"
+    ],
     "summary": "Building on-chain with the team at ETHGlobal's New Delhi hackathon.",
     "body": [
       "Add your write-up here — what you and the team built, the stack you used, and anything you'd do differently next time."
@@ -17,8 +20,16 @@
     "title": "Google Cloud Agentic AI Day",
     "tag": "Hackathon",
     "date": "July 2025",
-    "image": "/images/AgenticAIDaySolo.jpg",
-    "gallery": null,
+    "image": "/images/hackathon/google-cloud-agentic-ai-day/Hero-AgenticAI.jpg",
+    "previewImage": "/images/hackathon/google-cloud-agentic-ai-day/AgenticAIDaySolo.jpg",
+    "gallery": [
+      "/images/hackathon/google-cloud-agentic-ai-day/Hero-AgenticAI.jpg",
+      "/images/hackathon/google-cloud-agentic-ai-day/Akash-Harsh-AgenticAI.jpg",
+      "/images/hackathon/google-cloud-agentic-ai-day/Crowd-AgenticAI.jpeg",
+      "/images/hackathon/google-cloud-agentic-ai-day/Finalists-AgenticAI.jpeg",
+      "/images/hackathon/google-cloud-agentic-ai-day/Food-AgenticAi.jpg",
+      "/images/hackathon/google-cloud-agentic-ai-day/Lavi-AgenticAi.jpeg"
+    ],
     "summary": "A day deep in agentic AI workflows at Google Cloud's Agentic AI Day.",
     "body": ["Add your write-up here."],
     "externalUrl": null
@@ -28,8 +39,13 @@
     "title": "ETH Mumbai",
     "tag": "Hackathon",
     "date": "2025",
-    "image": "/images/EthMumbai.jpg",
-    "gallery": null,
+    "image": "/images/hackathon/eth-mumbai/Ethmumbai-Hero.jpg",
+    "previewImage": "/images/hackathon/eth-mumbai/Preview-Ethmumbai.jpg",
+    "gallery": [
+      "/images/hackathon/eth-mumbai/Ethmumbai-Hero.jpg",
+      "/images/hackathon/eth-mumbai/EthMumbai.jpg",
+      "/images/hackathon/eth-mumbai/Horse-EthMumbai.jpg"
+    ],
     "summary": "Shipping in the trenches at ETH Mumbai.",
     "body": ["Add your write-up here."],
     "externalUrl": null

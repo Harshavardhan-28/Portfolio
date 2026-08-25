@@ -12,8 +12,9 @@
       "Developed the real-time pricing service in Java Spring Boot, automating price optimisation based on inventory, demand and competitor pricing, using Apache Kafka and Redis.",
       "Implemented price-prediction models with Scikit-learn and XGBoost, with the stack containerised using Docker over MySQL."
     ],
-    "githubUrl": null,
-    "liveUrl": null
+    "githubUrl": "https://github.com/Harshavardhan-28/Priceflow",
+    "liveUrl": null,
+    "youtubeUrl": null
   },
   {
     "slug": "prism",
@@ -28,8 +29,9 @@
       "Added SHAP-based explainability for interpretable, auditable risk scoring, and designed a Dempster–Shafer evidence fusion engine to reconcile independent model predictions and route conflicting evidence to human review.",
       "Served the models through FastAPI on Google Cloud Run over MongoDB and Neo4j, with a Next.js/TypeScript monitoring interface."
     ],
-    "githubUrl": null,
-    "liveUrl": null
+    "githubUrl": "https://github.com/pankaj0695/PRISM_iDEA_2.0_Hackathon",
+    "liveUrl": null,
+    "youtubeUrl": "https://www.youtube.com/watch?v=ypDvW2qRq2w"
   },
   {
     "slug": "raseed",
@@ -42,8 +44,9 @@
     "description": [
       "Built a multi-agent system on Google ADK and Vertex AI that processes voice, image and video receipts into structured records for natural-language querying, and generated dynamic Google Wallet passes with receipt metadata and aggregated spending summaries on Firestore and Cloud Functions."
     ],
-    "githubUrl": null,
-    "liveUrl": null
+    "githubUrl": "https://github.com/Harshavardhan-28/Raseed",
+    "liveUrl": null,
+    "youtubeUrl": "https://youtu.be/yKWBelrZ0iI"
   },
   {
     "slug": "monte-carlo",
@@ -54,8 +57,26 @@
     "image": null,
     "summary": "Add a one-line summary here.",
     "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
-    "githubUrl": null,
-    "liveUrl": null
+    "githubUrl": "https://github.com/Harshavardhan-28/Monte-Carlo",
+    "liveUrl": null,
+    "youtubeUrl": null
+  },
+  {
+    "slug": "cloak402",
+    "title": "Cloak402",
+    "tagline": "AI Fraud Detection for Privileged-User Risk Monitoring",
+    "category": "Privacy",
+    "tags": ["Python", "PyTorch", "FastAPI", "Neo4j", "MongoDB", "Next.js"],
+    "image": null,
+    "summary": "Real-time insider-threat detection combining a graph neural network with a stacking ensemble.",
+    "description": [
+      "Engineered a real-time insider-threat detection platform combining a HeteroSAGE Graph Neural Network with a stacking ensemble (XGBoost, LightGBM, Isolation Forest) to score privileged-user risk while suppressing false positives.",
+      "Added SHAP-based explainability for interpretable, auditable risk scoring, and designed a Dempster–Shafer evidence fusion engine to reconcile independent model predictions and route conflicting evidence to human review.",
+      "Served the models through FastAPI on Google Cloud Run over MongoDB and Neo4j, with a Next.js/TypeScript monitoring interface."
+    ],
+    "githubUrl": "https://github.com/Harshavardhan-28/EthMumbai-2026",
+    "liveUrl": null,
+    "youtubeUrl": "https://www.youtube.com/watch?v=ePG3Y70DfMw"
   },
   {
     "slug": "nayak",
@@ -67,6 +88,7 @@
     "summary": "Add a one-line summary here.",
     "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
     "githubUrl": null,
-    "liveUrl": null
+    "liveUrl": null,
+    "youtubeUrl": null
   }
 ]

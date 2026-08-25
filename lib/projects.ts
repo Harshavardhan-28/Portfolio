@@ -9,12 +9,13 @@ export type Project = {
   tagline: string;
   category: string;
   tags: string[];
-  /** Path under /public. Leave null until you have a real screenshot — cards fall back to a placeholder. */
+  /** Path under /public/images/projects/<slug>/. Leave null until you have a real screenshot — cards fall back to a placeholder. */
   image: string | null;
   summary: string;
   description: string[];
   githubUrl: string | null;
   liveUrl: string | null;
+  youtubeUrl: string | null;
 };
 
 export const projects: Project[] = projectsData as Project[];

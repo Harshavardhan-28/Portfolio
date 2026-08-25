@@ -7,18 +7,27 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 7 Cards to match the reference density
-const images = [1, 2, 3, 4, 5, 6, 7];
-
-const cardImageSrc = "/social-card.JPG";
+// Array order = fan order, left to right: item 0 is the leftmost (outermost)
+// card, the last item is the rightmost, and the middle two — indices 2 and 3
+// — are the raised center pair. Reorder this list to reorder the fan.
+const images = [
+  "/images/socials/river-portrait.jpg",
+  "/images/socials/ethmumbai-portrait.jpg",
+  "/images/socials/sunrise-trek.jpg",
+  "/images/socials/social-card.JPG",
+  "/images/socials/beach-portrait.jpg",
+  "/images/socials/trek.jpg",
+];
+// A fractional midpoint (2.5 for 6 cards) keeps the spread symmetric with no
+// single "center" card — the two middle cards sit at ±0.5 instead of one
+// card at 0, giving the raised center *pair* rather than a lone peak.
+const centerIndex = (images.length - 1) / 2;
 
 export default function SocialGallery() {
   const container = useRef<HTMLElement | null>(null);
   const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
 
   useGSAP(() => {
-    const centerIndex = Math.floor(images.length / 2);
-
     const mm = gsap.matchMedia();
 
     // Every viewport must match exactly one condition. Leaving the desktop
@@ -47,9 +56,9 @@ export default function SocialGallery() {
         // ROT_PAD covers that. Mobile keeps its hand-tuned spread: the fan is
         // meant to run past the edges there, and the section clips it.
         const ROT_PAD = 90;
-        const fanEl = cardsRef.current[centerIndex]?.parentElement;
+        const fanEl = cardsRef.current[Math.floor(centerIndex)]?.parentElement;
         const fanW = fanEl?.clientWidth ?? window.innerWidth;
-        const cardW = cardsRef.current[centerIndex]?.offsetWidth ?? 240;
+        const cardW = cardsRef.current[Math.floor(centerIndex)]?.offsetWidth ?? 240;
 
         const spreadX = isMobile
           ? 58
@@ -99,11 +108,11 @@ export default function SocialGallery() {
   }, { scope: container });
 
   return (
-    <section ref={container} className="py-20 sm:py-24 md:py-32 bg-black overflow-hidden relative z-20 min-h-screen flex flex-col items-center">
+    <section ref={container} className="py-8 sm:py-10 md:py-12 bg-black overflow-hidden relative z-20 h-screen flex flex-col items-center justify-center">
 
       {/* Header */}
-      <div className="text-center mb-12 relative z-10 px-6">
-        <h2 className="text-4xl sm:text-6xl md:text-8xl font-black uppercase text-white leading-[0.9] sm:leading-[0.8]">
+      <div className="text-center mb-4 sm:mb-6 relative z-10 px-6">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white leading-[0.9] sm:leading-[0.8]">
           What's Up <br/>
           <span className="text-transparent stroke-white font-serif italic" style={{ WebkitTextStroke: "1px #fff" }}>On Socials</span>
         </h2>
@@ -111,12 +120,11 @@ export default function SocialGallery() {
 
       {/* The Fan Container */}
       <div
-        className="relative w-full max-w-350 h-102.5 sm:h-120 md:h-150 flex justify-center items-center mt-10"
+        className="relative w-full max-w-350 h-70 sm:h-88 md:h-105 flex justify-center items-center mt-4 sm:mt-6"
         style={{ perspective: 1200 }}
       >
-        {images.map((_, i) => {
-           const centerIndex = Math.floor(images.length / 2);
-           // Calculate Z-Index: Center is highest, sides drop down
+        {images.map((src, i) => {
+           // Calculate Z-Index: the center pair is highest, sides drop down
            const zIndex = 10 - Math.abs(i - centerIndex);
 
            return (
@@ -125,17 +133,17 @@ export default function SocialGallery() {
               ref={(el) => {
                 cardsRef.current[i] = el;
               }}
-              className="absolute w-52.5 h-82.5 sm:w-60 sm:h-95 lg:w-70 lg:h-110 bg-neutral-950 rounded-[36px] border border-white/10 overflow-hidden shadow-2xl origin-bottom cursor-pointer group will-change-transform"
+              className="absolute w-36 h-56 sm:w-46 sm:h-72 lg:w-54 lg:h-84 bg-neutral-950 rounded-[36px] border border-white/10 overflow-hidden shadow-2xl origin-bottom cursor-pointer group will-change-transform"
               style={{ zIndex, transformStyle: "preserve-3d" }}
             >
               <div className="relative w-full h-full">
                 <Image
-                  src={cardImageSrc}
+                  src={src}
                   alt="Social post"
                   fill
-                  sizes="(min-width: 1024px) 280px, (min-width: 640px) 240px, 210px"
+                  sizes="(min-width: 1024px) 216px, (min-width: 640px) 184px, 144px"
                   className="object-cover"
-                  priority={i === Math.floor(images.length / 2)}
+                  priority={Math.abs(i - centerIndex) < 1}
                 />
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 to-transparent" />
               </div>
@@ -145,8 +153,8 @@ export default function SocialGallery() {
       </div>
 
       {/* Bottom Text */}
-      <div className="text-center mt-10 relative z-10">
-         <p className="text-gray-500 font-serif italic text-xl mb-6">Follow me on social media</p>
+      <div className="text-center mt-4 sm:mt-6 relative z-10">
+         <p className="text-gray-500 font-serif italic text-lg sm:text-xl mb-3 sm:mb-4">Follow me on social media</p>
          <div className="flex justify-center gap-8 text-white font-bold uppercase text-sm tracking-widest">
             {[
               { name: 'X', url: 'https://x.com/hrshvrdhxn' },

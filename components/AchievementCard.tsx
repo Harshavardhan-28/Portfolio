@@ -18,7 +18,7 @@ export default function AchievementCard({ achievement }: { achievement: Achievem
       className="group relative block aspect-[3/4] overflow-hidden rounded-xl bg-[#1c1c1c] transition-shadow duration-300 hover:shadow-[0_0_35px_rgba(60,224,123,0.35)]"
     >
       <Image
-        src={achievement.image}
+        src={achievement.previewImage ?? achievement.image}
         alt={achievement.title}
         fill
         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"

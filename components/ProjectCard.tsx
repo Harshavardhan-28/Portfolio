@@ -10,7 +10,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group relative block aspect-[3/4] overflow-hidden rounded-xl bg-[#1c1c1c] transition-shadow duration-300 hover:shadow-[0_0_35px_rgba(60,224,123,0.35)]"
+      className="group relative block aspect-4/3 overflow-hidden rounded-xl bg-[#1c1c1c] transition-shadow duration-300 hover:shadow-[0_0_35px_rgba(60,224,123,0.35)]"
     >
       {project.image ? (
         <Image
@@ -31,14 +31,14 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Scrim: separate layer so it sits above the image but below the text */}
       <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,8,8,0.92)_0%,rgba(8,8,8,0.45)_45%,transparent_80%)]" />
 
-      <div className="absolute inset-x-5 bottom-5 flex flex-col gap-2">
+      <div className="absolute inset-x-4 bottom-4 flex flex-col gap-1.5">
         <span
           className={`${jetbrainsMono.className} text-[10px] font-medium uppercase leading-none tracking-[0.12em] text-[#3ce07b]`}
         >
           {project.category}
         </span>
         <h3
-          className={`${spaceGrotesk.className} m-0 text-2xl font-bold leading-[1.1] tracking-[-0.015em] text-white`}
+          className={`${spaceGrotesk.className} m-0 text-xl font-bold leading-[1.1] tracking-[-0.015em] text-white`}
         >
           {project.title}
         </h3>
