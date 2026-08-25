@@ -33,6 +33,7 @@ export default function AchievementsPage() {
                     alt={achievement.title}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    style={{ objectPosition: achievement.previewPosition ?? "center" }}
                     className="object-cover"
                   />
                 </div>

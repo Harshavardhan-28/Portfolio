@@ -3,12 +3,20 @@
     "slug": "ethglobal-new-delhi",
     "title": "ETHGlobal New Delhi",
     "tag": "Hackathon",
-    "date": "October 2025",
+    "date": "September 2025",
     "image": "/images/hackathon/ethglobal-new-delhi/EthGlobal-polaroid.jpg",
+    "heroPosition": "center 12%",
     "gallery": [
       "/images/hackathon/ethglobal-new-delhi/EthGlobal-polaroid.jpg",
-      "/images/hackathon/ethglobal-new-delhi/20251014_133407.jpg"
+      "/images/hackathon/ethglobal-new-delhi/Ethglobal-hero.jpg",
+      "/images/hackathon/ethglobal-new-delhi/Sunrise-ethglobal.jpg",
+      "/images/hackathon/ethglobal-new-delhi/Decoration-EthGlobal.jpg"
     ],
+    "galleryCaptions": {
+      "/images/hackathon/ethglobal-new-delhi/Ethglobal-hero.jpg": "The team",
+      "/images/hackathon/ethglobal-new-delhi/Sunrise-ethglobal.jpg": "Sunrise over the venue",
+      "/images/hackathon/ethglobal-new-delhi/Decoration-EthGlobal.jpg": "Inside the venue"
+    },
     "summary": "Building on-chain with the team at ETHGlobal's New Delhi hackathon.",
     "body": [
       "Add your write-up here — what you and the team built, the stack you used, and anything you'd do differently next time."
@@ -20,7 +28,9 @@
     "title": "Google Cloud Agentic AI Day",
     "tag": "Hackathon",
     "date": "July 2025",
+    "location": "Bengaluru",
     "image": "/images/hackathon/google-cloud-agentic-ai-day/Hero-AgenticAI.jpg",
+    "heroPosition": "center 18%",
     "previewImage": "/images/hackathon/google-cloud-agentic-ai-day/AgenticAIDaySolo.jpg",
     "gallery": [
       "/images/hackathon/google-cloud-agentic-ai-day/Hero-AgenticAI.jpg",
@@ -30,17 +40,30 @@
       "/images/hackathon/google-cloud-agentic-ai-day/Food-AgenticAi.jpg",
       "/images/hackathon/google-cloud-agentic-ai-day/Lavi-AgenticAi.jpeg"
     ],
+    "galleryCaptions": {
+      "/images/hackathon/google-cloud-agentic-ai-day/Akash-Harsh-AgenticAI.jpg": "With Akash",
+      "/images/hackathon/google-cloud-agentic-ai-day/Crowd-AgenticAI.jpeg": "The crowd",
+      "/images/hackathon/google-cloud-agentic-ai-day/Finalists-AgenticAI.jpeg": "Finalists",
+      "/images/hackathon/google-cloud-agentic-ai-day/Food-AgenticAi.jpg": "Fuel for the day",
+      "/images/hackathon/google-cloud-agentic-ai-day/Lavi-AgenticAi.jpeg": "With Lavi"
+    },
     "summary": "A day deep in agentic AI workflows at Google Cloud's Agentic AI Day.",
-    "body": ["Add your write-up here."],
+    "body": ["Add your write-up here — what you and the team built, the stack you used, and anything you'd do differently next time."],
+    "facts": {
+      "result": "Winner — ₹3,00,000",
+      "built": "Receipt management for Google Wallet"
+    },
     "externalUrl": null
   },
   {
     "slug": "eth-mumbai",
     "title": "ETH Mumbai",
     "tag": "Hackathon",
-    "date": "2025",
+    "date": "April 2026",
     "image": "/images/hackathon/eth-mumbai/Ethmumbai-Hero.jpg",
+    "heroPosition": "center 22%",
     "previewImage": "/images/hackathon/eth-mumbai/Preview-Ethmumbai.jpg",
+    "previewPosition": "center 17%",
     "gallery": [
       "/images/hackathon/eth-mumbai/Ethmumbai-Hero.jpg",
       "/images/hackathon/eth-mumbai/EthMumbai.jpg",
