@@ -7,6 +7,7 @@ import SocialGallery from "@/components/SocialGallery";
 import Footer from "@/components/Footer";
 import ProjectCarousel from "@/components/ProjectCarousel";
 import AboutSection from "@/components/AboutSection";
+import TechStack from "@/components/TechStack";
 import Achievements from "@/components/Achievements";
 import Experience from "@/components/Experience";
 
@@ -26,6 +27,9 @@ export default function Home() {
 
         {/* Layer 2: About Section */}
         <AboutSection />
+
+        {/* Layer 2.5: Tech Stack */}
+        <TechStack />
 
         {/* Layer 3: Projects Carousel (Horizontal Scroll) */}
         <ProjectCarousel />

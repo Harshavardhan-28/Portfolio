@@ -1,10 +1,14 @@
 "use client";
 
 import { useRef } from "react";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { experience } from "@/lib/experience";
+
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["400", "700"] });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], weight: ["500"] });
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,12 +60,18 @@ export default function Experience() {
               className="group flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-6 py-8 border-b border-white/10 hover:border-[#00ff41] transition-colors duration-500"
             >
               <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-4">
-                <h3 className="text-2xl md:text-4xl font-black uppercase leading-tight text-white group-hover:text-[#00ff41] transition-colors duration-300">
+                <h3
+                  className={`${spaceGrotesk.className} text-2xl md:text-4xl font-bold uppercase leading-tight tracking-[-0.015em] text-white group-hover:text-[#00ff41] transition-colors duration-300`}
+                >
                   {job.role}
                 </h3>
-                <span className="text-lg md:text-xl text-gray-300">{job.org}</span>
+                <span className={`${spaceGrotesk.className} text-lg md:text-xl font-normal text-gray-300`}>
+                  {job.org}
+                </span>
               </div>
-              <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-[#00ff41]">
+              <span
+                className={`${jetbrainsMono.className} text-[11px] md:text-xs font-medium uppercase tracking-[0.18em] text-[#00ff41]`}
+              >
                 {job.date}
               </span>
             </div>

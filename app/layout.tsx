@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Harsh Khamkar | Creative Developer",
-  description: "Portfolio of Harsh Khamkar - Building immersive digital experiences",
+  title: "Harshavardhan Khamkar",
+  description: "Portfolio of Harshavardhan Khamkar - Building immersive digital experiences",
 };
 
 export default function RootLayout({
