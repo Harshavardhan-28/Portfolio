@@ -6,6 +6,9 @@
     "category": "Data Engineering",
     "tags": ["Java", "Python", "Apache Spark", "BigQuery", "Kafka", "Redis", "Docker", "MySQL"],
     "image": null,
+    "logo": null,
+    "gallery": null,
+    "architecture": null,
     "summary": "Real-time pricing service with Python ETL pipelines feeding analytics into BigQuery.",
     "description": [
       "Built Python ETL pipelines using Pandas, PyArrow and Apache Spark to process transactional data, store it as columnar Parquet, and load analytical datasets into Google BigQuery.",
@@ -14,7 +17,8 @@
     ],
     "githubUrl": "https://github.com/Harshavardhan-28/Priceflow",
     "liveUrl": null,
-    "youtubeUrl": null
+    "youtubeUrl": null,
+    "whitepaperUrl": null
   },
   {
     "slug": "prism",
@@ -23,6 +27,9 @@
     "category": "Fraud Detection",
     "tags": ["Python", "PyTorch", "FastAPI", "Neo4j", "MongoDB", "Next.js"],
     "image": null,
+    "logo": null,
+    "gallery": null,
+    "architecture": null,
     "summary": "Real-time insider-threat detection combining a graph neural network with a stacking ensemble.",
     "description": [
       "Engineered a real-time insider-threat detection platform combining a HeteroSAGE Graph Neural Network with a stacking ensemble (XGBoost, LightGBM, Isolation Forest) to score privileged-user risk while suppressing false positives.",
@@ -31,7 +38,8 @@
     ],
     "githubUrl": "https://github.com/pankaj0695/PRISM_iDEA_2.0_Hackathon",
     "liveUrl": null,
-    "youtubeUrl": "https://www.youtube.com/watch?v=ypDvW2qRq2w"
+    "youtubeUrl": "https://www.youtube.com/watch?v=ypDvW2qRq2w",
+    "whitepaperUrl": null
   },
   {
     "slug": "raseed",
@@ -40,13 +48,48 @@
     "category": "Agentic AI",
     "tags": ["Vertex AI", "Google ADK", "GCP", "Firestore", "Cloud Functions"],
     "image": null,
-    "summary": "Multi-agent system turning voice, image and video receipts into structured, queryable records.",
+    "logo": "/images/projects/raseed/Raseed-Logo.jpg",
+    "gallery": [
+      "/images/projects/raseed/UI-Add-receipt.png",
+      "/images/projects/raseed/UI-Scanned-receipt.png",
+      "/images/projects/raseed/UI-passgenerated.png",
+      "/images/projects/raseed/UI-Spending-analysis.png",
+      "/images/projects/raseed/UI-Family-Mode.png"
+    ],
+    "galleryCaptions": {
+      "/images/projects/raseed/UI-Add-receipt.png": "Add a receipt — scan, upload, or dictate",
+      "/images/projects/raseed/UI-Scanned-receipt.png": "Parsed receipt → warranty details",
+      "/images/projects/raseed/UI-passgenerated.png": "Generated Google Wallet pass",
+      "/images/projects/raseed/UI-Spending-analysis.png": "Spending insights",
+      "/images/projects/raseed/UI-Family-Mode.png": "Family mode — shared spending"
+    },
+    "architecture": [
+      "/images/projects/raseed/Architecture.png",
+      "/images/projects/raseed/Tax-Agent.png",
+      "/images/projects/raseed/Recipe-Agent.png"
+    ],
+    "architectureCaptions": {
+      "/images/projects/raseed/Architecture.png": "System architecture",
+      "/images/projects/raseed/Tax-Agent.png": "Tax reimbursement agent",
+      "/images/projects/raseed/Recipe-Agent.png": "Recipe generator agent"
+    },
+    "summary": "AI-powered receipt and financial assistant integrated with Google Wallet, with agentic recipe and tax-reimbursement helpers.",
     "description": [
-      "Built a multi-agent system on Google ADK and Vertex AI that processes voice, image and video receipts into structured records for natural-language querying, and generated dynamic Google Wallet passes with receipt metadata and aggregated spending summaries on Firestore and Cloud Functions."
+      "RASEED is an AI-powered receipt and financial assistant integrated with Google Wallet. It turns everyday transactions into structured, queryable records and actionable financial guidance — receipt ingestion, budgeting, and spending insights, plus recurring-payment tracking, family mode, recipe generation, and tax assistance, all powered by Gemini models and Vertex AI.",
+      "Receipts come in three ways: photograph or upload them and Gemini extracts the metadata, dictate the purchase by voice, or type it directly into the entry form. A cloud function then classifies each item as recurring, warranty, or food based on database triggers, routing it into the right table automatically.",
+      "Confirmed receipts can be pushed straight to Google Wallet as a custom pass — built on generic-pass classes per receipt category, with hero images and color coding, text and link modules carrying metadata on the back of the pass, and a deep link back into the app.",
+      "Recurring items get tracked against their own deadlines, with reminders sent as a payment approaches; warranty items are tracked the same way, either parsed straight from the receipt or added manually against a specific item.",
+      "Spending is broken down into categories — Groceries, Entertainment, and the rest — with per-category budget limits, over-budget flags, and a custom date range for reviewing any window of activity. Family mode extends the same view across a household: add members by email and see joint analytics across the same curated categories.",
+      "## Agents",
+      "A recipe generator agent proposes recipes from the food items a user has actually bought, respecting whatever dietary restrictions or time constraints are given. It pulls from a database-access tool and a Google Search tool, merges the two through a combining agent, and runs the result through a validator agent that checks instructions were followed and keeps hallucination in check.",
+      "A tax and reimbursement agent does two things: a Vertex AI tool classifies every receipt into a fixed set of categories and totals the indirect tax paid per category, while a Firestore tool surfaces which receipts are eligible for reimbursement based on their category and subcategory.",
+      "## Future scope",
+      "Planned next: ML-driven spending analysis that predicts expenditure patterns and nudges budgets before a category runs over — down to context-aware suggestions like recommending a bus over a cab when a travel allowance is running low. Google Pay auto-ingestion, registering RASEED as a share-target app so a shared GPay receipt gets parsed and tagged with zero manual entry. And context-aware purchase recommendations, where a chatbot query like \"I want to buy paneer tikka\" returns ranked options across price, proximity, offers, and sustainability."
     ],
     "githubUrl": "https://github.com/Harshavardhan-28/Raseed",
     "liveUrl": null,
-    "youtubeUrl": "https://youtu.be/yKWBelrZ0iI"
+    "youtubeUrl": "https://youtu.be/yKWBelrZ0iI",
+    "whitepaperUrl": null
   },
   {
     "slug": "monte-carlo",
@@ -55,28 +98,63 @@
     "category": "DeFi",
     "tags": ["DeFi"],
     "image": null,
+    "logo": null,
+    "gallery": null,
+    "architecture": null,
     "summary": "Add a one-line summary here.",
     "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
     "githubUrl": "https://github.com/Harshavardhan-28/Monte-Carlo",
     "liveUrl": null,
-    "youtubeUrl": null
+    "youtubeUrl": null,
+    "whitepaperUrl": null
   },
   {
     "slug": "cloak402",
     "title": "Cloak402",
-    "tagline": "AI Fraud Detection for Privileged-User Risk Monitoring",
+    "tagline": "Privacy-Preserving Orchestration Layer for AI Agents",
     "category": "Privacy",
-    "tags": ["Python", "PyTorch", "FastAPI", "Neo4j", "MongoDB", "Next.js"],
+    "tags": ["Solidity", "viem", "x402", "Base Sepolia", "TypeScript"],
     "image": null,
-    "summary": "Real-time insider-threat detection combining a graph neural network with a stacking ensemble.",
+    "logo": "/images/projects/cloak402/Cloak402-Logo.webp",
+    "gallery": [
+      "/images/projects/cloak402/Cloak402-UI.webp",
+      "/images/projects/cloak402/Cloak402-ui-2.webp",
+      "/images/projects/cloak402/Cloak402-UI-3.webp"
+    ],
+    "galleryCaptions": {
+      "/images/projects/cloak402/Cloak402-UI.webp": "GhostFare — the privacy-first travel agent demo",
+      "/images/projects/cloak402/Cloak402-ui-2.webp": "Privacy console — full ephemeral-wallet event log",
+      "/images/projects/cloak402/Cloak402-UI-3.webp": "Wallet lifecycle: funded, paid, destroyed"
+    },
+    "architecture": [
+      "/images/projects/cloak402/Cloak402-Architecture.webp",
+      "/images/projects/cloak402/Cloak402-problemsolution.webp",
+      "/images/projects/cloak402/Cloak402-processflow.webp"
+    ],
+    "architectureCaptions": {
+      "/images/projects/cloak402/Cloak402-Architecture.webp": "System architecture",
+      "/images/projects/cloak402/Cloak402-problemsolution.webp": "The privacy problem vs. the Cloak402 solution",
+      "/images/projects/cloak402/Cloak402-processflow.webp": "ghostPay execution flow"
+    },
+    "summary": "A privacy-preserving orchestration layer that lets AI agents transact on-chain without leaking the human behind them.",
     "description": [
-      "Engineered a real-time insider-threat detection platform combining a HeteroSAGE Graph Neural Network with a stacking ensemble (XGBoost, LightGBM, Isolation Forest) to score privileged-user risk while suppressing false positives.",
-      "Added SHAP-based explainability for interpretable, auditable risk scoring, and designed a Dempster–Shafer evidence fusion engine to reconcile independent model predictions and route conflicting evidence to human review.",
-      "Served the models through FastAPI on Google Cloud Run over MongoDB and Neo4j, with a Next.js/TypeScript monitoring interface."
+      "The rise of AI agents has introduced a massive privacy loophole: agents that keep secrets. When an AI agent interacts with Web3 protocols or traditional APIs — flight searches, DeFi trades, hotel bookings — on your behalf, it emits a massive amount of metadata. Even without a persistent account, every API call, x402 payment, or contract interaction leaves a trail: observers can deanonymize the human behind the agent through on-chain graph analysis (clustering funding flows and gas sources) and off-chain logs (IP addresses, request headers, timing correlations).",
+      "Cloak402 solves this by acting as a privacy-preserving orchestration layer for AI agents. Using an autonomous travel-booking agent as a real-world implementation, it proves agents can carry out complex, multi-step commerce without doxxing the user.",
+      "Relationship anonymity via ephemeral wallets: instead of a single hot wallet, Cloak402 generates a fresh, single-use keypair in memory for every API call.",
+      "Breaking the funding graph: a naive ephemeral wallet is useless if funded directly by the user, so CloakPool — an intermediate shared pool — breaks the on-chain link between the user's main funding wallet and the ephemeral payment addresses.",
+      "Defeating heuristics: to prevent clustering, funding amounts are randomized in 0.03–0.09 USDC bands with a 1.5–6 second timing jitter, breaking the correlation between off-chain API logs and on-chain settlements.",
+      "Policy-driven disclosure puts the human back in control. In the travel-agent demo, OpenClaw enforces strict disclosure policies: searching for flights happens with absolute anonymity, while booking one selectively discloses only the minimum required data — name and email — with the financial footprint kept hidden throughout.",
+      "The result: anyone can use AI agents for sensitive tasks — from booking travel to executing private DeFi strategies — without letting service providers, MEV searchers, or on-chain sleuths build a profile on them.",
+      "## Challenges I ran into",
+      "The \"naive ephemeral wallet\" trap: generating a fresh viem private key for every API call looked sufficient at first, but it only achieved credential minimization, not anonymity — a trivial on-chain graph analysis could still link every ephemeral wallet back to the control wallet that was funding it for gas and x402 payments. Fixing this meant pivoting the architecture to add CloakPool as a foundational layer: routing funds through a shared pool and randomizing USDC top-ups between 0.03 and 0.09 USDC broke the 1:1 on-chain funding link.",
+      "Off-chain timing correlations: even with the funding graph broken, an observer watching the mempool and the API provider's HTTP logs could match the timestamp of a flight-search request to the timestamp of the x402 settlement, since agents execute tasks fast enough for the two to line up almost exactly. The fix was a ghostPay privacy wrapper that introduces randomized timing jitter — 1.5 to 6 seconds — before fulfilling the x402 payment, decorrelating request timing from on-chain execution.",
+      "Taming the LLM agent's urge to share data: LLMs naturally want to pass everything they know into a tool call, and early on OpenClaw would accidentally leak passenger identities during the anonymous flight-search phase just because the user had given their name earlier in the chat. Fixing it took strict, code-level separation between tools — distinct search_flights.ts and book_flight.ts CLI tools plus rigorous skill-level rules in SKILL.md that prohibit the LLM from passing PII into the search tool — backed by middleware that drops any payload violating the policy before the x402 payment ever fires.",
+      "Managing the ephemeral lifecycle: orchestrating a wallet's creation, funding, x402 handshake, data retrieval, and memory wipe within a single synchronous HTTP request cycle was prone to race conditions, especially against testnet RPC limits. The ghostPay.ts wrapper was hardened to handle those async steps robustly, so even if a step fails — like an airline API timeout — the ephemeral private key is still guaranteed to be destroyed rather than left as a dangling hot wallet."
     ],
     "githubUrl": "https://github.com/Harshavardhan-28/EthMumbai-2026",
     "liveUrl": null,
-    "youtubeUrl": "https://www.youtube.com/watch?v=ePG3Y70DfMw"
+    "youtubeUrl": "https://www.youtube.com/watch?v=ePG3Y70DfMw",
+    "whitepaperUrl": "https://drive.google.com/file/d/151_EmVE_ZcyXDl5ipDVTfMEvUIUPwQo-/view?usp=sharing"
   },
   {
     "slug": "nayak",
@@ -85,10 +163,14 @@
     "category": "Agentic AI",
     "tags": ["Agentic AI"],
     "image": null,
+    "logo": null,
+    "gallery": null,
+    "architecture": null,
     "summary": "Add a one-line summary here.",
     "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
     "githubUrl": null,
     "liveUrl": null,
-    "youtubeUrl": null
+    "youtubeUrl": null,
+    "whitepaperUrl": null
   }
 ]
