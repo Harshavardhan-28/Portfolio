@@ -11,8 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 // card, the last item is the rightmost, and the middle two — indices 2 and 3
 // — are the raised center pair. Reorder this list to reorder the fan.
 const images = [
-  "/images/socials/river-portrait.jpg",
   "/images/socials/ethmumbai-portrait.jpg",
+  "/images/socials/river-portrait.jpg",
   "/images/socials/sunrise-trek.jpg",
   "/images/socials/social-card.JPG",
   "/images/socials/beach-portrait.jpg",
@@ -22,6 +22,13 @@ const images = [
 // single "center" card — the two middle cards sit at ±0.5 instead of one
 // card at 0, giving the raised center *pair* rather than a lone peak.
 const centerIndex = (images.length - 1) / 2;
+
+const canHover = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function SocialGallery() {
   const container = useRef<HTMLElement | null>(null);
@@ -107,6 +114,69 @@ export default function SocialGallery() {
     return () => mm.revert();
   }, { scope: container });
 
+  // Hover lift for the fanned cards. The fan-out tween above already owns
+  // each card's base x/y/rotate/scale (different value per index), so hover
+  // can't just animate to fixed numbers — it reads the card's current values
+  // first and animates a delta on top, then restores exactly that captured
+  // base on leave. That keeps the two animations from fighting.
+  const handleCardEnter = (e: React.MouseEvent<HTMLDivElement>, baseZIndex: number) => {
+    if (!canHover()) return;
+    const card = e.currentTarget;
+    const media = card.querySelector<HTMLElement>(".card-media");
+    const overlay = card.querySelector<HTMLElement>(".card-overlay");
+    const reduce = prefersReducedMotion();
+
+    const baseY = gsap.getProperty(card, "y") as number;
+    const baseScale = gsap.getProperty(card, "scale") as number;
+    const baseRotateY = gsap.getProperty(card, "rotateY") as number;
+    card.dataset.baseY = String(baseY);
+    card.dataset.baseScale = String(baseScale);
+    card.dataset.baseRotateY = String(baseRotateY);
+
+    card.style.zIndex = "50";
+    gsap.to(card, {
+      y: reduce ? baseY : baseY - 14,
+      scale: reduce ? baseScale : baseScale * 1.06,
+      rotateY: reduce ? baseRotateY : baseRotateY * 0.4,
+      duration: 0.2,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+    if (!reduce && media) {
+      gsap.to(media, { scale: 1.1, duration: 0.25, ease: "power2.out", overwrite: "auto" });
+    }
+    if (overlay) {
+      gsap.to(overlay, { opacity: 0.4, duration: 0.2, ease: "power2.out", overwrite: "auto" });
+    }
+  };
+
+  const handleCardLeave = (e: React.MouseEvent<HTMLDivElement>, baseZIndex: number) => {
+    if (!canHover()) return;
+    const card = e.currentTarget;
+    const media = card.querySelector<HTMLElement>(".card-media");
+    const overlay = card.querySelector<HTMLElement>(".card-overlay");
+
+    const baseY = card.dataset.baseY ? parseFloat(card.dataset.baseY) : 0;
+    const baseScale = card.dataset.baseScale ? parseFloat(card.dataset.baseScale) : 1;
+    const baseRotateY = card.dataset.baseRotateY ? parseFloat(card.dataset.baseRotateY) : 0;
+
+    gsap.to(card, {
+      y: baseY,
+      scale: baseScale,
+      rotateY: baseRotateY,
+      duration: 0.2,
+      ease: "power2.out",
+      overwrite: "auto",
+      onComplete: () => { card.style.zIndex = String(baseZIndex); },
+    });
+    if (media) {
+      gsap.to(media, { scale: 1, duration: 0.25, ease: "power2.out", overwrite: "auto" });
+    }
+    if (overlay) {
+      gsap.to(overlay, { opacity: 1, duration: 0.2, ease: "power2.out", overwrite: "auto" });
+    }
+  };
+
   return (
     <section ref={container} className="py-8 sm:py-10 md:py-12 bg-black overflow-hidden relative z-20 h-screen flex flex-col items-center justify-center">
 
@@ -133,10 +203,12 @@ export default function SocialGallery() {
               ref={(el) => {
                 cardsRef.current[i] = el;
               }}
+              onMouseEnter={(e) => handleCardEnter(e, zIndex)}
+              onMouseLeave={(e) => handleCardLeave(e, zIndex)}
               className="absolute w-36 h-56 sm:w-46 sm:h-72 lg:w-54 lg:h-84 bg-neutral-950 rounded-[36px] border border-white/10 overflow-hidden shadow-2xl origin-bottom cursor-pointer group will-change-transform"
               style={{ zIndex, transformStyle: "preserve-3d" }}
             >
-              <div className="relative w-full h-full">
+              <div className="card-media relative w-full h-full will-change-transform">
                 <Image
                   src={src}
                   alt="Social post"
@@ -145,7 +217,7 @@ export default function SocialGallery() {
                   className="object-cover"
                   priority={Math.abs(i - centerIndex) < 1}
                 />
-                <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 to-transparent" />
+                <div className="card-overlay pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 to-transparent" />
               </div>
             </div>
            );

@@ -46,3 +46,17 @@ html.lenis, html.lenis body {
 .loading-mark-pulse {
   animation: loading-mark-pulse 1.8s ease-in-out infinite;
 }
+
+/* Idle bounce for the hero's scroll-down cue */
+@keyframes scroll-cue-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(8px); opacity: 0.5; }
+}
+.scroll-cue-bounce {
+  animation: scroll-cue-bounce 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-bounce {
+    animation: none;
+  }
+}
