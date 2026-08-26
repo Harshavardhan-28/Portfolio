@@ -13,6 +13,14 @@ export type Project = {
   image: string | null;
   /** Small square mark shown next to the category eyebrow on the detail page's hero. Cropped center — source doesn't need to be square. */
   logo: string | null;
+  /**
+   * How `logo` fills its square chip. "contain" (default) shows the whole
+   * source image, letterboxed — safest for a mark with true transparent
+   * edges. "cover" crops to fill/zoom — better when the mark sits small in
+   * the middle of a lot of empty canvas (e.g. a wide logo lockup on a plain
+   * background), at the cost of cropping the source's outer edges.
+   */
+  logoFit?: "contain" | "cover";
   summary: string;
   description: string[];
   /** UI screenshots shown in the detail page's Gallery section. Paths under /public/images/projects/<slug>/. */

@@ -85,8 +85,13 @@ export default async function ProjectPage({ params }: Props) {
         <div className="absolute inset-x-6 bottom-8 md:inset-x-20 md:bottom-10">
           <div className="mb-3 flex items-center gap-3">
             {project.logo && (
-              <div className="relative h-12 w-12 overflow-hidden rounded-xl border border-white/15">
-                <Image src={project.logo} alt="" fill className="object-cover" />
+              <div className="relative h-12 w-12 overflow-hidden rounded-xl border border-white/15 bg-white">
+                <Image
+                  src={project.logo}
+                  alt=""
+                  fill
+                  className={project.logoFit === "cover" ? "object-cover" : "object-contain p-1.5"}
+                />
               </div>
             )}
             <div className={`${jetbrainsMono.className} text-xs font-medium uppercase tracking-[0.18em] text-[#3ce07b]`}>
