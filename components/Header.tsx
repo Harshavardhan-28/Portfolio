@@ -15,7 +15,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
-  const previewRef = useRef(null);
 
   // Toggle Menu Animation
   useGSAP(() => {
@@ -30,11 +29,6 @@ export default function Header() {
       gsap.fromTo(linksRef.current,
         { y: 100, opacity: 0 },
         { y: 0, opacity: 1, stagger: 0.1, delay: 0.4, duration: 0.8, ease: "power3.out" }
-      );
-
-      gsap.fromTo(previewRef.current,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, delay: 0.6, duration: 0.8 }
       );
 
     } else {
@@ -90,36 +84,8 @@ export default function Header() {
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
 
-        {/* LEFT COL: Image Gallery (Hidden on mobile) */}
-        <div className="hidden md:flex w-1/2 h-full items-center justify-center relative p-8 lg:p-20">
-           <div ref={previewRef} className="relative w-full h-95 lg:h-150 grid grid-cols-2 gap-4">
-              {/* Big Image Left */}
-              <div className="row-span-2 relative rounded-2xl overflow-hidden border border-white/10 group">
-                  <div className="absolute inset-0 bg-[#00ff41]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                  {/* Replace with your image */}
-                  <div className="w-full h-full bg-neutral-800 bg-gradient-to-br from-neutral-700 to-neutral-900 grayscale group-hover:grayscale-0 transition-all duration-500 flex items-center justify-center">
-                    <span className="text-6xl font-black opacity-20">1</span>
-                  </div>
-              </div>
-              {/* Top Right */}
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 group">
-                   <div className="absolute inset-0 bg-[#00ff41]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                   <div className="w-full h-full bg-neutral-800 bg-gradient-to-br from-neutral-700 to-neutral-900 grayscale group-hover:grayscale-0 transition-all duration-500 flex items-center justify-center">
-                     <span className="text-4xl font-black opacity-20">2</span>
-                   </div>
-              </div>
-              {/* Bottom Right */}
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 group">
-                   <div className="absolute inset-0 bg-[#00ff41]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                   <div className="w-full h-full bg-neutral-800 bg-gradient-to-br from-neutral-700 to-neutral-900 grayscale group-hover:grayscale-0 transition-all duration-500 flex items-center justify-center">
-                     <span className="text-4xl font-black opacity-20">3</span>
-                   </div>
-              </div>
-           </div>
-        </div>
-
-        {/* RIGHT COL: Navigation */}
-        <div className="w-full md:w-1/2 h-full flex flex-col justify-center overflow-y-auto px-6 py-24 sm:px-10 md:px-12 md:py-0 lg:px-20 relative z-10">
+        {/* Navigation */}
+        <div className="w-full h-full flex flex-col justify-center overflow-y-auto px-6 py-24 sm:px-10 md:px-12 md:py-0 lg:px-20 relative z-10">
            {/* Decorative Background Text */}
            <div className="absolute top-1/2 right-0 -translate-y-1/2 text-[40vh] font-black text-white/5 pointer-events-none overflow-hidden select-none">
               MENU
