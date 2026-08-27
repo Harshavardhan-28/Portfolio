@@ -1,13 +1,19 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-[#050505] text-white relative overflow-hidden pt-20 pb-10 z-20">
 
-      {/* 1. The Massive Slogan Background */}
+      {/* 1. The Massive Slogan Background. Sized off the longer line
+          ("Always Building") so it fits within the viewport at nowrap —
+          15vw way overshot 100vw width and got clipped by this section's
+          overflow-hidden; the pl-[20vw] stagger on the second line
+          compounded it by pushing "The Future" further past the edge. */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none opacity-20 md:opacity-90">
-        <h1 className="text-[15vw] leading-[0.8] font-black uppercase text-[#1a1a1a] whitespace-nowrap">
+        <h1 className="text-[9vw] leading-[0.8] font-black uppercase text-white/10 whitespace-nowrap">
           Always <span className="text-[#00ff41] glow-text">Building</span>
         </h1>
-        <h1 className="text-[15vw] leading-[0.8] font-black uppercase text-[#1a1a1a] whitespace-nowrap pl-[20vw]">
+        <h1 className="text-[9vw] leading-[0.8] font-black uppercase text-white/10 whitespace-nowrap pl-[6vw]">
           The Future
         </h1>
       </div>
@@ -20,9 +26,9 @@ export default function Footer() {
 
         {/* Left Links */}
         <div className="flex flex-col space-y-3 sm:space-y-4 text-center md:text-left order-2 md:order-1">
-          <a href="#" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Home</a>
-          <a href="#" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Work</a>
-          <a href="#" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">About</a>
+          <Link href="/" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Home</Link>
+          <Link href="/projects" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Projects</Link>
+          <Link href="/achievements" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Hackathon</Link>
           <a href="mailto:harshavardhan.khamkar@gmail.com" className="text-xl sm:text-2xl font-black uppercase hover:text-[#00ff41] transition-colors">Contact</a>
         </div>
 
