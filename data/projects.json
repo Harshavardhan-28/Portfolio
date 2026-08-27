@@ -1,26 +1,5 @@
 [
   {
-    "slug": "priceflow",
-    "title": "PriceFlow",
-    "tagline": "Production-Grade Dynamic Pricing Platform",
-    "category": "Data Engineering",
-    "tags": ["Java", "Python", "Apache Spark", "BigQuery", "Kafka", "Redis", "Docker", "MySQL"],
-    "image": null,
-    "logo": null,
-    "gallery": null,
-    "architecture": null,
-    "summary": "Real-time pricing service with Python ETL pipelines feeding analytics into BigQuery.",
-    "description": [
-      "Built Python ETL pipelines using Pandas, PyArrow and Apache Spark to process transactional data, store it as columnar Parquet, and load analytical datasets into Google BigQuery.",
-      "Developed the real-time pricing service in Java Spring Boot, automating price optimisation based on inventory, demand and competitor pricing, using Apache Kafka and Redis.",
-      "Implemented price-prediction models with Scikit-learn and XGBoost, with the stack containerised using Docker over MySQL."
-    ],
-    "githubUrl": "https://github.com/Harshavardhan-28/Priceflow",
-    "liveUrl": null,
-    "youtubeUrl": null,
-    "whitepaperUrl": null
-  },
-  {
     "slug": "prism",
     "title": "PRISM",
     "tagline": "Privileged-user Risk Identification and Surveillance Monitoring",
@@ -52,7 +31,7 @@
     "tagline": "Agentic Receipt Management for Google Wallet",
     "category": "Agentic AI",
     "tags": ["Vertex AI", "Google ADK", "GCP", "Firestore", "Cloud Functions"],
-    "image": null,
+    "image": "/images/projects/raseed/Raseed-hero.png",
     "logo": "/images/projects/raseed/Raseed-Logo.jpg",
     "logoFit": "cover",
     "gallery": [
@@ -98,18 +77,39 @@
     "whitepaperUrl": null
   },
   {
-    "slug": "monte-carlo",
-    "title": "Monte Carlo",
-    "tagline": "",
-    "category": "DeFi",
-    "tags": ["DeFi"],
-    "image": null,
+    "slug": "job-hunter",
+    "title": "Job Hunter",
+    "tagline": "Agentic Job Discovery Pipeline for Indian Tech Roles",
+    "category": "Data Engineering",
+    "tags": ["LangGraph", "FastAPI", "PostgreSQL", "Next.js", "Gemini", "Google Cloud SQL"],
+    "image": "/images/projects/jobhunter/jobhunter-homepage.png",
     "logo": null,
-    "gallery": null,
+    "gallery": [
+      "/images/projects/jobhunter/jobhunter-jobpages.png",
+      "/images/projects/jobhunter/jobhunter-crawlruns.png",
+      "/images/projects/jobhunter/jobhunter-rejectedjobs.png"
+    ],
+    "galleryCaptions": {
+      "/images/projects/jobhunter/jobhunter-jobpages.png": "Filterable job list — city, YOE, source, region",
+      "/images/projects/jobhunter/jobhunter-crawlruns.png": "Crawl run history — sources, jobs found, errors",
+      "/images/projects/jobhunter/jobhunter-rejectedjobs.png": "Rejected postings, grouped by filter reason"
+    },
     "architecture": null,
-    "summary": "Add a one-line summary here.",
-    "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
-    "githubUrl": "https://github.com/Harshavardhan-28/Monte-Carlo",
+    "summary": "A LangGraph crawl pipeline plus a FastAPI/Next.js dashboard that discovers and filters entry-level tech jobs across 498 Indian and remote ATS sources.",
+    "description": [
+      "Job Hunter is a personal job-discovery pipeline built to surface entry-level SDE/Data/ML/Cloud roles that generic job boards bury, with a deliberate tilt toward Indian startups, mid-size companies, and remote-friendly roles over large enterprises. A LangGraph agent pipeline crawls ATS boards and remote-job aggregators directly, normalizes and filters postings, validates them with Gemini, and persists them to Postgres; a read-only FastAPI service and a Next.js dashboard sit on top for browsing and filtering the results.",
+      "Getting from a handful of hand-picked companies to 498 real, working sources happened in layers: seeding known Indian companies and static aggregator feeds, then discovery passes that only ever insert a source after a live probe actually returns a real job list — YC's public hiring feed (filtered by tech tags or an India/South Asia region match), a directory of roughly 15,700 Indian company names pulled from cutshort.io's public sitemap (its job-listing pages are off-limits per robots.txt, but the sitemap is explicitly allowed for crawling), and funding-announcement RSS parsing. A dozen ATS platforms are supported — Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Breezy, Personio, and Keka (reverse-engineered from a careers page's inline JS, since it has no public docs) — plus five aggregator feeds.",
+      "Each posting runs through a five-node pipeline: fetch, normalize into a canonical shape, a deterministic keyword filter that skips the LLM entirely on obvious non-matches, a Gemini cross-check that validates and classifies what's left, then persist. Rejected postings aren't dropped — they're annotated with why and kept, so filter tuning happens against real stored data instead of a blind, crawl-expensive loop. A post-crawl enrichment agent then sweeps the whole table for anything still ambiguous, resolving experience level deterministically from stated years-of-experience where possible and falling back to a Gemini call with an explicit rubric and a required evidence field — with an asymmetric forcing rule: an unresolved posting defaults toward visibility rather than being hidden, since a wrongly-shown mid-level role costs 30 seconds of reading but a wrongly-hidden entry-level one costs an application you were eligible for.",
+      "## Performance",
+      "The crawl originally ran one source at a time in a plain sequential loop, despite being almost entirely I/O-bound. Rebuilt as a LangGraph fan-out using the Send API — one isolated sub-graph per source, bounded concurrency, a reducer for the shared results list — and benchmarked head-to-head against the old code rather than assumed: sources with no relevant postings (no LLM call at all) came back 5.76x faster, and a full 498-source production crawl dropped from 37m 26s to 4m 34s, a genuine ~8x improvement, verified end-to-end with zero fetch errors.",
+      "## Real bugs, found running against live data",
+      "Job postings were quietly duplicating on every re-crawl. The dedup key had been treated as enforced since the start but never actually was — the one real uniqueness constraint missed a live case where a single ATS tenant had posted six byte-identical listings under six different IDs in one crawl. Fixed at the application layer, deleting any other row sharing that content's hash after every upsert, rather than adding a second database constraint — Postgres validates every unique constraint on every insert regardless of which one an upsert targets, so a legitimately-edited posting would have crashed the crawl instead of updating cleanly.",
+      "A cross-region database call was quietly costing 2-4 seconds per query — the instance had been provisioned on the wrong continent from where every request originated. Migrating it closer cut that to 50-140ms. Separately, a library's params argument silently replaced a URL's existing query string instead of merging with it, dropping a hard-coded filter from one source's request — the call still came back 200 OK with valid JSON, just the wrong data entirely; nothing about the response looked like a failure, only checking actual field values against expectations caught it.",
+      "The deepest one: Gemini's structured output silently omits fields it decides are extra work under batch load, even when the schema marks them required. That single quirk cascaded into a second bug weeks later — a validated job's experience level would get silently overwritten back to \"unclear\" by a routine re-crawl, and a well-meaning idempotency guard on the enrichment agent (skip anything already enriched once) made that regression permanently invisible to every future pass. 227 previously-correct rows were stuck this way before the guard condition was rethought entirely, from \"has this ever been enriched\" to \"is it unclear right now.\"",
+      "## Current status",
+      "498 active sources across a dozen ATS integrations and aggregator feeds, 624 relevant postings surfaced after filtering out of roughly 11,700 raw rows kept for filter tuning, and India-region coverage nearly 6x'd over two expansion passes. Not yet deployed — Dockerfiles exist for all three services but nothing runs on Cloud Run yet, there's no scheduler so the crawl is run manually, and there's no auth in front of the dashboard, which is fine for local-only use for now."
+    ],
+    "githubUrl": "https://github.com/Harshavardhan-28/Job-tracker",
     "liveUrl": null,
     "youtubeUrl": null,
     "whitepaperUrl": null
@@ -120,7 +120,7 @@
     "tagline": "Privacy-Preserving Orchestration Layer for AI Agents",
     "category": "Privacy",
     "tags": ["Solidity", "viem", "x402", "Base Sepolia", "TypeScript"],
-    "image": null,
+    "image": "/images/projects/cloak402/Cloak402-hero.png",
     "logo": "/images/projects/cloak402/Cloak402-Logo.webp",
     "gallery": [
       "/images/projects/cloak402/Cloak402-UI.webp",
@@ -161,6 +161,44 @@
     "liveUrl": null,
     "youtubeUrl": "https://www.youtube.com/watch?v=ePG3Y70DfMw",
     "whitepaperUrl": "https://drive.google.com/file/d/151_EmVE_ZcyXDl5ipDVTfMEvUIUPwQo-/view?usp=sharing"
+  },
+  {
+    "slug": "priceflow",
+    "title": "PriceFlow",
+    "tagline": "Production-Grade Dynamic Pricing Platform",
+    "category": "Data Engineering",
+    "tags": ["Java", "Python", "Apache Spark", "BigQuery", "Kafka", "Redis", "Docker", "MySQL"],
+    "image": null,
+    "logo": null,
+    "gallery": null,
+    "architecture": null,
+    "summary": "Real-time pricing service with Python ETL pipelines feeding analytics into BigQuery.",
+    "description": [
+      "Built Python ETL pipelines using Pandas, PyArrow and Apache Spark to process transactional data, store it as columnar Parquet, and load analytical datasets into Google BigQuery.",
+      "Developed the real-time pricing service in Java Spring Boot, automating price optimisation based on inventory, demand and competitor pricing, using Apache Kafka and Redis.",
+      "Implemented price-prediction models with Scikit-learn and XGBoost, with the stack containerised using Docker over MySQL."
+    ],
+    "githubUrl": "https://github.com/Harshavardhan-28/Priceflow",
+    "liveUrl": null,
+    "youtubeUrl": null,
+    "whitepaperUrl": null
+  },
+  {
+    "slug": "monte-carlo",
+    "title": "Monte Carlo",
+    "tagline": "",
+    "category": "DeFi",
+    "tags": ["DeFi"],
+    "image": null,
+    "logo": null,
+    "gallery": null,
+    "architecture": null,
+    "summary": "Add a one-line summary here.",
+    "description": ["Add your project write-up here — what it does, the stack, and what you'd highlight."],
+    "githubUrl": "https://github.com/Harshavardhan-28/Monte-Carlo",
+    "liveUrl": null,
+    "youtubeUrl": null,
+    "whitepaperUrl": null
   },
   {
     "slug": "nayak",
