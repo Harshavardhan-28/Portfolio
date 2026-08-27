@@ -33,6 +33,14 @@ const prefersReducedMotion = () =>
 export default function SocialGallery() {
   const container = useRef<HTMLElement | null>(null);
   const cardsRef = useRef<Array<HTMLDivElement | null>>([]);
+  // Hover restores a card to its resting fan position on mouseleave. That
+  // resting position must come from this same formula, not from reading the
+  // card's live GSAP value at mouseenter — the entrance tween below is
+  // staggered over ~1.2s per card, so a hover that starts mid-entrance would
+  // otherwise capture a mid-flight snapshot as "home" and get stuck there
+  // permanently once overwrite:"auto" hands y/scale/rotateY off to the hover
+  // tween. Populated per-breakpoint by the matchMedia callback below.
+  const fanParamsRef = useRef({ liftY: 18, scaleStep: 0.06, rotY: 14 });
 
   useGSAP(() => {
     const mm = gsap.matchMedia();
@@ -78,6 +86,8 @@ export default function SocialGallery() {
         const rotY = isMobile ? 8 : isTablet ? 11 : 14;
         const scaleStep = isMobile ? 0.1 : isTablet ? 0.08 : 0.06;
 
+        fanParamsRef.current = { liftY, scaleStep, rotY };
+
         // 1. Initial State: All cards bunched at bottom
         gsap.set(cardsRef.current, {
           x: 0,
@@ -115,23 +125,29 @@ export default function SocialGallery() {
   }, { scope: container });
 
   // Hover lift for the fanned cards. The fan-out tween above already owns
-  // each card's base x/y/rotate/scale (different value per index), so hover
-  // can't just animate to fixed numbers — it reads the card's current values
-  // first and animates a delta on top, then restores exactly that captured
-  // base on leave. That keeps the two animations from fighting.
-  const handleCardEnter = (e: React.MouseEvent<HTMLDivElement>, baseZIndex: number) => {
+  // each card's base x/y/rotate/scale (different value per index). The base
+  // here is *computed* from the same formula the entrance tween uses, not
+  // read off the card's live GSAP value — reading live state broke if a
+  // hover started while that staggered entrance was still mid-flight (e.g.
+  // the cursor already resting over the fan as it scrolls into view): the
+  // captured "base" would be a mid-flight snapshot, and mouseleave would
+  // restore the card to that wrong snapshot forever.
+  const restingState = (i: number) => {
+    const { liftY, scaleStep, rotY } = fanParamsRef.current;
+    return {
+      y: Math.abs(i - centerIndex) * liftY,
+      scale: 1 - Math.abs(i - centerIndex) * scaleStep,
+      rotateY: (i - centerIndex) * -rotY,
+    };
+  };
+
+  const handleCardEnter = (e: React.MouseEvent<HTMLDivElement>, i: number) => {
     if (!canHover()) return;
     const card = e.currentTarget;
     const media = card.querySelector<HTMLElement>(".card-media");
     const overlay = card.querySelector<HTMLElement>(".card-overlay");
     const reduce = prefersReducedMotion();
-
-    const baseY = gsap.getProperty(card, "y") as number;
-    const baseScale = gsap.getProperty(card, "scale") as number;
-    const baseRotateY = gsap.getProperty(card, "rotateY") as number;
-    card.dataset.baseY = String(baseY);
-    card.dataset.baseScale = String(baseScale);
-    card.dataset.baseRotateY = String(baseRotateY);
+    const { y: baseY, scale: baseScale, rotateY: baseRotateY } = restingState(i);
 
     card.style.zIndex = "50";
     gsap.to(card, {
@@ -150,15 +166,12 @@ export default function SocialGallery() {
     }
   };
 
-  const handleCardLeave = (e: React.MouseEvent<HTMLDivElement>, baseZIndex: number) => {
+  const handleCardLeave = (e: React.MouseEvent<HTMLDivElement>, i: number, baseZIndex: number) => {
     if (!canHover()) return;
     const card = e.currentTarget;
     const media = card.querySelector<HTMLElement>(".card-media");
     const overlay = card.querySelector<HTMLElement>(".card-overlay");
-
-    const baseY = card.dataset.baseY ? parseFloat(card.dataset.baseY) : 0;
-    const baseScale = card.dataset.baseScale ? parseFloat(card.dataset.baseScale) : 1;
-    const baseRotateY = card.dataset.baseRotateY ? parseFloat(card.dataset.baseRotateY) : 0;
+    const { y: baseY, scale: baseScale, rotateY: baseRotateY } = restingState(i);
 
     gsap.to(card, {
       y: baseY,
@@ -203,8 +216,8 @@ export default function SocialGallery() {
               ref={(el) => {
                 cardsRef.current[i] = el;
               }}
-              onMouseEnter={(e) => handleCardEnter(e, zIndex)}
-              onMouseLeave={(e) => handleCardLeave(e, zIndex)}
+              onMouseEnter={(e) => handleCardEnter(e, i)}
+              onMouseLeave={(e) => handleCardLeave(e, i, zIndex)}
               className="absolute w-36 h-56 sm:w-46 sm:h-72 lg:w-54 lg:h-84 bg-neutral-950 rounded-[36px] border border-white/10 overflow-hidden shadow-2xl origin-bottom cursor-pointer group will-change-transform"
               style={{ zIndex, transformStyle: "preserve-3d" }}
             >
