@@ -19,8 +19,29 @@
     },
     "summary": "Building on-chain with the team at ETHGlobal's New Delhi hackathon.",
     "body": [
-      "Add your write-up here — what you and the team built, the stack you used, and anything you'd do differently next time."
+      "Nervous, excited, uncertain: these were our emotions when we staked Ethereum and submitted our entries for ETHGlobal New Delhi 2025.",
+      "Almost a year ago, we came across one of our seniors' profiles and saw the massive number of hackathons he had won. We tried to connect with him to learn how he got into blockchain and how we could approach the same. It was new, exciting, and different from calling the OpenAI or Gemini API to create a chatbot that the whole world was immersed in at the time.",
+      "We took our time going through Cyfrin Updraft's courses and slowly learned how to write code in Solidity. It took us almost two months to build a full-stack blockchain application, EthTown. We were really proud of this accomplishment. We built the architecture ourselves, defined every function, tested it multiple times, and fixed the spurious dragon error and other issues. We learned about DAOs, ERC-20 tokens, quadratic voting, and many such concepts in our application.",
+      "We had a hard time finding a team for this hackathon. The people we approached refused due to their commitments.",
+      "A few weeks before the hackathon, we came across some YouTube videos about Markov chains. So, the idea to use it for yield farming was born. We then started to explore which sponsor tracks we could target and build around.",
+      "## Getting there",
+      "We booked our tickets, arranged our trip, and got on our first Rajdhani Express to Delhi. We were relaxed and exploring the same topics and had not really started building a product yet. We thought the 72-hour hackathon would be enough to build an application.",
+      "We reached the venue on the afternoon of 28th September and were really pleased to see the enormous venue and decoration. The best part was the endless food. Everything from lasagna to tiramisu to exquisite gastronomical delights was present. Even when we were at our lowest, we had a great time enjoying the treats and the free merch from the sponsors.",
+      "We were fed snacks and shown some workshops, and the Hunger Games began at 9:00 p.m. We had a momentary heart attack when we realised that we had no liquidity pool while discussing our idea with one of the participants. After talking with the sponsors from Rootstock, we came up with a workaround and felt reassured.",
+      "## The grind",
+      "Although we felt that we had overcome the bump, we were not ready for what was to come. We divided our tasks roughly and started building. It was difficult as most of the platforms and tools we were using were new to us. We did not get much sleep on day one, nor did we build anything substantial. We were still looking around us, exploring, and talking with the sponsors.",
+      "We thought we had enough time, but boy, were we wrong! On the night of day 2, we had decent progress, but we were not near a working project.",
+      "Ryan was working on the AI agents but was facing major issues, and he sat near the mentors while building and getting feedback. We were not able to implement the x402 Protocol as the facilitator kept failing due to the heavy load from all the developers present there using it. The contract logic was in a failing state, and the Rootstock implementation was still under wraps. We somehow made it through the night, with no sleep and crushed spirits. Add to this the constant issues with Wi-Fi and one of our members' sickness, and we felt like we would fail.",
+      "## Submission and the wait",
+      "The next morning felt like it would never end. We were not able to stay awake while submitting. We kept dozing off. Somehow, we finished our submission and went for breakfast. We were not happy with our finished product and did not feel like presenting. But we somehow managed to present to the three sponsors we had chosen and went for lunch. Three of my teammates left the venue, but I thought to wait for the results and take a little nap.",
+      "After my nap, I realised that I had lost my bag of goodies and merch and was so sad. It had many different things like caps, a mousepad, and a sweatshirt that we had collected. We had left our hopes of winning, but somewhere in my heart, I had a tiny glimmer that kept me waiting at the venue for the results.",
+      "The announcer kept announcing the names one by one. We did not win anything for the first sponsor; same for the second one. It all came down to Rootstock, and there we were listed in the EveryDay DeFi track. I was overjoyed. I called my friends, and they were watching the livestream, unable to believe we had finally done it.",
+      "It felt surreal. What started as a dream that felt impossible was finally in our clutches."
     ],
+    "facts": {
+      "result": "Winner, Rootstock: EveryDay DeFi track"
+    },
+    "projectSlug": "monte-carlo",
     "externalUrl": null
   },
   {
@@ -48,11 +69,38 @@
       "/images/hackathon/google-cloud-agentic-ai-day/Lavi-AgenticAi.jpeg": "With Lavi"
     },
     "summary": "A day deep in agentic AI workflows at Google Cloud's Agentic AI Day.",
-    "body": ["Add your write-up here — what you and the team built, the stack you used, and anything you'd do differently next time."],
+    "body": [
+      "From endless sleepless nights to receiving recognition directly from Google employees, this was one of the biggest roller coaster experiences I have ever been a part of.",
+      "The journey to Bengaluru itself started almost as a joke. We were discussing whether we should actually go, and somehow, a few days later, we found ourselves on a train to Bengaluru with our laptops open, building our first Flutter mobile application. It was also our first time visiting Bengaluru. The train journey quickly turned into a hackathon of its own. We spent hours with our laptops in our hands, working on features and trying to get our Google Cloud functions working. At one point, I was sitting on the upper berth at 5 in the morning, still trying to make a Google Cloud function work.",
+      "When we finally reached Bengaluru, we went straight to our hotel and continued building. We barely had time to explore the city because most of our time was spent working on the application and figuring out technologies we had never used before.",
+      "## Chaos at the venue",
+      "The real chaos began when we reached the venue. We saw a long line outside, and the Wi-Fi was down. Once we entered, there was barely any space to sit. The organisers had called around 60 extra teams because they anticipated a large number of no-shows, but ultimately, far more teams showed up than expected. There were not enough chairs or tables for everyone.",
+      "We left our hotel very early and had not had breakfast. By the time we entered, the breakfast at the venue was over, so we grabbed some snacks and coffee and waited to be assigned a table. With no Wi-Fi and no power outlets available, we decided to use the time to talk to mentors and improve our idea.",
+      "Luckily, the very first person we met was the person who had designed our problem statement, Mr. Edson Yanaga. We discussed our idea with him, and he gave us some incredible suggestions that immediately helped us see the problem from a different perspective. The highlight of the entire event was getting to meet him and directly learn from someone working on Google Wallet. He suggested implementing text and link modules and deep linking back to our Raseed app, and we were able to incorporate those ideas into our application.",
+      "After some time, we were finally assigned a table and immediately got back to development. However, the Wi-Fi situation had not improved. We were relying on mobile hotspots and could only get a 4G connection. Eventually, we discovered that the hotspot worked outside the venue, so we went outside and sat there with our laptops, coding and building the application.",
+      "## Meeting the mentors",
+      "As we continued, we started talking to other mentors about Google ADK and how we could improve the agents in our application. One of the mentors we met was Mr Lavi Nigam. He was an angel in disguise for our team. He completely changed the way we were thinking about building our agents with ADK. He explained why we needed to build the agents the way we were approaching them, what we should focus on, and gave us extremely useful suggestions and feedback.",
+      "His advice forced us to rethink our approach, and with his guidance, we got right to work on that part of the application. By the end of the night, we had a decent plan and had made significant progress.",
+      "The next morning brought another round of chaos. We had not thought far enough ahead about the submission requirements and had left the PPT and video until the last minute. There was some last-minute arguing and scrambling, but somehow, we managed to finish everything and submit our project.",
+      "## The judging",
+      "Then came the judging. When the reviewers started coming in, we were honestly disappointed by their reactions. They seemed uninterested, and one of them did not even listen to our entire pitch. We felt completely disheartened. After everything we had put into the project, we started wondering whether our application was actually good enough. We sat there in despair, convinced we had not done enough.",
+      "Later, after lunch, Mr Lavi Nigam approached us and asked about our project. We explained everything that had happened and how we had built the application. He told us not to be disheartened and said that we had done a great job. That conversation gave us the hope we needed to keep going.",
+      "We sat there waiting for the top 15 team announcement. We genuinely did not expect to be selected. So when we saw Team Raseed's name on the board, it was unbelievable. We squealed with joy, but there was barely any time to celebrate because we immediately had to prepare for the final presentation.",
+      "We gathered ourselves, prepared for the final round, and gave it our best. We showcased our application to the judges, walked them through its features and benefits, and finally sat down to await the results.",
+      "## First prize",
+      "The third prize winners were announced. Then the second prize. At that point, we were convinced we were not winning. And then they announced the first prize. Team Raseed. We could not believe it.",
+      "Just a few days earlier, we were considering dropping the opportunity because we were not confident in ourselves. We travelled all the way to Bengaluru, struggled through the lack of Wi-Fi, worked through the nights, built an application using technologies that were completely new to us, and somehow ended up as the first-place winners of the same competition.",
+      "Reality did not really kick in until the next morning. It felt surreal. For many of my teammates, this was their first hackathon victory, which made the moment even more special.",
+      "We spent the next day exploring Bengaluru, visiting some holy places, and thanking God for His blessings and kindness.",
+      "My team members helped me give my best. Thank you, Harshavardhan Khamkar, Ryan Dsouza, and Akash Jadhav, for your support, hard work, and unwavering determination throughout the journey.",
+      "We faced multiple issues at the venue, but the volunteers and the Hack2skill team powered through them and kept the event moving.",
+      "From a train journey that started as a joke to sitting outside a venue coding on a 4G hotspot, from meeting mentors who completely changed our approach to seeing our name announced as the winners, this was truly one of the best experiences of my life. A truly memorable journey from start to finish."
+    ],
     "facts": {
-      "result": "Winner — ₹3,00,000",
+      "result": "Winner, ₹3,00,000",
       "built": "Receipt management for Google Wallet"
     },
+    "projectSlug": "raseed",
     "externalUrl": null
   },
   {
@@ -70,7 +118,19 @@
       "/images/hackathon/eth-mumbai/Horse-EthMumbai.jpg"
     ],
     "summary": "Shipping in the trenches at ETH Mumbai.",
-    "body": ["Add your write-up here."],
+    "body": [
+      "We started this one without any idea. Since it was held where we lived, we knew we could go home, develop comfortably, and then return to the venue as the submission deadline approached.",
+      "When we got to the venue, our plan was to meet the sponsors and try to find an idea worth building. We focused on the privacy and AI tracks. We talked with multiple people from BitGo, Base, ENS, and several other mentors and judges present at the venue. But by the end of the day, we were more confused than when we had started.",
+      "We did not lose faith and went home after day one. Later, we started looking for ideas and decided to build a system to provide privacy for AI agents.",
+      "## The idea",
+      "When an AI agent uses the x402 protocol to act on behalf of a human, its activity can usually be tracked. This information can be used maliciously, potentially leading to higher pricing. It also counteracts dynamic pricing. Airlines, gaming platforms, and e-commerce sites often use dynamic pricing, where prices of certain products can be higher for a consumer based on their purchasing behaviour or browsing patterns.",
+      "Our idea was to introduce privacy for AI agents so that dynamic pricing and falsely inflated pricing could be controlled. We used Base as our network and OpenClaw for our agents.",
+      "## The build",
+      "We could not develop a product that was completely up to the mark due to certain circumstances. Nonetheless, we had a working prototype by the end. We presented it gleefully and went home with some sadness, but also with a sense of satisfaction. We could have performed better if we had finalised the idea on day one, but given the time constraints and resources, I felt that we had done our best.",
+      "The results came in, and it turned out that we had not won in any track. But we took this as a lesson and explored all the projects that had won. There were so many new and fresh ideas, and we felt genuinely inspired by what everyone had built.",
+      "Even though we did not win, the experience taught us a lot about the importance of finding the right idea early, making the most of the time available, and learning from the people and projects around us."
+    ],
+    "projectSlug": "cloak402",
     "externalUrl": null
   }
 ]

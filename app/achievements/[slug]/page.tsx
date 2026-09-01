@@ -70,9 +70,9 @@ export default async function AchievementPage({ params }: Props) {
         <div className="flex flex-col gap-6">
           <BackButton href="/#achievements" />
 
-          {achievement.facts && (
+          {(achievement.facts || achievement.repoUrl || achievement.projectSlug) && (
             <div className="flex flex-col gap-4 rounded-xl border border-white/12 p-5">
-              {achievement.facts.result && (
+              {achievement.facts?.result && (
                 <div>
                   <div className={factLabel}>Result</div>
                   <div className={`${spaceGrotesk.className} mt-1.5 text-base font-medium text-[#00ff41]`}>
@@ -80,7 +80,7 @@ export default async function AchievementPage({ params }: Props) {
                   </div>
                 </div>
               )}
-              {achievement.facts.built && (
+              {achievement.facts?.built && (
                 <>
                   <div className="h-px bg-white/10" />
                   <div>
@@ -91,7 +91,7 @@ export default async function AchievementPage({ params }: Props) {
                   </div>
                 </>
               )}
-              {achievement.facts.team && (
+              {achievement.facts?.team && (
                 <>
                   <div className="h-px bg-white/10" />
                   <div>
@@ -102,7 +102,7 @@ export default async function AchievementPage({ params }: Props) {
                   </div>
                 </>
               )}
-              {achievement.facts.stack && achievement.facts.stack.length > 0 && (
+              {achievement.facts?.stack && achievement.facts.stack.length > 0 && (
                 <>
                   <div className="h-px bg-white/10" />
                   <div>
@@ -120,15 +120,27 @@ export default async function AchievementPage({ params }: Props) {
                   </div>
                 </>
               )}
-              {achievement.repoUrl && (
-                <a
-                  href={achievement.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${jetbrainsMono.className} mt-1 rounded-lg bg-[#00ff41] py-2.5 text-center text-[11px] font-medium uppercase tracking-[0.14em] text-black transition-opacity hover:opacity-90`}
-                >
-                  Repo ↗
-                </a>
+              {(achievement.repoUrl || achievement.projectSlug) && (
+                <div className="mt-1 flex flex-col gap-2.5">
+                  {achievement.projectSlug && (
+                    <Link
+                      href={`/projects/${achievement.projectSlug}`}
+                      className={`${jetbrainsMono.className} rounded-lg bg-[#00ff41] py-2.5 text-center text-[11px] font-medium uppercase tracking-[0.14em] text-black transition-opacity hover:opacity-90`}
+                    >
+                      View Project
+                    </Link>
+                  )}
+                  {achievement.repoUrl && (
+                    <a
+                      href={achievement.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${jetbrainsMono.className} rounded-lg border border-white/20 py-2.5 text-center text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-300 transition-colors hover:border-white/40 hover:text-white`}
+                    >
+                      Repo ↗
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           )}

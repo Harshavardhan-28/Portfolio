@@ -56,6 +56,8 @@ export type Achievement = {
   facts?: AchievementFacts;
   /** Link to the project's repo, shown as a button under the fact rail. */
   repoUrl?: string;
+  /** Slug of the matching entry in projects.json — shown as a "View Project" button linking to /projects/<slug>. */
+  projectSlug?: string;
   /** Set this to link out to an existing blog post instead of the built-in detail page. */
   externalUrl: string | null;
 };
