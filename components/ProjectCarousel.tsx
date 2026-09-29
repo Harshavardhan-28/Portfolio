@@ -1,111 +1,169 @@
 "use client";
-import { useRef } from "react";
-import Link from "next/link";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import { projects } from "@/lib/projects";
+import { useVisibleScroll, useWide } from "@/lib/hooks";
+import SectionHeading from "@/components/SectionHeading";
 
-gsap.registerPlugin(ScrollTrigger);
+const FEATURED = 3;
 
-const HOME_PREVIEW_COUNT = 3;
-
+/**
+ * Selected works. On phones the cards are sticky and stack: as the next card
+ * slides over, the one beneath shrinks and dims. On wide screens it's a grid.
+ */
 export default function ProjectCarousel() {
-  const container = useRef(null);
-  const slider = useRef<HTMLDivElement>(null);
-  const previewProjects = projects.slice(0, HOME_PREVIEW_COUNT);
-  const hasMore = projects.length > HOME_PREVIEW_COUNT;
+  const wide = useWide();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const featured = projects.slice(0, FEATURED);
 
-  useGSAP(() => {
-    if (!slider.current) return;
-
-    // Measured lazily via functions + invalidateOnRefresh so the travel
-    // distance and the matching pin length are recomputed on every
-    // ScrollTrigger.refresh() (rotation, breakpoint change, late-loading
-    // content) instead of being frozen at whatever the first layout was.
-    const totalScroll = () =>
-      slider.current ? slider.current.scrollWidth - window.innerWidth : 0;
-
-    gsap.to(slider.current, {
-      x: () => -totalScroll(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top top",
-        end: () => `+=${totalScroll()}`, // Scales with however many projects exist
-        pin: true,     // Locks the screen in place
-        scrub: 1,      // Links animation to scrollbar
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
-      },
+  const applyStack = () => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const wraps = [...grid.querySelectorAll<HTMLElement>("[data-stack]")];
+    wraps.forEach((w, i) => {
+      const card = w.querySelector<HTMLElement>("[data-card]");
+      const next = wraps[i + 1];
+      if (!card) return;
+      if (wide) {
+        card.style.transform = "";
+        card.style.filter = "";
+        return;
+      }
+      let p = 0;
+      if (next) {
+        const a = w.getBoundingClientRect();
+        const b = next.getBoundingClientRect();
+        p = Math.max(0, Math.min(1, 1 - (b.top - a.top) / a.height));
+      }
+      card.style.transform = `scale(${1 - p * 0.06})`;
+      card.style.filter = p > 0.01 ? `brightness(${1 - p * 0.35})` : "";
     });
-  }, { scope: container });
+  };
+  useVisibleScroll(gridRef, applyStack, !wide, 0);
+  // Switching to the wide layout clears any leftover stack styling.
+  useEffect(() => {
+    if (wide) applyStack();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wide]);
 
   return (
-    <section id="projects" ref={container} className="h-screen overflow-hidden bg-transparent relative z-20">
-      {/* Title */}
-      <div className="absolute top-24 left-10 md:left-20 z-30 pointer-events-none mix-blend-difference">
-        <h2 className="text-4xl md:text-6xl font-black uppercase text-white">
-          Selected <br /> <span className="text-transparent stroke-white" style={{ WebkitTextStroke: "1px white" }}>Works</span>
-        </h2>
-      </div>
-
-      {/* The Sliding Container */}
-      <div ref={slider} className="flex h-full w-max items-center pl-[20vw]">
-        {previewProjects.map((project) => (
-          <Link
-            key={project.slug}
-            href={`/projects/${project.slug}`}
-            className="relative w-[85vw] md:w-[70vw] h-[60vh] md:h-[70vh] mr-20 flex-shrink-0 group cursor-pointer block"
+    <section data-sec="projects" className="flex flex-col gap-8 px-6 py-16 md:mx-auto md:max-w-[1200px]">
+      <SectionHeading
+        num="03"
+        eyebrow="Projects"
+        title="Selected works"
+        href="/projects"
+        hrefLabel={`View all ${projects.length} projects`}
+      />
+      <div
+        ref={gridRef}
+        className="grid items-start gap-4"
+        style={{
+          gridTemplateColumns: wide ? "repeat(auto-fit,minmax(280px,1fr))" : "minmax(0,1fr)",
+        }}
+      >
+        {featured.map((p, i) => (
+          <div
+            key={p.slug}
+            data-stack=""
+            style={{ position: wide ? "relative" : "sticky", top: wide ? 0 : 72 + i * 12 }}
           >
-            {/* Project Card */}
-            <div className="w-full h-full bg-[#111] border border-white/10 relative overflow-hidden transition-all duration-500 group-hover:border-[#00ff41]">
-
-              {/* Image / Placeholder */}
-              {project.image ? (
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(min-width: 768px) 70vw, 85vw"
-                  className="object-cover opacity-50 group-hover:opacity-100 transition-opacity duration-500"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-                  <span className="text-9xl opacity-10 font-black text-[#00ff41]">{project.title.charAt(0)}</span>
-                </div>
-              )}
-
-              {/* Text Overlay */}
-              <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
-                <span className="text-[#00ff41] text-sm font-bold uppercase tracking-widest mb-2 block">{project.category}</span>
-                <h3 className="text-4xl md:text-6xl font-black text-white uppercase italic transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  {project.title}
-                </h3>
+            <Link
+              href={`/projects/${p.slug}`}
+              data-card=""
+              className="flex flex-col rounded-3xl border p-2"
+              style={{
+                background: "var(--surface)",
+                borderColor: "var(--line)",
+                transformOrigin: "center top",
+                boxShadow: "0 -12px 32px var(--shadow)",
+              }}
+            >
+              <div
+                className="relative overflow-hidden rounded-2xl"
+                style={{ aspectRatio: "16/10", background: "var(--surface2)" }}
+              >
+                {p.image && (
+                  <Image
+                    src={p.image}
+                    alt={`${p.title} screenshot`}
+                    fill
+                    sizes="(min-width: 768px) 400px, 100vw"
+                    className="object-cover"
+                    style={{ objectPosition: "center top" }}
+                  />
+                )}
+                <span
+                  className="mono absolute left-2 top-2 rounded-lg px-2 py-1 text-xs font-medium"
+                  style={{
+                    background: "var(--glass)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    color: "var(--fg)",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                </span>
               </div>
-
-            </div>
-          </Link>
+              <div className="flex flex-col gap-2 px-2 pb-2 pt-4">
+                <span
+                  className="mono text-xs font-medium uppercase"
+                  style={{ letterSpacing: ".1em", color: "var(--accentText)" }}
+                >
+                  {p.category}
+                </span>
+                <div className="flex items-start justify-between gap-3">
+                  <h3
+                    className="m-0 text-2xl font-semibold"
+                    style={{ lineHeight: "32px", letterSpacing: "-0.02em", color: "var(--fg)" }}
+                  >
+                    {p.title}
+                  </h3>
+                  <span
+                    className="flex size-9 flex-none items-center justify-center rounded-full"
+                    style={{ background: "var(--surface2)", color: "var(--fg)" }}
+                  >
+                    <i className="ph ph-arrow-up-right" style={{ fontSize: 18 }} />
+                  </span>
+                </div>
+                <p
+                  className="m-0 text-sm"
+                  style={{
+                    lineHeight: "20px",
+                    color: "var(--muted)",
+                    textWrap: "pretty",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {p.summary}
+                </p>
+                <div className="mt-1 flex flex-wrap gap-1">
+                  {p.tags.slice(0, 3).map((t) => (
+                    <Tag key={t}>{t}</Tag>
+                  ))}
+                  {p.tags.length > 3 && <Tag>+{p.tags.length - 3}</Tag>}
+                </div>
+              </div>
+            </Link>
+          </div>
         ))}
-
-        {hasMore && (
-          <Link
-            href="/projects"
-            className="relative w-[85vw] md:w-[70vw] h-[60vh] md:h-[70vh] mr-20 flex-shrink-0 group cursor-pointer block"
-          >
-            <div className="w-full h-full bg-[#111] border border-white/10 relative overflow-hidden transition-all duration-500 group-hover:border-[#00ff41] flex flex-col items-center justify-center gap-6">
-              <span className="flex items-center justify-center w-20 h-20 rounded-full border-2 border-[#00ff41] text-[#00ff41] transition-all duration-300 group-hover:bg-[#00ff41] group-hover:text-black group-hover:scale-110">
-                <ArrowRight className="w-8 h-8 transition-transform duration-300 group-hover:translate-x-1" />
-              </span>
-              <h3 className="text-3xl md:text-5xl font-black text-white uppercase italic text-center">
-                View All <br /> <span className="text-[#00ff41]">Projects</span>
-              </h3>
-            </div>
-          </Link>
-        )}
       </div>
     </section>
+  );
+}
+
+function Tag({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      className="mono rounded-lg border px-2 py-1 text-xs"
+      style={{ borderColor: "var(--line)", color: "var(--muted)" }}
+    >
+      {children}
+    </span>
   );
 }

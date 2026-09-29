@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+html,body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:inherit}
+@keyframes hkrise{from{transform:translateY(110%)}to{transform:translateY(0)}}
+@keyframes hkpop{from{transform:scale(0.94);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes hkpulse{0%{box-shadow:0 0 0 0 rgba(0,255,65,.55)}70%{box-shadow:0 0 0 10px rgba(0,255,65,0)}100%{box-shadow:0 0 0 0 rgba(0,255,65,0)}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="{{ rootStyle }}">
+  <div data-progress="" style="position:fixed;left:0;top:0;right:0;height:2px;z-index:70;background:var(--accent,#00ff41);transform-origin:0 50%;transform:scaleX(0);display:{{ progressDisplay }}"></div>
+
+  <div aria-hidden="{{ menuHidden }}" style="position:fixed;inset:0;z-index:58;display:flex;flex-direction:column;justify-content:space-between;padding:96px 24px 40px;box-sizing:border-box;background:var(--menuBg,rgba(0,0,0,.86));backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);clip-path:{{ menuClip }};pointer-events:{{ menuPE }};transition:clip-path 900ms cubic-bezier(0.32,0.72,0,1);overflow-y:auto">
+    <nav aria-label="Menu" style="display:flex;flex-direction:column;gap:4px;max-width:1200px;width:100%;margin:0 auto">
+      <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="7">
+        <div style="overflow:hidden">
+          <a href="{{ m.href }}" onClick="{{ m.go }}" aria-current="{{ m.current }}" style="display:flex;align-items:baseline;gap:16px;width:100%;padding:4px 0;opacity:{{ m.opacity }};transform:translateY({{ m.y }}px);transition:opacity 800ms cubic-bezier(0.32,0.72,0,1) {{ m.delay }}ms,transform 800ms cubic-bezier(0.32,0.72,0,1) {{ m.delay }}ms,padding 500ms cubic-bezier(0.32,0.72,0,1)" style-hover="padding-left:8px">
+            <span style="font:500 12px/16px 'Geist Mono',monospace;color:var(--muted,#9b9b9b);width:24px">{{ m.num }}</span>
+            <span style="font:600 48px/1 'Geist',sans-serif;letter-spacing:-0.04em;color:{{ m.color }}">{{ m.label }}</span>
+          </a>
+        </div>
+      </sc-for>
+    </nav>
+    <div style="display:flex;flex-direction:column;gap:24px;padding-top:32px;max-width:1200px;width:100%;margin:0 auto;opacity:{{ menuFootOpacity }};transform:translateY({{ menuFootY }}px);transition:opacity 800ms cubic-bezier(0.32,0.72,0,1) 450ms,transform 800ms cubic-bezier(0.32,0.72,0,1) 450ms">
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+          <a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:9999px;border:1px solid var(--line,rgba(255,255,255,.1));font:500 14px/20px 'Geist',sans-serif;color:var(--fg,#f2f2f2)"><i class="{{ s.icon }}" style="font-size:18px"></i>{{ s.name }}</a>
+        </sc-for>
+      </div>
+      <a href="mailto:harshavardhan.khamkar@gmail.com" style="display:flex;align-items:center;justify-content:space-between;max-width:360px;height:56px;padding:0 8px 0 20px;border-radius:9999px;background:var(--accent,#00ff41);color:#000;font:600 16px/24px 'Geist',sans-serif">Business enquiries<span style="width:40px;height:40px;border-radius:9999px;background:#000;color:#00ff41;display:flex;align-items:center;justify-content:center"><i class="ph ph-arrow-up-right" style="font-size:18px"></i></span></a>
+    </div>
+  </div>
+
+  <header style="position:fixed;left:0;right:0;top:0;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 16px 12px 24px;background:{{ headerBg }};backdrop-filter:{{ headerBlur }};-webkit-backdrop-filter:{{ headerBlur }};border-bottom:1px solid {{ headerLine }};transition:background-color 600ms cubic-bezier(0.32,0.72,0,1)">
+    <a href="PortfolioMobile.dc.html" style="display:flex;flex-direction:column;align-items:flex-start;text-transform:uppercase">
+      <span style="font:500 12px/16px 'Geist',sans-serif;letter-spacing:.06em;color:var(--muted,#9b9b9b)">Harsh</span>
+      <span style="font:700 18px/20px 'Geist',sans-serif;letter-spacing:-0.01em;color:var(--fg,#f2f2f2)">Khamkar</span>
+    </a>
+    <div style="display:flex;gap:8px">
+      <button onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" style="width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line,rgba(255,255,255,.1));background:var(--glass,rgba(18,18,18,.72));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--fg,#f2f2f2);cursor:pointer" style-active="transform:scale(0.94)">
+        <i class="{{ themeIcon }}" style="font-size:20px;display:block;transition:transform 700ms cubic-bezier(0.32,0.72,0,1);transform:rotate({{ themeRot }}deg)"></i>
+      </button>
+      <button onClick="{{ toggleMenu }}" aria-label="{{ menuLabel }}" aria-expanded="{{ menuExpanded }}" style="position:relative;width:44px;height:44px;border-radius:9999px;border:0;background:{{ menuBtnBg }};cursor:pointer;transition:background-color 600ms cubic-bezier(0.32,0.72,0,1),transform 600ms cubic-bezier(0.32,0.72,0,1)" style-active="transform:scale(0.92)">
+        <span style="position:absolute;left:13px;width:18px;height:2px;border-radius:2px;background:{{ menuLineColor }};top:{{ line1Top }}px;transform:rotate({{ line1Rot }}deg);transition:top 600ms cubic-bezier(0.32,0.72,0,1),transform 600ms cubic-bezier(0.32,0.72,0,1) 100ms,background-color 600ms"></span>
+        <span style="position:absolute;left:13px;width:18px;height:2px;border-radius:2px;background:{{ menuLineColor }};top:{{ line2Top }}px;transform:rotate({{ line2Rot }}deg);transition:top 600ms cubic-bezier(0.32,0.72,0,1),transform 600ms cubic-bezier(0.32,0.72,0,1) 100ms,background-color 600ms"></span>
+      </button>
+    </div>
+  </header>
+
+  <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+    <main style="max-width:1200px;margin:0 auto;padding:128px 24px 96px;display:flex;flex-direction:column;gap:48px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span data-reveal="" style="display:flex;align-items:center;gap:8px;font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accentText,#00ff41)"><span style="width:8px;height:8px;border-radius:9999px;background:var(--accent,#00ff41);animation:hkpulse 2.2s infinite"></span>{{ listEyebrow }}</span>
+        <h1 aria-label="{{ listTitle }}" style="margin:0;display:flex;flex-wrap:wrap;column-gap:0.22em;font:600 clamp(48px,11vw,128px)/0.95 'Geist',sans-serif;letter-spacing:-0.05em;color:var(--fg,#f2f2f2)">
+          <sc-for list="{{ titleWords }}" as="w" hint-placeholder-count="2">
+            <span aria-hidden="true" style="display:inline-flex;overflow:hidden;padding-bottom:0.08em">
+              <sc-for list="{{ w.chars }}" as="ch" hint-placeholder-count="6">
+                <span data-char="" style="display:inline-block;color:{{ w.color }};animation:hkrise 1000ms cubic-bezier(0.32,0.72,0,1) {{ ch.d }}ms both">{{ ch.c }}</span>
+              </sc-for>
+            </span>
+          </sc-for>
+        </h1>
+        <p data-reveal="" data-delay="200" style="margin:0;max-width:560px;font:400 18px/28px 'Geist',sans-serif;color:var(--muted,#9b9b9b);text-wrap:pretty">{{ listIntro }}</p>
+      </div>
+
+      <div data-reveal="" data-delay="280" role="tablist" aria-label="Filter" style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+          <button role="tab" aria-selected="{{ f.sel }}" onClick="{{ f.pick }}" style="display:flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:9999px;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }};font:500 14px/20px 'Geist',sans-serif;cursor:pointer;transition:background-color 500ms cubic-bezier(0.32,0.72,0,1),color 500ms cubic-bezier(0.32,0.72,0,1)" style-active="transform:scale(0.96)">{{ f.label }}<span style="font:400 12px/16px 'Geist Mono',monospace;opacity:.7">{{ f.count }}</span></button>
+        </sc-for>
+      </div>
+
+      <div data-grid="" onMouseMove="{{ onGridMove }}" onMouseLeave="{{ onGridLeave }}" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:24px 16px">
+        <sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
+          <a href="{{ c.href }}" onClick="{{ c.open }}" onMouseEnter="{{ onCardEnter }}" data-cardlink="" data-slug="{{ c.slug }}" style="display:flex;flex-direction:column;gap:16px;opacity:{{ c.opacity }};transform:translateY({{ c.y }}px);transition:opacity 700ms cubic-bezier(0.32,0.72,0,1) {{ c.delay }}ms,transform 700ms cubic-bezier(0.32,0.72,0,1) {{ c.delay }}ms;cursor:none">
+            <div data-clip="" style="position:relative;border-radius:24px;overflow:hidden;aspect-ratio:{{ cardAspect }};background:var(--surface,#181818);border:1px solid var(--line,rgba(255,255,255,.1));clip-path:{{ c.clip }};transition:clip-path 1100ms cubic-bezier(0.32,0.72,0,1) {{ c.clipDelay }}ms">
+              <sc-if value="{{ c.hasImage }}" hint-placeholder-val="{{ true }}">
+                <img data-cardimg="" src="{{ c.image }}" alt="{{ c.title }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ c.pos }};display:block;transform:scale({{ c.imgScale }});transition:transform 1400ms cubic-bezier(0.32,0.72,0,1) {{ c.clipDelay }}ms">
+              </sc-if>
+              <sc-if value="{{ c.noImage }}" hint-placeholder-val="{{ false }}">
+                <div data-cardimg="" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--surface,#181818)">
+                  <span style="font:700 180px/1 'Geist',sans-serif;letter-spacing:-0.06em;color:transparent;-webkit-text-stroke:1.5px var(--strokeLetter,rgba(255,255,255,.16))">{{ c.letter }}</span>
+                </div>
+              </sc-if>
+              <span style="position:absolute;left:8px;top:8px;padding:4px 8px;border-radius:16px;background:var(--glass,rgba(24,24,24,.72));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font:500 12px/16px 'Geist Mono',monospace;color:var(--fg,#f2f2f2)">{{ c.idx }}</span>
+              <sc-if value="{{ c.hasBadge }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;right:8px;top:8px;display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:16px;background:var(--accent,#00ff41);color:#000;font:600 12px/16px 'Geist Mono',monospace;text-transform:uppercase"><i class="ph-fill ph-trophy" style="font-size:12px"></i>{{ c.badge }}</span>
+              </sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;padding:0 4px">
+              <div style="display:flex;justify-content:space-between;gap:12px;font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase">
+                <span style="color:var(--accentText,#00ff41)">{{ c.meta }}</span>
+                <span style="color:var(--muted,#9b9b9b)">{{ c.meta2 }}</span>
+              </div>
+              <h2 style="margin:0;font:600 30px/36px 'Geist',sans-serif;letter-spacing:-0.03em;color:var(--fg,#f2f2f2)">{{ c.title }}</h2>
+              <p style="margin:0;font:400 16px/24px 'Geist',sans-serif;color:var(--muted,#9b9b9b);text-wrap:pretty;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ c.sub }}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">
+                <sc-for list="{{ c.tags }}" as="t" hint-placeholder-count="3">
+                  <span style="padding:4px 8px;border-radius:8px;border:1px solid var(--line,rgba(255,255,255,.1));font:400 12px/16px 'Geist Mono',monospace;color:var(--muted,#9b9b9b)">{{ t }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:64px 24px;border-radius:24px;border:1px solid var(--line,rgba(255,255,255,.1));text-align:center">
+          <i class="ph ph-binoculars" style="font-size:32px;color:var(--muted,#9b9b9b)"></i>
+          <span style="font:500 16px/24px 'Geist',sans-serif;color:var(--fg,#f2f2f2)">Nothing in this filter yet.</span>
+          <button onClick="{{ resetFilter }}" style="height:40px;padding:0 16px;border-radius:9999px;border:0;background:var(--accent,#00ff41);color:#000;font:600 14px/20px 'Geist',sans-serif;cursor:pointer">Show everything</button>
+        </div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+    <main style="padding:96px 0 0">
+      <div style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:32px">
+        <button onClick="{{ goList }}" onMouseEnter="{{ backEnter }}" onMouseLeave="{{ backLeave }}" data-reveal="" style="align-self:flex-start;display:flex;align-items:center;gap:14px;padding:0;border:0;background:none;color:var(--fg,#f2f2f2);font:500 15px/20px 'Geist',sans-serif;letter-spacing:-0.01em;cursor:pointer">
+          <span style="width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;border:1px solid {{ backBorder }};background:{{ backBg }};color:{{ backIcon }};transition:background-color 500ms cubic-bezier(0.32,0.72,0,1),border-color 500ms cubic-bezier(0.32,0.72,0,1),color 500ms"><i class="ph ph-arrow-left" style="font-size:18px;transform:translateX({{ backX }}px);transition:transform 600ms cubic-bezier(0.32,0.72,0,1)"></i></span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px"><span style="font:500 11px/14px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#9b9b9b)">Back to</span>{{ backLabel }}</span>
+        </button>
+        <div ref="{{ heroRef }}" style="position:relative;border-radius:24px;overflow:hidden;height:{{ heroH }};background:var(--surface,#181818);border:1px solid var(--line,rgba(255,255,255,.1));transform-origin:0 0">
+          <sc-if value="{{ d.hasImage }}" hint-placeholder-val="{{ true }}">
+            <img data-parallax="" src="{{ d.image }}" alt="{{ d.title }}" style="position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;object-position:{{ d.pos }};display:block">
+          </sc-if>
+          <sc-if value="{{ d.noImage }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font:700 min(60vw,420px)/1 'Geist',sans-serif;letter-spacing:-0.06em;color:transparent;-webkit-text-stroke:1.5px var(--strokeLetter,rgba(255,255,255,.16))">{{ d.letter }}</span></div>
+          </sc-if>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div data-reveal="" style="display:flex;align-items:center;gap:12px">
+            <sc-if value="{{ d.hasLogo }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ d.logo }}" alt="" style="width:48px;height:48px;border-radius:12px;object-fit:{{ d.logoFit }};background:#fff;border:1px solid var(--line,rgba(255,255,255,.1));display:block">
+            </sc-if>
+            <span style="font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accentText,#00ff41)">{{ d.eyebrow }}</span>
+          </div>
+          <h1 style="margin:0;font:600 clamp(48px,9vw,112px)/0.95 'Geist',sans-serif;letter-spacing:-0.05em;color:var(--fg,#f2f2f2);text-wrap:balance">
+            <span style="display:block;overflow:hidden;padding-bottom:0.08em"><span data-line="" style="display:block;animation:hkrise 1100ms cubic-bezier(0.32,0.72,0,1) 150ms both">{{ d.title }}</span></span>
+          </h1>
+          <sc-if value="{{ d.hasTagline }}" hint-placeholder-val="{{ true }}">
+            <p data-reveal="" data-delay="250" style="margin:0;max-width:680px;font:400 20px/28px 'Geist',sans-serif;color:var(--muted,#9b9b9b);text-wrap:pretty">{{ d.tagline }}</p>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="max-width:1200px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:{{ detailCols }};gap:48px;align-items:start">
+        <aside style="position:{{ asidePos }};top:96px;display:flex;flex-direction:column;gap:24px">
+          <div data-reveal="" style="display:flex;flex-direction:column;gap:16px;padding:20px;border-radius:24px;background:var(--surface,#181818);border:1px solid var(--line,rgba(255,255,255,.1))">
+            <sc-for list="{{ d.facts }}" as="f" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:16px;border-bottom:1px solid var(--line,rgba(255,255,255,.1))">
+                <span style="font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#9b9b9b)">{{ f.label }}</span>
+                <span style="font:500 16px/24px 'Geist',sans-serif;color:{{ f.color }};text-wrap:pretty">{{ f.value }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ d.hasTags }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#9b9b9b)">Stack</span>
+                <div style="display:flex;flex-wrap:wrap;gap:4px">
+                  <sc-for list="{{ d.tags }}" as="t" hint-placeholder-count="4">
+                    <span style="padding:4px 10px;border-radius:9999px;border:1px solid var(--line,rgba(255,255,255,.1));font:400 12px/16px 'Geist Mono',monospace;color:var(--fg,#f2f2f2)">{{ t }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ d.links }}" as="l" hint-placeholder-count="2">
+                <a href="{{ l.url }}" target="{{ l.target }}" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;border-radius:9999px;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.fg }};font:600 14px/20px 'Geist',sans-serif" style-active="transform:scale(0.98)"><span style="display:flex;align-items:center;gap:8px"><i class="{{ l.icon }}" style="font-size:18px"></i>{{ l.label }}</span><i class="ph ph-arrow-up-right" style="font-size:16px"></i></a>
+              </sc-for>
+            </div>
+          </div>
+          <sc-if value="{{ showToc }}" hint-placeholder-val="{{ false }}">
+            <nav aria-label="On this page" style="display:flex;flex-direction:column;gap:4px;padding-left:4px">
+              <span style="font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#9b9b9b);margin-bottom:8px">On this page</span>
+              <sc-for list="{{ toc }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.go }}" style="display:flex;align-items:center;gap:8px;padding:4px 0;border:0;background:none;text-align:left;cursor:pointer;font:400 14px/20px 'Geist',sans-serif;color:{{ t.color }};transition:color 400ms cubic-bezier(0.32,0.72,0,1)"><span style="width:{{ t.bar }}px;height:2px;border-radius:2px;background:var(--accent,#00ff41);transition:width 500ms cubic-bezier(0.32,0.72,0,1)"></span>{{ t.label }}</button>
+              </sc-for>
+            </nav>
+          </sc-if>
+        </aside>
+
+        <article style="max-width:720px;display:flex;flex-direction:column;gap:24px">
+          <p data-reveal="" style="margin:0;font:400 24px/32px 'Geist',sans-serif;letter-spacing:-0.01em;color:var(--fg,#f2f2f2);text-wrap:pretty">{{ d.lead }}</p>
+          <span data-reveal="" style="width:64px;height:2px;background:var(--accentLine,rgba(0,255,65,.45))"></span>
+          <sc-for list="{{ d.blocks }}" as="b" hint-placeholder-count="4">
+            <sc-if value="{{ b.isH }}" hint-placeholder-val="{{ false }}">
+              <h2 data-reveal="" data-h="{{ b.id }}" style="margin:24px 0 0;font:600 30px/36px 'Geist',sans-serif;letter-spacing:-0.03em;color:var(--fg,#f2f2f2);scroll-margin-top:96px">{{ b.text }}</h2>
+            </sc-if>
+            <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+              <p data-reveal="" style="margin:0;font:400 18px/28px 'Geist',sans-serif;color:var(--body,#c9c9c9);text-wrap:pretty">{{ b.text }}</p>
+            </sc-if>
+          </sc-for>
+        </article>
+      </div>
+
+      <sc-if value="{{ d.hasGallery }}" hint-placeholder-val="{{ false }}">
+        <section data-h="gallery" style="max-width:1200px;margin:0 auto;padding:32px 24px 64px;display:flex;flex-direction:column;gap:24px;scroll-margin-top:96px">
+          <div data-reveal="" style="display:flex;justify-content:space-between;align-items:baseline;gap:16px">
+            <h2 style="margin:0;font:600 30px/36px 'Geist',sans-serif;letter-spacing:-0.03em;color:var(--fg,#f2f2f2)">{{ d.galleryTitle }}</h2>
+            <span style="font:400 12px/16px 'Geist Mono',monospace;color:var(--muted,#9b9b9b)">{{ d.galleryCount }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px">
+            <sc-for list="{{ d.gallery }}" as="g" hint-placeholder-count="3">
+              <button data-reveal="" onClick="{{ g.open }}" style="display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:24px;border:1px solid var(--line,rgba(255,255,255,.1));background:var(--surface,#181818);cursor:zoom-in;text-align:left" style-hover="border-color:var(--accentLine,rgba(0,255,65,.45))">
+                <span style="display:block;border-radius:16px;overflow:hidden;aspect-ratio:{{ g.aspect }};background:{{ g.frame }}">
+                  <img src="{{ g.src }}" alt="{{ g.cap }}" style="width:100%;height:100%;object-fit:{{ g.fit }};display:block;transition:transform 900ms cubic-bezier(0.32,0.72,0,1)" style-hover="transform:scale(1.04)">
+                </span>
+                <span style="display:flex;gap:8px;padding:4px 8px 8px;font:400 14px/20px 'Geist',sans-serif;color:var(--muted,#9b9b9b)"><span style="font:500 12px/20px 'Geist Mono',monospace;color:var(--accentText,#00ff41)">{{ g.n }}</span>{{ g.cap }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ d.hasArch }}" hint-placeholder-val="{{ false }}">
+        <section data-h="architecture" style="max-width:1200px;margin:0 auto;padding:32px 24px 64px;display:flex;flex-direction:column;gap:24px;scroll-margin-top:96px">
+          <h2 data-reveal="" style="margin:0;font:600 30px/36px 'Geist',sans-serif;letter-spacing:-0.03em;color:var(--fg,#f2f2f2)">Architecture</h2>
+          <sc-for list="{{ d.arch }}" as="g" hint-placeholder-count="1">
+            <button data-reveal="" onClick="{{ g.open }}" style="display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:24px;border:1px solid var(--line,rgba(255,255,255,.1));background:var(--surface,#181818);cursor:zoom-in;text-align:left">
+              <span style="display:block;border-radius:16px;overflow:hidden;background:#fff"><img src="{{ g.src }}" alt="{{ g.cap }}" style="width:100%;max-height:640px;object-fit:contain;display:block"></span>
+              <span style="padding:4px 8px 8px;font:400 14px/20px 'Geist',sans-serif;color:var(--muted,#9b9b9b)">{{ g.cap }}</span>
+            </button>
+          </sc-for>
+        </section>
+      </sc-if>
+
+      <a href="{{ d.next.href }}" onClick="{{ d.next.open }}" onMouseEnter="{{ nextEnter }}" onMouseLeave="{{ nextLeave }}" style="display:block;border-top:1px solid var(--line,rgba(255,255,255,.1));overflow:hidden">
+        <div style="max-width:1200px;margin:0 auto;padding:64px 24px 80px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+            <span style="font:500 12px/16px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#9b9b9b)">{{ nextLabel }}</span>
+            <span style="font:600 clamp(48px,9vw,112px)/0.95 'Geist',sans-serif;letter-spacing:-0.05em;color:{{ nextColor }};transition:color 600ms cubic-bezier(0.32,0.72,0,1)">{{ d.next.title }}</span>
+          </div>
+          <span style="flex:none;width:72px;height:72px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:var(--accent,#00ff41);color:#000;transform:rotate({{ nextRot }}deg);transition:transform 700ms cubic-bezier(0.32,0.72,0,1)"><i class="ph ph-arrow-up-right" style="font-size:28px"></i></span>
+        </div>
+      </a>
+    </main>
+  </sc-if>
+
+  <footer style="border-top:1px solid var(--line,rgba(255,255,255,.1))">
+    <div style="max-width:1200px;margin:0 auto;padding:32px 24px 40px;display:flex;flex-wrap:wrap;gap:16px 24px;justify-content:space-between;align-items:center;font:400 12px/16px 'Geist Mono',monospace;color:var(--muted,#9b9b9b)">
+      <span>© 2026 Harshavardhan Khamkar</span>
+      <div style="display:flex;flex-wrap:wrap;gap:24px">
+        <a href="PortfolioMobile.dc.html" style-hover="color:var(--fg,#f2f2f2)">Home</a>
+        <a href="mailto:harshavardhan.khamkar@gmail.com" style-hover="color:var(--fg,#f2f2f2)">Contact</a>
+        <a href="https://github.com/Harshavardhan-28" target="_blank" rel="noopener noreferrer" style-hover="color:var(--fg,#f2f2f2)">GitHub</a>
+        <a href="https://www.linkedin.com/in/harshavardhan-khamkar/" target="_blank" rel="noopener noreferrer" style-hover="color:var(--fg,#f2f2f2)">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <div data-cursor="" aria-hidden="true" style="position:fixed;left:0;top:0;z-index:65;pointer-events:none;display:flex;align-items:center;gap:4px;height:40px;padding:0 16px;border-radius:9999px;background:var(--accent,#00ff41);color:#000;font:600 14px/20px 'Geist',sans-serif;transform:translate(-50%,-50%) scale(0);transition:transform 500ms cubic-bezier(0.32,0.72,0,1)">View<i class="ph ph-arrow-up-right" style="font-size:14px"></i></div>
+
+  <sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Image viewer" onClick="{{ lbClose }}" style="position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:64px 16px 24px;box-sizing:border-box;background:var(--menuBg,rgba(0,0,0,.86));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)">
+      <img data-lbimg="" src="{{ lb.src }}" alt="{{ lb.cap }}" onClick="{{ stop }}" style="max-width:min(1200px,100%);max-height:calc(100% - 96px);object-fit:contain;border-radius:16px;background:{{ lb.frame }};display:block;animation:hkpop 700ms cubic-bezier(0.32,0.72,0,1) both">
+      <div onClick="{{ stop }}" style="display:flex;align-items:center;gap:16px;font:400 14px/20px 'Geist',sans-serif;color:var(--fg,#f2f2f2)">
+        <button onClick="{{ lbPrev }}" aria-label="Previous image" style="width:44px;height:44px;border-radius:9999px;border:1px solid var(--line,rgba(255,255,255,.1));background:var(--surface,#181818);color:var(--fg,#f2f2f2);cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph ph-arrow-left" style="font-size:18px"></i></button>
+        <span style="max-width:420px;text-align:center;text-wrap:balance">{{ lb.cap }} <span style="font:400 12px/16px 'Geist Mono',monospace;color:var(--muted,#9b9b9b)">{{ lb.pos }}</span></span>
+        <button onClick="{{ lbNext }}" aria-label="Next image" style="width:44px;height:44px;border-radius:9999px;border:1px solid var(--line,rgba(255,255,255,.1));background:var(--surface,#181818);color:var(--fg,#f2f2f2);cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph ph-arrow-right" style="font-size:18px"></i></button>
+      </div>
+      <button onClick="{{ lbClose }}" aria-label="Close" style="position:absolute;right:16px;top:16px;width:44px;height:44px;border-radius:9999px;border:0;background:var(--fg,#f2f2f2);color:var(--bg,#000);cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="ph ph-x" style="font-size:18px"></i></button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;projects&quot;,&quot;hackathons&quot;],&quot;default&quot;:&quot;projects&quot;,&quot;tsType&quot;:&quot;'projects'|'hackathons'&quot;}}">class Component extends DCLogic {
+  state = { seen: {}, menu: false, revealed: false, lbShown: false, dark: true, items: [], projects: [], slug: '', filter: 'All', filterTick: 0, scrolled: false, wide: true, toc: '', lb: -1, nextHover: false, fine: false };
+  rootRef = React.createRef();
+  heroRef = React.createRef();
+
+  get kind() { return this.props.kind ?? 'projects'; }
+
+  componentDidMount() {
+    try { const t = localStorage.getItem('hk-theme'); if (t) this.setState({ dark: t === 'dark' }); } catch (e) {}
+    const fix = p => (p ? p.replace(/^\/images\//, 'assets/images/') : p);
+    Promise.all([fetch('data/projects.json').then(r => r.json()), fetch('data/achievements.json').then(r => r.json())]).then(([projects, ach]) => {
+      const norm = o => {
+        const n = { ...o };
+        ['image', 'logo', 'previewImage'].forEach(k => (n[k] = fix(n[k])));
+        ['gallery', 'architecture'].forEach(k => (n[k] = n[k] ? n[k].map(fix) : n[k]));
+        ['galleryCaptions', 'architectureCaptions'].forEach(k => { if (n[k]) n[k] = Object.fromEntries(Object.entries(n[k]).map(([a, b]) => [fix(a), b])); });
+        return n;
+      };
+      const P = projects.map(norm), A = ach.map(norm);
+      this.setState({ projects: P, items: this.kind === 'projects' ? P : A }, () => { this.readHash(true); setTimeout(() => this.tick(), 200); setTimeout(() => this.tick(), 700); });
+    }).catch(e => console.warn('data load failed', e));
+    this.onHash = () => this.readHash(false);
+    window.addEventListener('hashchange', this.onHash);
+    this.onScroll = () => { if (!this.ticking) { this.ticking = true; requestAnimationFrame(() => { this.ticking = false; this.tick(); }); } };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onKey = e => {
+      if (e.key === 'Escape' && this.state.menu) { document.documentElement.style.overflow = ''; this.setState({ menu: false }); return; }
+      if (this.state.lb < 0) return;
+      if (e.key === 'Escape') this.setState({ lb: -1, lbShown: false });
+      if (e.key === 'ArrowRight') this.stepLb(1);
+      if (e.key === 'ArrowLeft') this.stepLb(-1);
+    };
+    window.addEventListener('keydown', this.onKey);
+    const mq = () => this.setState({ wide: window.innerWidth >= 900, fine: window.matchMedia('(hover: hover) and (pointer: fine)').matches });
+    mq(); this.onResize = mq; window.addEventListener('resize', mq);
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, d = +(el.dataset.delay || 0);
+      if (el.hasAttribute('data-slug')) { this.markSeen(el.getAttribute('data-slug')); this.io.unobserve(el); return; }
+      setTimeout(() => {
+        if (el.hasAttribute('data-clipwrap')) { const cl = el.querySelector('[data-clip]'); if (cl) { cl.style.clipPath = 'inset(0% 0 0 0 round 24px)'; const im = cl.querySelector('[data-cardimg]'); if (im) im.style.transform = 'scale(1)'; } }
+        else if (el.hasAttribute('data-clip')) { el.style.clipPath = 'inset(0% 0 0 0 round 24px)'; const im = el.querySelector('[data-cardimg]'); if (im) im.style.transform = 'scale(1)'; }
+        else { el.style.opacity = 1; el.style.transform = 'none'; el.style.filter = 'none'; }
+      }, d);
+      this.io.unobserve(el);
+    }), { threshold: 0.12 });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('hashchange', this.onHash);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('keydown', this.onKey);
+    window.removeEventListener('resize', this.onResize);
+    document.documentElement.style.overflow = '';
+    this.io?.disconnect(); clearTimeout(this.revT); clearTimeout(this.lbT);
+  }
+
+  componentDidUpdate(pp, ps) {
+    const viewChanged = ps.slug !== this.state.slug || ps.items !== this.state.items;
+    if (viewChanged) {
+      clearTimeout(this.revT);
+      if (this.state.revealed) this.setState({ revealed: false });
+      this.revT = setTimeout(() => this.setState({ revealed: true }), 80);
+    }
+    if (viewChanged || ps.filterTick !== this.state.filterTick) this.afterView(ps.slug !== this.state.slug);
+    requestAnimationFrame(() => this.scan());
+    if (ps.menu !== this.state.menu) document.documentElement.style.overflow = this.state.menu ? 'hidden' : '';
+    if (ps.lb !== this.state.lb && this.state.lb >= 0) { if (this.state.lbShown) this.setState({ lbShown: false }); clearTimeout(this.lbT); this.lbT = setTimeout(() => this.setState({ lbShown: true }), 40); }
+  }
+
+  readHash(initial) {
+    const slug = decodeURIComponent((location.hash || '').slice(1));
+    const valid = this.state.items.some(i => i.slug === slug) ? slug : '';
+    if (valid !== this.state.slug) {
+      if (!this.flip) window.scrollTo(0, 0);
+      this.setState({ slug: valid, lb: -1, toc: '' });
+    } else if (initial) this.afterView(true);
+  }
+
+  afterView(changed) {
+    const root = this.rootRef.current; if (!root) return;
+    requestAnimationFrame(() => {
+      this.scan();
+      if (changed && this.state.slug && this.flip && this.heroRef.current) {
+        const h = this.heroRef.current, to = h.getBoundingClientRect(), f = this.flip;
+        h.style.transition = 'none';
+        h.style.transform = `translate(${f.left - to.left}px, ${f.top - to.top}px) scale(${f.width / to.width}, ${f.height / to.height})`;
+        h.getBoundingClientRect();
+        h.style.transition = 'transform 1000ms cubic-bezier(0.32,0.72,0,1)';
+        h.style.transform = 'none';
+      }
+      this.flip = null;
+      this.tick();
+      setTimeout(() => this.scan(), 120);
+    });
+  }
+
+  markSeen(...slugs) {
+    const add = slugs.filter(sl => sl && !this.state.seen[sl]);
+    if (add.length) this.setState(s => ({ seen: { ...s.seen, ...Object.fromEntries(add.map(k => [k, true])) } }));
+  }
+
+  scan() {
+    const root = this.rootRef.current; if (!root) return;
+    {
+      root.querySelectorAll('[data-cardlink]:not([data-seen])').forEach(el => { el.setAttribute('data-seen', ''); this.io.observe(el); });
+      root.querySelectorAll('[data-reveal]:not([data-seen])').forEach(el => {
+        el.setAttribute('data-seen', '');
+        if (!el.hasAttribute('data-clip')) {
+          el.style.opacity = 0; el.style.transform = 'translateY(40px)'; el.style.filter = 'blur(8px)';
+          el.style.transition = 'opacity 900ms cubic-bezier(0.32,0.72,0,1), transform 900ms cubic-bezier(0.32,0.72,0,1), filter 900ms cubic-bezier(0.32,0.72,0,1)';
+        }
+        this.io.observe(el);
+      });
+    }
+  }
+
+  tick() {
+    const root = this.rootRef.current; if (!root) return;
+    const y = window.scrollY, vh = window.innerHeight;
+    const scrolled = y > 16;
+    const bar = root.querySelector('[data-progress]');
+    if (bar) { const max = document.documentElement.scrollHeight - vh; bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`; }
+    this.scan();
+    const newly = [];
+    root.querySelectorAll('[data-cardlink]').forEach(a => { const sl = a.getAttribute('data-slug'); if (sl && !this.state.seen[sl] && a.getBoundingClientRect().top < vh * 0.95) newly.push(sl); });
+    if (newly.length) this.markSeen(...newly);
+    root.querySelectorAll('[data-reveal][data-seen]').forEach(el => { if (el.style.opacity === '0' && el.getBoundingClientRect().top < vh) { el.style.opacity = 1; el.style.transform = 'none'; el.style.filter = 'none'; this.io.unobserve(el); } });
+    const par = root.querySelector('[data-parallax]');
+    if (par) par.style.transform = `translateY(${Math.min(y, 800) * 0.12}px)`;
+    let toc = '';
+    root.querySelectorAll('[data-h]').forEach(h => { if (h.getBoundingClientRect().top < vh * 0.35) toc = h.getAttribute('data-h'); });
+    if (scrolled !== this.state.scrolled || toc !== this.state.toc) this.setState({ scrolled, toc });
+  }
+
+  open(slug, e) {
+    if (e) {
+      e.preventDefault();
+      const img = e.currentTarget.querySelector('[data-clip]');
+      if (img) { const r = img.getBoundingClientRect(); this.flip = { left: r.left, top: r.top, width: r.width, height: r.height }; }
+    }
+    window.scrollTo(0, 0);
+    location.hash = slug;
+  }
+
+  stepLb(dir) {
+    const n = this.lbList().length; if (!n) return;
+    this.setState(s => ({ lb: (s.lb + dir + n) % n }));
+  }
+
+  current() { return this.state.items.find(i => i.slug === this.state.slug); }
+
+  lbList() {
+    const it = this.current(); if (!it) return [];
+    const isP = this.kind === 'projects';
+    const gal = isP ? (it.gallery || []) : (it.gallery || []).filter(s => s !== it.image);
+    const g = gal.map(src => ({ src, cap: (it.galleryCaptions || {})[src] || it.title, frame: isP ? '#fff' : 'transparent' }));
+    const a = (it.architecture || []).map(src => ({ src, cap: (it.architectureCaptions || {})[src] || 'Architecture', frame: '#fff' }));
+    return [...g, ...a];
+  }
+
+  renderVals() {
+    const dark = this.state.dark, isP = this.kind === 'projects';
+    const T = dark
+      ? { '--bg': '#000000', '--surface': '#181818', '--surface2': '#272727', '--line': 'rgba(255,255,255,0.1)', '--fg': '#F2F2F2', '--muted': '#9B9B9B', '--body': '#C9C9C9', '--accent': '#00FF41', '--accentText': '#00FF41', '--accentLine': 'rgba(0,255,65,0.45)', '--glass': 'rgba(24,24,24,0.72)', '--menuBg': 'rgba(0,0,0,0.86)', '--strokeLetter': 'rgba(255,255,255,0.16)' }
+      : { '--bg': '#F5F6F4', '--surface': '#FFFFFF', '--surface2': '#ECEEEA', '--line': 'rgba(0,0,0,0.09)', '--fg': '#0D0E0D', '--muted': '#5C605B', '--body': '#2E312D', '--accent': '#00FF41', '--accentText': '#0A7A28', '--accentLine': 'rgba(10,122,40,0.4)', '--glass': 'rgba(255,255,255,0.74)', '--menuBg': 'rgba(245,246,244,0.9)', '--strokeLetter': 'rgba(0,0,0,0.14)' };
+    const rootStyle = { ...T, minHeight: '100vh', background: T['--bg'], color: T['--fg'], fontFamily: "'Geist',sans-serif", WebkitFontSmoothing: 'antialiased', transition: 'background-color 600ms cubic-bezier(0.32,0.72,0,1)', overflowX: 'clip' };
+    const { items, filter, slug, wide } = this.state;
+    const winner = a => !!(a.facts && a.facts.result);
+    const cats = isP ? ['All', ...[...new Set(items.map(p => p.category))]] : ['All', 'Winners'];
+    const inFilter = it => filter === 'All' || (isP ? it.category === filter : winner(it));
+    const shown = items.filter(inFilter);
+    const letter = t => (t || '?').charAt(0);
+    const cards = shown.map((it, i) => {
+      const img = isP ? it.image : (it.previewImage || it.image);
+      return {
+        href: `#${it.slug}`, open: e => this.open(it.slug, e),
+        title: it.title, idx: `${String(items.indexOf(it) + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`,
+        image: img, hasImage: !!img, noImage: !img, letter: letter(it.title),
+        pos: isP ? 'center top' : (it.previewPosition || it.heroPosition || 'center'),
+        meta: isP ? it.category : it.date, meta2: isP ? (it.githubUrl ? 'Open source' : '') : (it.location || it.tag),
+        sub: isP ? (it.summary && !it.summary.startsWith('Add a') ? it.summary : (it.tagline || 'Write-up coming soon.')) : it.summary,
+        tags: isP ? it.tags.slice(0, 3).concat(it.tags.length > 3 ? [`+${it.tags.length - 3}`] : []) : (winner(it) ? [it.facts.result] : ['Participant']),
+        hasBadge: !isP && winner(it), badge: 'Winner', slug: it.slug,
+        clip: this.state.seen[it.slug] ? 'inset(0% 0 0 0 round 24px)' : 'inset(100% 0 0 0 round 24px)',
+        imgScale: this.state.seen[it.slug] ? 1 : 1.15, clipDelay: (i % 3) * 90,
+        opacity: 1, y: 0, delay: i * 60,
+      };
+    });
+    const filters = cats.map(c => {
+      const sel = c === filter, n = c === 'All' ? items.length : items.filter(it => (isP ? it.category === c : winner(it))).length;
+      return { label: c, count: String(n), sel: sel ? 'true' : 'false', bg: sel ? T['--fg'] : 'transparent', fg: sel ? T['--bg'] : T['--fg'], border: sel ? T['--fg'] : T['--line'], pick: () => this.setState(s => ({ filter: c, filterTick: s.filterTick + 1, seen: {} })) };
+    });
+    const rev = this.state.revealed;
+    const titleWords = (isP ? ['All', 'projects'] : ['Hackathons']).map((w, wi) => ({ color: wi === 1 || !isP ? T['--accentText'] : T['--fg'], chars: [...w].map((c, ci) => ({ c, d: 80 + (wi * 4 + ci) * 35, t: rev ? '0%' : '110%' })) }));
+
+    const it = this.current();
+    let d = { facts: [], tags: [], links: [], blocks: [], gallery: [], arch: [], next: { title: '', href: '#' } }, toc = [];
+    if (it) {
+      const idx = items.indexOf(it), nx = items[(idx + 1) % items.length];
+      const body = isP ? it.description : it.body;
+      const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const blocks = body.slice(1).map(line => line.startsWith('## ') ? { isH: true, isP: false, text: line.slice(3), id: slugify(line.slice(3)) } : { isH: false, isP: true, text: line.replace(/^> /, ''), id: '' });
+      const galSrcs = isP ? (it.gallery || []) : (it.gallery || []).filter(s => s !== it.image);
+      const facts = isP
+        ? [{ label: 'Category', value: it.category, color: T['--accentText'] }]
+        : [
+            ...(it.facts?.result ? [{ label: 'Result', value: it.facts.result, color: T['--accentText'] }] : [{ label: 'Result', value: 'Participant', color: T['--fg'] }]),
+            ...(it.facts?.built ? [{ label: 'Built', value: it.facts.built, color: T['--fg'] }] : []),
+            { label: 'When', value: [it.date, it.location].filter(Boolean).join(', '), color: T['--fg'] },
+          ];
+      const L = (label, url, icon, primary) => ({ label, url, icon, target: url.startsWith('Projects.dc') ? '_self' : '_blank', bg: primary ? T['--accent'] : 'transparent', fg: primary ? '#000' : T['--fg'], border: primary ? T['--accent'] : T['--line'] });
+      const links = isP
+        ? [it.githubUrl && L('GitHub', it.githubUrl, 'ph ph-github-logo', true), it.liveUrl && L('Live demo', it.liveUrl, 'ph ph-globe', false), it.youtubeUrl && L('Watch demo', it.youtubeUrl, 'ph ph-youtube-logo', false), it.whitepaperUrl && L('Whitepaper', it.whitepaperUrl, 'ph ph-file-text', false)].filter(Boolean)
+        : [it.projectSlug && L(`View ${(this.state.projects.find(p => p.slug === it.projectSlug) || {}).title || 'project'}`, `Projects.dc.html#${it.projectSlug}`, 'ph ph-squares-four', true), it.externalUrl && L('Event page', it.externalUrl, 'ph ph-globe', false)].filter(Boolean);
+      d = {
+        title: it.title, tagline: isP ? it.tagline : it.summary, hasTagline: !!(isP ? it.tagline : it.summary),
+        eyebrow: isP ? it.category : [it.tag, it.date, it.location].filter(Boolean).join(' / '),
+        image: it.image, hasImage: !!it.image, noImage: !it.image, letter: letter(it.title), pos: isP ? 'center top' : (it.heroPosition || 'center'),
+        logo: it.logo, hasLogo: !!(isP && it.logo), logoFit: it.logoFit === 'cover' ? 'cover' : 'contain',
+        facts, tags: isP ? it.tags : [], hasTags: isP && it.tags.length > 0, links,
+        lead: body[0], blocks,
+        gallery: galSrcs.map((src, i) => ({ src, cap: (it.galleryCaptions || {})[src] || `${it.title} photo ${i + 1}`, n: String(i + 1).padStart(2, '0'), fit: isP ? 'contain' : 'cover', frame: isP ? '#fff' : T['--surface2'], aspect: isP ? '16/10' : '4/3', open: () => this.setState({ lb: i }) })),
+        hasGallery: galSrcs.length > 0, galleryTitle: isP ? 'Screens' : 'Gallery', galleryCount: `${galSrcs.length} ${galSrcs.length === 1 ? 'image' : 'images'}`,
+        arch: (it.architecture || []).map((src, i) => ({ src, cap: (it.architectureCaptions || {})[src] || 'Architecture', open: () => this.setState({ lb: galSrcs.length + i }) })),
+        hasArch: !!(it.architecture && it.architecture.length),
+        next: { title: nx.title, href: `#${nx.slug}`, open: e => { e.preventDefault(); this.open(nx.slug); } },
+      };
+      toc = [...blocks.filter(b => b.isH).map(b => ({ id: b.id, label: b.text })), ...(d.hasGallery ? [{ id: 'gallery', label: d.galleryTitle }] : []), ...(d.hasArch ? [{ id: 'architecture', label: 'Architecture' }] : [])]
+        .map(t => ({ ...t, color: this.state.toc === t.id ? T['--fg'] : T['--muted'], bar: this.state.toc === t.id ? 16 : 0, go: () => { const el = this.rootRef.current?.querySelector(`[data-h="${t.id}"]`); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 88, behavior: 'smooth' }); } }));
+    }
+    const lbs = this.lbList(), lbi = this.state.lb;
+    const lb = lbi >= 0 && lbs[lbi] ? { ...lbs[lbi], pos: `${lbi + 1} / ${lbs.length}` } : { src: '', cap: '', pos: '', frame: 'transparent' };
+    const cursor = () => this.rootRef.current?.querySelector('[data-cursor]');
+    return {
+      rootRef: this.rootRef, heroRef: this.heroRef, rootStyle,
+      lineT: rev ? '0%' : '105%',
+      ...(() => {
+        const open = this.state.menu;
+        const M = [['Home', 'PortfolioMobile.dc.html'], ['About', 'PortfolioMobile.dc.html#about'], ['Tech stack', 'PortfolioMobile.dc.html#stack'], ['Projects', 'Projects.dc.html'], ['Hackathons', 'Hackathons.dc.html'], ['Experience', 'PortfolioMobile.dc.html#experience'], ['Socials', 'PortfolioMobile.dc.html#images']];
+        const cur = isP ? 3 : 4;
+        return {
+          menuHidden: open ? 'false' : 'true', menuExpanded: open ? 'true' : 'false', menuLabel: open ? 'Close menu' : 'Open menu',
+          menuClip: open ? 'circle(150% at calc(100% - 38px) 34px)' : 'circle(0px at calc(100% - 38px) 34px)', menuPE: open ? 'auto' : 'none',
+          menuBtnBg: open ? T['--accent'] : T['--fg'], menuLineColor: open ? '#000' : T['--bg'],
+          line1Top: open ? 21 : 17, line2Top: open ? 21 : 25, line1Rot: open ? 45 : 0, line2Rot: open ? -45 : 0,
+          menuFootOpacity: open ? 1 : 0, menuFootY: open ? 0 : 24,
+          menuItems: M.map(([label, href], i) => ({ label, href, num: String(i + 1).padStart(2, '0'), current: i === cur ? 'page' : 'false', opacity: open ? 1 : 0, y: open ? 0 : 56, delay: open ? 150 + i * 50 : 0, color: i === cur ? T['--accentText'] : T['--fg'],
+            go: e => { if (i === cur) { e.preventDefault(); document.documentElement.style.overflow = ''; this.setState({ menu: false }); if (this.state.slug) { history.pushState('', '', location.pathname + location.search); this.readHash(false); } window.scrollTo({ top: 0, behavior: 'smooth' }); } } })),
+          toggleMenu: () => { const next = !this.state.menu; document.documentElement.style.overflow = next ? 'hidden' : ''; this.setState({ menu: next }); },
+          socials: [
+            { name: 'X', url: 'https://x.com/hrshvrdhxn', icon: 'ph ph-x-logo' },
+            { name: 'Instagram', url: '#', icon: 'ph ph-instagram-logo' },
+            { name: 'GitHub', url: 'https://github.com/Harshavardhan-28', icon: 'ph ph-github-logo' },
+            { name: 'LinkedIn', url: 'https://www.linkedin.com/in/harshavardhan-khamkar/', icon: 'ph ph-linkedin-logo' },
+          ],
+        };
+      })(),
+      lbOpacity: this.state.lbShown ? 1 : 0, lbScale: this.state.lbShown ? 1 : 0.94,
+      isList: !slug, isDetail: !!slug,
+      progressDisplay: slug ? 'block' : 'none',
+      headerBg: this.state.scrolled ? T['--glass'] : 'transparent', headerBlur: this.state.scrolled ? 'blur(20px)' : 'none', headerLine: this.state.scrolled ? T['--line'] : 'transparent',
+      projCurrent: isP ? 'page' : 'false', hackCurrent: isP ? 'false' : 'page',
+      projTabBg: isP ? T['--accent'] : 'transparent', projTabFg: isP ? '#000' : T['--fg'],
+      hackTabBg: isP ? 'transparent' : T['--accent'], hackTabFg: isP ? T['--fg'] : '#000',
+      themeIcon: dark ? 'ph ph-sun' : 'ph ph-moon', themeRot: dark ? 0 : 360, themeLabel: dark ? 'Switch to light mode' : 'Switch to dark mode',
+      toggleTheme: () => this.setState(s => { try { localStorage.setItem('hk-theme', s.dark ? 'light' : 'dark'); } catch (e) {} return { dark: !s.dark }; }),
+      listEyebrow: isP ? `Index / ${String(items.length).padStart(2, '0')} projects` : `Index / ${String(items.length).padStart(2, '0')} events`,
+      listTitle: isP ? 'All projects' : 'Hackathons',
+      listIntro: isP ? 'ML systems, data pipelines, agentic AI and on chain privacy. Pick one to read the full write up.' : 'Stories from the build weekends: what we shipped, what broke and what we learned along the way.',
+      titleWords, filters, cards, isEmpty: items.length > 0 && cards.length === 0,
+      resetFilter: () => this.setState(s => ({ filter: 'All', filterTick: s.filterTick + 1 })),
+      cardAspect: isP ? '16/10' : '4/3',
+      onGridMove: e => { if (!this.state.fine) return; const c = cursor(); if (!c) return; c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px'; const on = !!e.target.closest('[data-cardlink]'); c.style.transform = `translate(-50%,-50%) scale(${on ? 1 : 0})`; },
+      onGridLeave: () => { const c = cursor(); if (c) c.style.transform = 'translate(-50%,-50%) scale(0)'; },
+      onCardEnter: () => {},
+      d, toc, showToc: wide && toc.length > 1,
+      heroH: wide ? 'min(62vh,560px)' : '320px',
+      detailCols: wide ? '280px minmax(0,1fr)' : 'minmax(0,1fr)', asidePos: wide ? 'sticky' : 'relative',
+      backLabel: isP ? 'All projects' : 'All hackathons',
+      backBg: this.state.backHover ? T['--accent'] : 'transparent', backBorder: this.state.backHover ? T['--accent'] : T['--line'],
+      backIcon: this.state.backHover ? '#000' : T['--fg'], backX: this.state.backHover ? -3 : 0,
+      backEnter: () => this.setState({ backHover: true }), backLeave: () => this.setState({ backHover: false }),
+      nextLabel: isP ? 'Next project' : 'Next hackathon',
+      nextColor: this.state.nextHover ? T['--accentText'] : T['--fg'], nextRot: this.state.nextHover ? 45 : 0,
+      nextEnter: () => this.setState({ nextHover: true }), nextLeave: () => this.setState({ nextHover: false }),
+      goList: () => { history.pushState('', '', location.pathname + location.search); this.readHash(false); window.scrollTo(0, 0); },
+      lbOpen: lbi >= 0, lb, lbClose: () => this.setState({ lb: -1, lbShown: false }), lbPrev: e => { e.stopPropagation(); this.stepLb(-1); }, lbNext: e => { e.stopPropagation(); this.stepLb(1); }, stop: e => e.stopPropagation(),
+    };
+  }
+}</script>
+</body>
+</html>

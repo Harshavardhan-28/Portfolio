@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import "@phosphor-icons/web/regular/style.css";
+import "@phosphor-icons/web/fill/style.css";
 import "./globals.css";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +19,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Harshavardhan Khamkar",
-  description: "Portfolio of Harshavardhan Khamkar - Building immersive digital experiences",
+  description:
+    "Portfolio of Harshavardhan Khamkar: ML systems, data pipelines and agentic AI products.",
 };
+
+// Runs before first paint so the saved theme never flashes the wrong colours.
+const themeScript = `try{var t=localStorage.getItem('hk-theme');if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -25,13 +32,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Header />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SiteHeader />
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

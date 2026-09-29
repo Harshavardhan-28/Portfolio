@@ -1,91 +1,130 @@
 "use client";
 
-import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { achievements } from "@/lib/achievements";
-import AchievementCard from "./AchievementCard";
+import { achievements, type Achievement } from "@/lib/achievements";
+import { projects } from "@/lib/projects";
+import { useWide } from "@/lib/hooks";
+import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
 
-gsap.registerPlugin(ScrollTrigger);
+const FEATURED_SLUG = "google-cloud-agentic-ai-day";
 
-const HOME_PREVIEW_COUNT = 3;
+const thumb = (a: Achievement) => a.previewImage ?? a.image;
+const thumbPos = (a: Achievement) => a.previewPosition ?? a.heroPosition ?? "center 20%";
+const built = (a: Achievement) =>
+  a.facts?.built ?? projects.find((p) => p.slug === a.projectSlug)?.title;
 
 export default function Achievements() {
-  const container = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const previewAchievements = achievements.slice(0, HOME_PREVIEW_COUNT);
-  const hasMore = achievements.length > HOME_PREVIEW_COUNT;
-
-  useGSAP(() => {
-    if (!container.current) return;
-
-    gsap.fromTo(
-      cardsRef.current,
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top 80%",
-        },
-      }
-    );
-  }, { scope: container });
+  const wide = useWide();
+  const featured = achievements.find((a) => a.slug === FEATURED_SLUG) ?? achievements[0];
+  const rest = achievements.filter((a) => a !== featured);
+  if (!featured) return null;
 
   return (
-    <section
-      id="achievements"
-      ref={container}
-      className="relative z-20 w-full py-20 px-6 sm:py-24 md:py-32 md:px-20 scroll-mt-24"
-    >
-      {/* Secondary scroll target so Header's "Hackathons" link also lands here */}
-      <div id="hackathons" className="absolute -top-24" aria-hidden="true" />
-
-      {/* Fluid rather than a jump to text-8xl at md: "ACHIEVEMENTS" is 12
-          characters, and 96px of it is wider than this section's content box
-          between 768px and ~1000px — which widened the whole document. */}
-      <h2 className="text-[clamp(2.25rem,8.5vw,6rem)] font-black uppercase leading-none mb-10 md:mb-16">
-        Hackathons &amp; <br />
-        <span className="text-[#00ff41]">Achievements</span>
-      </h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        {previewAchievements.map((achievement, i) => (
-          <div
-            key={achievement.slug}
-            ref={(el) => {
-              cardsRef.current[i] = el;
-            }}
-          >
-            <AchievementCard achievement={achievement} />
-          </div>
-        ))}
-
-        {hasMore && (
-          <div
-            ref={(el) => {
-              cardsRef.current[previewAchievements.length] = el;
-            }}
-          >
-            <Link
-              href="/achievements"
-              className="group relative flex aspect-[3/4] flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-[#111] transition-all duration-500 hover:border-[#00ff41] hover:shadow-[0_0_30px_rgba(0,255,65,0.25)]"
+    <section data-sec="hackathons" className="flex flex-col gap-8 px-6 py-16 md:mx-auto md:max-w-[1200px]">
+      <SectionHeading
+        num="04"
+        eyebrow="Hackathons"
+        title="Hackathons and achievements"
+        balance
+        href="/achievements"
+        hrefLabel="All hackathons"
+      />
+      <div
+        className="grid items-stretch gap-4"
+        style={{ gridTemplateColumns: wide ? "minmax(0,1.1fr) minmax(0,1fr)" : "minmax(0,1fr)" }}
+      >
+        <Reveal
+          as={Link}
+          href={`/achievements/${featured.slug}`}
+          className="relative block overflow-hidden rounded-3xl"
+          style={{ aspectRatio: wide ? "4/3" : "4/5", background: "var(--surface)" }}
+        >
+          <Image
+            src={thumb(featured)}
+            alt={featured.title}
+            fill
+            sizes="(min-width: 768px) 600px, 100vw"
+            className="object-cover"
+            style={{ objectPosition: thumbPos(featured) }}
+          />
+          {featured.facts?.result && (
+            <span
+              className="mono absolute right-2 top-2 flex items-center gap-1 rounded-2xl px-3 py-2 text-xs font-semibold uppercase text-black"
+              style={{ background: "var(--accent)", letterSpacing: ".04em" }}
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#00ff41] text-[#00ff41] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#00ff41] group-hover:text-black">
-                <ArrowRight className="h-6 w-6 transition-transform duration-300 group-hover:translate-x-1" />
+              <i className="ph-fill ph-trophy" style={{ fontSize: 14 }} />
+              1st prize
+            </span>
+          )}
+          <div
+            className="absolute inset-x-2 bottom-2 flex flex-col gap-2 rounded-2xl p-4"
+            style={{
+              background: "var(--glass)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+            }}
+          >
+            <span className="mono text-xs font-medium" style={{ color: "var(--muted)" }}>
+              {[featured.date, featured.location].filter(Boolean).join(" / ")}
+            </span>
+            <h3 className="m-0 text-2xl font-semibold" style={{ lineHeight: "32px", letterSpacing: "-0.02em", color: "var(--fg)" }}>
+              {featured.title}
+            </h3>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-medium" style={{ color: "var(--accentText)" }}>
+                {featured.facts?.result}
               </span>
-              <h3 className="text-center text-lg font-black uppercase leading-tight text-white">
-                View All <br /> <span className="text-[#00ff41]">Achievements</span>
-              </h3>
-            </Link>
+              {built(featured) && (
+                <span className="text-sm" style={{ color: "var(--muted)" }}>
+                  Built {projects.find((p) => p.slug === featured.projectSlug)?.title ?? built(featured)}
+                </span>
+              )}
+            </div>
           </div>
-        )}
+        </Reveal>
+
+        <div className="flex flex-col justify-between gap-3">
+          {rest.map((h) => (
+            <Reveal
+              key={h.slug}
+              as={Link}
+              href={`/achievements/${h.slug}`}
+              className="grid flex-1 items-center gap-4 rounded-[20px] border p-2 active:scale-[0.98]"
+              style={{
+                gridTemplateColumns: `${wide ? 140 : 96}px minmax(0,1fr)`,
+                background: "var(--surface)",
+                borderColor: "var(--line)",
+              }}
+            >
+              <div className="relative overflow-hidden rounded-xl" style={{ height: wide ? "100%" : 120, minHeight: 120 }}>
+                <Image
+                  src={thumb(h)}
+                  alt={h.title}
+                  fill
+                  sizes="140px"
+                  className="object-cover"
+                  style={{ objectPosition: thumbPos(h) }}
+                />
+              </div>
+              <div className="flex min-w-0 flex-col gap-1 pr-2">
+                <span className="mono text-xs font-medium" style={{ color: "var(--muted)" }}>
+                  {h.date}
+                </span>
+                <h3 className="m-0 text-lg font-semibold" style={{ lineHeight: "28px", letterSpacing: "-0.01em", color: "var(--fg)" }}>
+                  {h.title}
+                </h3>
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: h.facts?.result ? "var(--accentText)" : "var(--muted)", textWrap: "pretty" }}
+                >
+                  {h.facts?.result ?? (built(h) ? `Built ${built(h)}` : "Participant")}
+                </span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
