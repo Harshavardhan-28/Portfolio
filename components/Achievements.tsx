@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { achievements, type Achievement } from "@/lib/achievements";
 import { projects } from "@/lib/projects";
-import { useWide } from "@/lib/hooks";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 
@@ -16,7 +15,6 @@ const built = (a: Achievement) =>
   a.facts?.built ?? projects.find((p) => p.slug === a.projectSlug)?.title;
 
 export default function Achievements() {
-  const wide = useWide();
   const featured = achievements.find((a) => a.slug === FEATURED_SLUG) ?? achievements[0];
   const rest = achievements.filter((a) => a !== featured);
   if (!featured) return null;
@@ -31,15 +29,12 @@ export default function Achievements() {
         href="/achievements"
         hrefLabel="All hackathons"
       />
-      <div
-        className="grid items-stretch gap-4"
-        style={{ gridTemplateColumns: wide ? "minmax(0,1.1fr) minmax(0,1fr)" : "minmax(0,1fr)" }}
-      >
+      <div className="grid grid-cols-1 items-stretch gap-4 min-[700px]:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <Reveal
           as={Link}
           href={`/achievements/${featured.slug}`}
-          className="relative block overflow-hidden rounded-3xl"
-          style={{ aspectRatio: wide ? "4/3" : "4/5", background: "var(--surface)" }}
+          className="relative block aspect-[4/5] overflow-hidden rounded-3xl min-[700px]:aspect-[4/3]"
+          style={{ background: "var(--surface)" }}
         >
           <Image
             src={thumb(featured)}
@@ -91,14 +86,10 @@ export default function Achievements() {
               key={h.slug}
               as={Link}
               href={`/achievements/${h.slug}`}
-              className="grid flex-1 items-center gap-4 rounded-[20px] border p-2 active:scale-[0.98]"
-              style={{
-                gridTemplateColumns: `${wide ? 140 : 96}px minmax(0,1fr)`,
-                background: "var(--surface)",
-                borderColor: "var(--line)",
-              }}
+              className="grid flex-1 grid-cols-[96px_minmax(0,1fr)] items-center gap-4 rounded-[20px] border p-2 active:scale-[0.98] min-[700px]:grid-cols-[140px_minmax(0,1fr)]"
+              style={{ background: "var(--surface)", borderColor: "var(--line)" }}
             >
-              <div className="relative overflow-hidden rounded-xl" style={{ height: wide ? "100%" : 120, minHeight: 120 }}>
+              <div className="relative h-[120px] min-h-[120px] overflow-hidden rounded-xl min-[700px]:h-full">
                 <Image
                   src={thumb(h)}
                   alt={h.title}

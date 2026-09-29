@@ -29,16 +29,14 @@ export default function SocialGallery() {
   const mid = (images.length - 1) / 2;
   const spread = wide ? 150 : 34;
   const roll = wide ? 5 : 7;
-  const w = wide ? 230 : 140;
-  const h = wide ? 350 : 220;
 
   return (
     <section data-sec="images" className="flex flex-col gap-8 py-16">
       <SectionHeading num="06" eyebrow="Life" title="What's up on socials" className="px-6 md:mx-auto md:w-full md:max-w-[1200px]" />
       <div
         ref={ref}
-        className="relative overflow-hidden"
-        style={{ height: wide ? 480 : 340, perspective: 1200 }}
+        className="relative h-[340px] overflow-hidden min-[700px]:h-[480px]"
+        style={{ perspective: 1200 }}
       >
         {images.map((src, i) => {
           const o = i - mid;
@@ -53,11 +51,8 @@ export default function SocialGallery() {
               key={src}
               onClick={() => setFocus(f ? -1 : i)}
               aria-label={`Photo ${i + 1}`}
-              className="absolute left-1/2 top-10 cursor-pointer overflow-hidden rounded-[28px] border p-0"
+              className="absolute left-1/2 top-10 ml-[-70px] h-[220px] w-[140px] cursor-pointer overflow-hidden rounded-[28px] border p-0 min-[700px]:ml-[-115px] min-[700px]:h-[350px] min-[700px]:w-[230px]"
               style={{
-                width: w,
-                height: h,
-                marginLeft: -w / 2,
                 borderColor: "var(--line)",
                 background: "var(--surface)",
                 transformOrigin: "50% 92%",

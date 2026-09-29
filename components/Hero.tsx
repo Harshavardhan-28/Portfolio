@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useIsDark, useMedia, useReducedMotion, useVisibleScroll, useWide } from "@/lib/hooks";
+import { useEffect, useRef } from "react";
+import { useIsDark, useMedia, useReducedMotion, useVisibleScroll } from "@/lib/hooks";
 import Reveal from "@/components/Reveal";
 
 type BirdHandle = {
@@ -16,26 +16,8 @@ export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const handle = useRef<BirdHandle | null>(null);
   const dark = useIsDark();
-  const wide = useWide();
   const touch = useMedia("(hover: none)");
   const reduce = useReducedMotion();
-  const [heroH, setHeroH] = useState(800);
-
-  // Fill the viewport (never shorter than the wordmark needs).
-  // Mobile URL bars resize the viewport while scrolling; ignore small height
-  // changes so the canvas isn't rebuilt (and the flock restarted) each time.
-  useEffect(() => {
-    let lastW = 0;
-    const measure = () => {
-      const w = window.innerWidth;
-      const h = Math.max(w >= 700 ? 760 : 640, window.innerHeight);
-      setHeroH((cur) => (w !== lastW || Math.abs(h - cur) > 160 ? h : cur));
-      lastW = w;
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,23 +38,25 @@ export default function Hero() {
   useEffect(() => handle.current?.setTheme(dark), [dark]);
 
   // Birds drift upward and fade as the hero scrolls away (only while it's on screen).
-  useVisibleScroll(sectionRef, () => handle.current?.setScroll(window.scrollY / (heroH * 0.9)));
+  useVisibleScroll(sectionRef, () => {
+    const h = sectionRef.current?.offsetHeight ?? window.innerHeight;
+    handle.current?.setScroll(window.scrollY / (h * 0.9));
+  });
 
   return (
     <section
       ref={sectionRef}
       data-sec="home"
-      className="relative box-border flex min-h-[640px] flex-col justify-end overflow-hidden px-6 pb-28"
-      style={{ height: heroH }}
+      // Height and offsets are pure CSS (svh is stable while mobile URL bars show/hide), so the
+      // hero never reflows or rebuilds the flock after hydration or when scrolling on a phone.
+      className="relative box-border flex h-[max(640px,100svh)] flex-col justify-end overflow-hidden px-6 pb-28 min-[700px]:h-[max(760px,100svh)]"
     >
       {/* Faint, diffuse green glow centred behind the name (same centre line the birds settle on). */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2"
+        className="pointer-events-none absolute left-1/2 top-[34%] h-[min(34svh,300px)] min-[700px]:top-[36%] min-[700px]:h-[min(46svh,460px)]"
         style={{
-          top: heroH * (wide ? 0.36 : 0.34),
           width: "min(110vw, 1300px)",
-          height: wide ? "min(46vh, 460px)" : "min(34vh, 300px)",
           transform: "translate(-50%, -50%)",
           background: "radial-gradient(closest-side, var(--glow) 0%, transparent 100%)",
         }}
@@ -84,8 +68,8 @@ export default function Hero() {
         style={{ touchAction: "pan-y" }}
       />
       <span
-        className="mono pointer-events-none absolute inset-x-0 flex items-center justify-center gap-2 text-xs"
-        style={{ top: Math.round(heroH * (wide ? 0.6 : 0.5)), color: "var(--muted)" }}
+        className="mono pointer-events-none absolute inset-x-0 top-1/2 flex items-center justify-center gap-2 text-xs min-[700px]:top-[60%]"
+        style={{ color: "var(--muted)" }}
       >
         <i className="ph ph-bird" style={{ fontSize: 14 }} />
         {touch ? "touch the flock" : "move your cursor through the flock"}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -23,8 +23,17 @@ export const metadata: Metadata = {
     "Portfolio of Harshavardhan Khamkar: ML systems, data pipelines and agentic AI products.",
 };
 
-// Runs before first paint so the saved theme never flashes the wrong colours.
-const themeScript = `try{var t=localStorage.getItem('hk-theme');if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}`;
+export const viewport: Viewport = {
+  colorScheme: "dark light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f6f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+};
+
+// Runs before first paint. A theme the visitor chose with the toggle wins; otherwise
+// follow the device (phone/PC) setting, and keep following it if it changes.
+const themeScript = `(function(){try{var d=document.documentElement,m=window.matchMedia('(prefers-color-scheme: light)');function s(){var t=localStorage.getItem('hk-theme');var light=t?t==='light':m.matches;if(light)d.dataset.theme='light';else delete d.dataset.theme}s();m.addEventListener('change',function(){if(!localStorage.getItem('hk-theme'))s()})}catch(e){}})()`;
 
 export default function RootLayout({
   children,

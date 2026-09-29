@@ -19,6 +19,7 @@
   --glass: rgba(24, 24, 24, 0.72);
   --shadow: rgba(0, 0, 0, 0.55);
   --menuBg: rgba(0, 0, 0, 0.86);
+  --menuSolid: rgba(0, 0, 0, 0.96);
   --strokeLetter: rgba(255, 255, 255, 0.16);
   --glow: rgba(0, 255, 65, 0.13);
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -41,6 +42,7 @@
   --glass: rgba(255, 255, 255, 0.74);
   --shadow: rgba(20, 30, 20, 0.12);
   --menuBg: rgba(245, 246, 244, 0.9);
+  --menuSolid: rgba(245, 246, 244, 0.97);
   --strokeLetter: rgba(0, 0, 0, 0.14);
   --glow: rgba(0, 220, 60, 0.16);
   color-scheme: light;
@@ -48,6 +50,8 @@
 
 html {
   background: var(--bg);
+  /* Locking scroll (menu, lightbox) must not add/remove the scrollbar and reflow the page. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -142,4 +146,9 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .tod-bed { animation: none; }
   .tod-clock:hover .tod-icon, .tod-clock:active .tod-icon { animation: none; }
+}
+
+/* Phone-only floating section bar: decided by CSS so desktop never renders it, even before hydration. */
+@media (min-width: 700px) {
+  .sectionbar { display: none; }
 }

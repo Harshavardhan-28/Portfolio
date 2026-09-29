@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { CollectionItem, CollectionKind, Shot } from "@/lib/collection";
-import { useWide } from "@/lib/hooks";
 import Reveal from "@/components/Reveal";
 
 const factLabel = "mono text-xs font-medium uppercase";
@@ -20,7 +19,6 @@ export default function CollectionDetail({
   next: CollectionItem;
 }) {
   const isP = kind === "projects";
-  const wide = useWide(900);
   const barRef = useRef<HTMLDivElement>(null);
   const parRef = useRef<HTMLDivElement>(null);
   const [tocId, setTocId] = useState("");
@@ -143,12 +141,8 @@ export default function CollectionDetail({
           </Reveal>
 
           <div
-            className="relative overflow-hidden rounded-3xl border"
-            style={{
-              height: wide ? "min(62vh,560px)" : 320,
-              background: "var(--surface)",
-              borderColor: "var(--line)",
-            }}
+            className="relative h-80 overflow-hidden rounded-3xl border min-[900px]:h-[min(62vh,560px)]"
+            style={{ background: "var(--surface)", borderColor: "var(--line)" }}
           >
             {item.heroImage ? (
               <div ref={parRef} className="absolute left-0 w-full" style={{ top: "-8%", height: "116%", willChange: "transform" }}>
@@ -229,10 +223,9 @@ export default function CollectionDetail({
         </div>
 
         <div
-          className="mx-auto grid max-w-[1200px] items-start gap-12 px-6 py-16"
-          style={{ gridTemplateColumns: wide ? "280px minmax(0,1fr)" : "minmax(0,1fr)" }}
+          className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-12 px-6 py-16 min-[900px]:grid-cols-[280px_minmax(0,1fr)]"
         >
-          <aside className="flex flex-col gap-6" style={wide ? { position: "sticky", top: 96 } : undefined}>
+          <aside className="flex flex-col gap-6 min-[900px]:sticky min-[900px]:top-24">
             <Reveal
               className="flex flex-col gap-4 rounded-3xl border p-5"
               style={{ background: "var(--surface)", borderColor: "var(--line)" }}
@@ -282,8 +275,8 @@ export default function CollectionDetail({
                 })}
               </div>
             </Reveal>
-            {wide && toc.length > 1 && (
-              <nav aria-label="On this page" className="flex flex-col gap-1 pl-1">
+            {toc.length > 1 && (
+              <nav aria-label="On this page" className="hidden flex-col gap-1 pl-1 min-[900px]:flex">
                 <span className={`${factLabel} mb-2`} style={{ letterSpacing: ".1em", color: "var(--muted)" }}>
                   On this page
                 </span>

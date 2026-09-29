@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sections, socials } from "@/lib/site";
-import { toggleTheme, useIsDark, useWide } from "@/lib/hooks";
+import { toggleTheme, useIsDark } from "@/lib/hooks";
 
 const EASE = "cubic-bezier(0.32,0.72,0,1)";
 
@@ -41,7 +41,6 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const dark = useIsDark();
-  const wide = useWide();
   // The menu is open for one pathname only, so navigating closes it without an effect.
   const [menuPath, setMenuPath] = useState<string | null>(null);
   const menu = menuPath === pathname;
@@ -65,6 +64,18 @@ export default function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Tell the rest of the page (the bird canvas) the menu is active; clear it once the
+  // close animation has finished.
+  useEffect(() => {
+    const html = document.documentElement;
+    if (menu) {
+      html.dataset.menu = "open";
+      return;
+    }
+    const t = setTimeout(() => delete html.dataset.menu, 1000);
+    return () => clearTimeout(t);
+  }, [menu]);
 
   // Lock page scroll while the menu is open.
   useEffect(() => {
@@ -105,9 +116,9 @@ export default function SiteHeader() {
         aria-hidden={!menu}
         className="fixed inset-0 z-[58] box-border flex flex-col justify-between overflow-y-auto px-6 pb-10 pt-24"
         style={{
-          background: "var(--menuBg)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
+          // Opaque enough to need no backdrop blur; a full-screen blur over the animating
+          // canvas, under a clip-path animation, flashed on close.
+          background: "var(--menuSolid)",
           clipPath: menu
             ? "circle(150% at calc(100% - 38px) 34px)"
             : "circle(0px at calc(100% - 38px) 34px)",
@@ -251,9 +262,9 @@ export default function SiteHeader() {
       {isHome && (
         <nav
           aria-label="Sections"
-          className="fixed bottom-4 left-1/2 z-30 flex gap-1 rounded-full border p-1"
+          className="sectionbar fixed bottom-4 left-1/2 z-30 flex gap-1 rounded-full border p-1"
           style={{
-            transform: `translateX(-50%) translateY(${menu || wide ? 120 : 0}px)`,
+            transform: `translateX(-50%) translateY(${menu ? 120 : 0}px)`,
             transition: `transform 700ms ${EASE}`,
             background: "var(--glass)",
             backdropFilter: "blur(24px)",

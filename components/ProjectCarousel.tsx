@@ -59,16 +59,14 @@ export default function ProjectCarousel() {
       />
       <div
         ref={gridRef}
-        className="grid items-start gap-4"
-        style={{
-          gridTemplateColumns: wide ? "repeat(auto-fit,minmax(280px,1fr))" : "minmax(0,1fr)",
-        }}
+        className="grid grid-cols-1 items-start gap-4 min-[700px]:grid-cols-[repeat(auto-fit,minmax(280px,1fr))]"
       >
         {featured.map((p, i) => (
           <div
             key={p.slug}
             data-stack=""
-            style={{ position: wide ? "relative" : "sticky", top: wide ? 0 : 72 + i * 12 }}
+            className="sticky top-[var(--stack-top)] min-[700px]:relative min-[700px]:top-0"
+            style={{ "--stack-top": `${72 + i * 12}px` } as React.CSSProperties}
           >
             <Link
               href={`/projects/${p.slug}`}
